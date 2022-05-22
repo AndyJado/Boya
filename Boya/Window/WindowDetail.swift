@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WindowDetail: View {
     
-    private let UIsize:CGSize = UIScreen.main.bounds.size
+    private let UIsize = sizeManager.UIsize
     
     @State private var attentionRatio: CGFloat = 0.7
     @State var cornerRadius:CGFloat = 90

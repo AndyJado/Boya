@@ -10,12 +10,12 @@ import SwiftUI
 struct StealWallView: View {
     
     
-    let sizeAll = SizeManager.sizeManager
+    @State private var slider:Double = 0.4
     
-    private static let size: CGFloat = 40
+    private static let size: CGFloat = sizeManager.GuaRadius
     private static let spacingBetweenColumns: CGFloat = 8
     private static let spacingBetweenRows: CGFloat = 0
-    private static let totalColumns: Int = 12
+    private static let totalColumns: Int = 10
     
     let gridItems = Array(
         repeating: GridItem(
@@ -27,49 +27,52 @@ struct StealWallView: View {
     )
     
     var body: some View {
-        GeometryReader { geo in
-            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-            
-            ScrollView([.horizontal, .vertical], showsIndicators: false) {
+        
+        
+        VStack {
+            GeometryReader { geo in
+                let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
                 
-                ZStack {
-                    //            Axes()
-                    //                .edgesIgnoringSafeArea([.all])
-                    LazyVGrid(
-                        columns: gridItems,
-                        alignment: .center,
-                        spacing: Self.spacingBetweenRows
-                    ) {
-                        ForEach(0..<20) { value in
-                            GeometryReader { proxy in
-                                
-                                let currentPoint = getCurrentPoint(proxy: proxy, value: value)
-                                
-                                let scale = scale(currentPoint: currentPoint, center: center)
-                                
-                                //                                Image(appName(value))
-                                //                                    .resizable()
-                                //                                    .cornerRadius(Self.size/2)
-                                YinYang()
-                                    .scaleEffect(
-                                        scale
-                                    )
-                                    .offset(
-                                        x: offsetX(value),
-                                        y: 40 * scale
-                                    )
-                            }
-                            .frame(
-                                height: Self.size
-                            )
-                            
-                        }
-                    }
-                    .padding(.horizontal,50)
+                ScrollView([.horizontal, .vertical], showsIndicators: false) {
                     
+                    ZStack {
+                        //            Axes()
+                        //                .edgesIgnoringSafeArea([.all])
+                        LazyVGrid(
+                            columns: gridItems,
+                            alignment: .center,
+                            spacing: Self.spacingBetweenRows
+                        ) {
+                            ForEach(0..<Int(150 * slider),id: \.self) { value in
+                                GeometryReader { proxy in
+                                    
+                                    let currentPoint = getCurrentPoint(proxy: proxy, value: value)
+                                    
+                                    let scale = scale(currentPoint: currentPoint, center: center)
+ 
+                                    YinYang()
+                                        .scaleEffect(
+                                            scale
+                                        )
+                                        .offset(
+                                            x: offsetX(value),
+                                            y: 40 * scale
+                                        )
+                                }
+                                .frame(
+                                    height: Self.size
+                                )
+                                
+                            }
+                        }
+                        .padding(.horizontal,80)
+                        .padding(.vertical,300)
+                        
+                    }
                 }
             }
-            
+            Slider(value: $slider)
+                .animation(Animation.easeInOut, value: slider)
         }
         
     }

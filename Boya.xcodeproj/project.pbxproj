@@ -11,14 +11,15 @@
 		81053652282E41E900621E6F /* YinYang.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81053651282E41E900621E6F /* YinYang.swift */; };
 		81053655282E428700621E6F /* SizeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81053654282E428700621E6F /* SizeManager.swift */; };
 		810ABE08282BA84400F50A8B /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810ABE07282BA84300F50A8B /* ButtonView.swift */; };
+		811421422834F6DF004CBEBD /* TypeIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811421412834F6DF004CBEBD /* TypeIn.swift */; };
 		811C2024282CE27C000B35CF /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C2023282CE27C000B35CF /* Wall.swift */; };
 		811C2026282CFB5C000B35CF /* StealWallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C2025282CFB5C000B35CF /* StealWallView.swift */; };
 		816A072D2829023D00A6A947 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A072C2829023D00A6A947 /* Data.swift */; };
 		816A072F2829045F00A6A947 /* Drag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A072E2829045F00A6A947 /* Drag.swift */; };
 		8176A848282C967D00EFDE40 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8176A847282C967D00EFDE40 /* Window.swift */; };
 		8176A84C282CCB6100EFDE40 /* HomeVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8176A84B282CCB6100EFDE40 /* HomeVIew.swift */; };
-		81BCF3F82828AA1600D9A377 /* Feet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCF3F72828AA1600D9A377 /* Feet.swift */; };
-		81BCF3FA2828BA4800D9A377 /* AssitiveTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCF3F92828BA4800D9A377 /* AssitiveTouch.swift */; };
+		818A410C2835FEF600902D1C /* LazyGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818A410B2835FEF600902D1C /* LazyGridView.swift */; };
+		8196978928391F0600CD46D4 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8196978828391F0600CD46D4 /* LocalFileManager.swift */; };
 		81BCF3FD2828CDA500D9A377 /* RainBow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCF3FC2828CDA500D9A377 /* RainBow.swift */; };
 		81C09EF6282659860084C859 /* BoyaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EF5282659860084C859 /* BoyaApp.swift */; };
 		81C09EF8282659860084C859 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EF7282659860084C859 /* ContentView.swift */; };
@@ -26,6 +27,8 @@
 		81C09EFD282659880084C859 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81C09EFC282659880084C859 /* Preview Assets.xcassets */; };
 		81C09EFF282659880084C859 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EFE282659880084C859 /* Persistence.swift */; };
 		81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C09F00282659880084C859 /* Boya.xcdatamodeld */; };
+		81C962962838C9190078F977 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C962952838C9190078F977 /* HapticManager.swift */; };
+		81EF6598283351B500853AB7 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EF6597283351B500853AB7 /* EditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,14 +36,15 @@
 		81053651282E41E900621E6F /* YinYang.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YinYang.swift; sourceTree = "<group>"; };
 		81053654282E428700621E6F /* SizeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeManager.swift; sourceTree = "<group>"; };
 		810ABE07282BA84300F50A8B /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		811421412834F6DF004CBEBD /* TypeIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeIn.swift; sourceTree = "<group>"; };
 		811C2023282CE27C000B35CF /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
 		811C2025282CFB5C000B35CF /* StealWallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StealWallView.swift; sourceTree = "<group>"; };
 		816A072C2829023D00A6A947 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		816A072E2829045F00A6A947 /* Drag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drag.swift; sourceTree = "<group>"; };
 		8176A847282C967D00EFDE40 /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		8176A84B282CCB6100EFDE40 /* HomeVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVIew.swift; sourceTree = "<group>"; };
-		81BCF3F72828AA1600D9A377 /* Feet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feet.swift; sourceTree = "<group>"; };
-		81BCF3F92828BA4800D9A377 /* AssitiveTouch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssitiveTouch.swift; sourceTree = "<group>"; };
+		818A410B2835FEF600902D1C /* LazyGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyGridView.swift; sourceTree = "<group>"; tabWidth = 4; };
+		8196978828391F0600CD46D4 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		81BCF3FC2828CDA500D9A377 /* RainBow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainBow.swift; sourceTree = "<group>"; };
 		81C09EF2282659860084C859 /* Boya.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boya.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81C09EF5282659860084C859 /* BoyaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoyaApp.swift; sourceTree = "<group>"; };
@@ -49,6 +53,8 @@
 		81C09EFC282659880084C859 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		81C09EFE282659880084C859 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		81C09F01282659880084C859 /* Boya.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Boya.xcdatamodel; sourceTree = "<group>"; };
+		81C962952838C9190078F977 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		81EF6597283351B500853AB7 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				81053654282E428700621E6F /* SizeManager.swift */,
+				81C962952838C9190078F977 /* HapticManager.swift */,
+				8196978828391F0600CD46D4 /* LocalFileManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -104,14 +112,13 @@
 		81C09EE9282659860084C859 = {
 			isa = PBXGroup;
 			children = (
+				818A410B2835FEF600902D1C /* LazyGridView.swift */,
 				8176A847282C967D00EFDE40 /* Window.swift */,
 				811C2025282CFB5C000B35CF /* StealWallView.swift */,
 				810ABE07282BA84300F50A8B /* ButtonView.swift */,
 				816A072C2829023D00A6A947 /* Data.swift */,
 				81BCF3FC2828CDA500D9A377 /* RainBow.swift */,
 				816A072E2829045F00A6A947 /* Drag.swift */,
-				81BCF3F92828BA4800D9A377 /* AssitiveTouch.swift */,
-				81BCF3F72828AA1600D9A377 /* Feet.swift */,
 				81C09EF4282659860084C859 /* Boya */,
 				81C09EF3282659860084C859 /* Products */,
 			);
@@ -128,6 +135,9 @@
 		81C09EF4282659860084C859 /* Boya */ = {
 			isa = PBXGroup;
 			children = (
+				81EF6596283350C800853AB7 /* Model */,
+				81EF6595283350C300853AB7 /* ViewModel */,
+				81EF6594283350BE00853AB7 /* View */,
 				81053656282E541C00621E6F /* Extensions */,
 				81053653282E427600621E6F /* Utility */,
 				81053650282E41BF00621E6F /* Gua */,
@@ -150,6 +160,29 @@
 				81C09EFC282659880084C859 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		81EF6594283350BE00853AB7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				81EF6597283351B500853AB7 /* EditView.swift */,
+				811421412834F6DF004CBEBD /* TypeIn.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		81EF6595283350C300853AB7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		81EF6596283350C800853AB7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,20 +255,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				811421422834F6DF004CBEBD /* TypeIn.swift in Sources */,
 				81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */,
-				81BCF3FA2828BA4800D9A377 /* AssitiveTouch.swift in Sources */,
+				818A410C2835FEF600902D1C /* LazyGridView.swift in Sources */,
 				81053655282E428700621E6F /* SizeManager.swift in Sources */,
 				810ABE08282BA84400F50A8B /* ButtonView.swift in Sources */,
 				81053652282E41E900621E6F /* YinYang.swift in Sources */,
+				81C962962838C9190078F977 /* HapticManager.swift in Sources */,
 				81C09EFF282659880084C859 /* Persistence.swift in Sources */,
 				81C09EF8282659860084C859 /* ContentView.swift in Sources */,
-				81BCF3F82828AA1600D9A377 /* Feet.swift in Sources */,
 				81C09EF6282659860084C859 /* BoyaApp.swift in Sources */,
 				816A072D2829023D00A6A947 /* Data.swift in Sources */,
 				81BCF3FD2828CDA500D9A377 /* RainBow.swift in Sources */,
 				8176A84C282CCB6100EFDE40 /* HomeVIew.swift in Sources */,
 				816A072F2829045F00A6A947 /* Drag.swift in Sources */,
 				8105364F282E21AA00621E6F /* WindowDetail.swift in Sources */,
+				8196978928391F0600CD46D4 /* LocalFileManager.swift in Sources */,
+				81EF6598283351B500853AB7 /* EditView.swift in Sources */,
 				8176A848282C967D00EFDE40 /* Window.swift in Sources */,
 				811C2026282CFB5C000B35CF /* StealWallView.swift in Sources */,
 				811C2024282CE27C000B35CF /* Wall.swift in Sources */,

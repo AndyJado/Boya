@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+
+
+
 struct ButtonView: View {
     
     @State private var pressedBtn: Bool = false
@@ -22,7 +25,7 @@ struct ButtonView: View {
                 pressedBtn.toggle()
                 data.removeFirst()
             } label: {
-                Text("butn")
+                Text(Array(data)[0])
                     .padding(20)
                     .background(.orange)
             }

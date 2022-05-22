@@ -8,13 +8,23 @@
 import Foundation
 import SwiftUI
 
-class SizeManager {
-    
-   static let sizeManager = SizeManager()
-    
+//class SizeManager {
+//    
+//   static let sizeManager = SizeManager()
+//    
+//    let UIsize:CGSize = UIScreen.main.bounds.size
+//    
+//    let GuaRadius:CGFloat = 40
+//    
+//
+//}
+
+struct SizeManager {
+  
     let UIsize:CGSize = UIScreen.main.bounds.size
     
-    let GuaSize:CGFloat = 40
-    
+    let GuaRadius:CGFloat = 40
     
 }
+
+let sizeManager = SizeManager()

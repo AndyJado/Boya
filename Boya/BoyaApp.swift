@@ -17,7 +17,8 @@ struct BoyaApp: App {
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
 //            RainBow()
 //            Window()
-            HomeVIew()
+//            HomeVIew()
+            EditView()
         }
     }
 }

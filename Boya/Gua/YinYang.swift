@@ -9,32 +9,36 @@ import SwiftUI
 
 struct YinYang: View {
     
-    let UIsize:CGSize = SizeManager.sizeManager.UIsize
-    let Guasize = SizeManager.sizeManager.GuaSize
+    let UIsize = sizeManager.UIsize
+    let GuaRadius = sizeManager.GuaRadius
     
     var body: some View {
         ZStack {
             
             Circle()
-                .foregroundColor(.gray)
+                .fill(LinearGradient(gradient: Gradient(colors: [.yellow,.orange]),
+                                     startPoint: .bottom,
+                                     endPoint: .top)
+                )
                 .opacity(0.6)
+            
+            Circle()
+                .trim(from: 0, to: 0.4)
+                .stroke(.green, lineWidth: 1)
+                .rotationEffect(Angle(degrees: -90))
+                .blur(radius: 2)
+            
             
             VStack(spacing: 2) {
                 yang
-                yin
                 yang
-                yin
                 yang
-                yin
-                yin
-                yin
-                yin
                 yang
-
+                    .foregroundColor(nil)
             }
             .padding(.all,8)
         }
-        .frame(width: Guasize, height: Guasize)
+        .frame(width: GuaRadius, height: GuaRadius)
         
     }
     

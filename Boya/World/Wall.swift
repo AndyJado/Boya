@@ -15,8 +15,8 @@ struct Wall: View {
         
         NavigationView {
             ZStack{
-                
                 StealWallView()
+                    .offset(x: 0, y: -150)
             }
             .navigationTitle("current wall")
         }
