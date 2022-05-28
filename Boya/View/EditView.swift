@@ -16,11 +16,6 @@ struct Aword:Hashable, Codable {
     
 }
 
-enum piecesPool {
-    case Pops
-    case FirstInAsTitle
-}
-
 class EditViewModel: ObservableObject {
     
     //TODO: pieces for words actually
@@ -31,7 +26,8 @@ class EditViewModel: ObservableObject {
     @Published var aword = Aword()
     @Published var wordsPop:[Aword] = []
     @Published var wordsPool:[Aword] = []
-    @Published var piecesPool: [String : [Aword]] = [:]
+    @Published var threads: [String : [Aword]] = [:]
+    @Published var clues: [String] = ["Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","..."]
     
     var cancellables = Set<AnyCancellable>()
     
@@ -55,10 +51,10 @@ class EditViewModel: ObservableObject {
     
     func words2piece(word: Aword) {
         
-        if let piece = piecesPool[word.text] {
+        if let piece = threads[word.text] {
             print(piece.description)
         } else {
-            print(piecesPool.description)
+            print(threads.description)
         }
     }
     
@@ -115,10 +111,9 @@ struct EditView: View {
     @StateObject private var viewModel = EditViewModel()
     
     @State private var picking:Int = 0
-    
+    @State private var dragged:Bool = false
     @FocusState private var focuing: Bool
     
-    let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
     
     var body: some View {
         
@@ -126,7 +121,7 @@ struct EditView: View {
         VStack(spacing: 0) {
             // 双击退回编辑 (没有保存动作)
             // 长按进入pop (pop保存)
-            LazyGridView(items: $viewModel.wordsPool, currentWord: $viewModel.aword, popeditems: $viewModel.wordsPop, Tapaction: {focuing.toggle()}, action: viewModel.savePops)
+            LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, popeditems: $viewModel.wordsPop, tap2Action: {focuing.toggle()}, pressAction: viewModel.savePops)
                 .opacity(focuing ? 0.35 : 1)
                 .blur(radius: focuing ? 1.6 : 0)
                 .disabled(focuing)
@@ -134,17 +129,17 @@ struct EditView: View {
             
             Spacer()
             
-            
-            TypeIn(textInField: $viewModel.aword.text)
+            TypeIn(theWord: $viewModel.aword, draggedUp: $dragged)
                 .focused($focuing)
-                .onReceive(timer) { _ in
-                    viewModel.aword.secondSpent += 1
-                }
                 .onSubmit {
-                    viewModel.words2piece(word: viewModel.aword )
+                    viewModel.words2piece(word: viewModel.aword)
                     viewModel.submitted()
                     focuing = true
                 }
+            
+            if dragged {
+                PickView(clues: $viewModel.clues, picking: $picking)
+            }
             
         }
         .onTapGesture {
