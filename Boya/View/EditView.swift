@@ -8,29 +8,35 @@
 import SwiftUI
 import Combine
 
-
 struct Aword:Hashable, Codable {
     
     var text: String = ""
     var secondSpent: Int = 0
-    var edition: Int = 0
+    var edition: Int = 1
     
+}
+
+enum piecesPool {
+    case Pops
+    case FirstInAsTitle
 }
 
 class EditViewModel: ObservableObject {
     
+    //TODO: pieces for words actually
     private let fileName4pieces = "pieces"
     private let fileName4wordsPop = "popWords"
     
     
     @Published var aword = Aword()
     @Published var wordsPop:[Aword] = []
-    @Published var pieces:[Aword] = []
+    @Published var wordsPool:[Aword] = []
+    @Published var piecesPool: [String : [Aword]] = [:]
+    
     var cancellables = Set<AnyCancellable>()
     
     init() {
-        getData()
-        timeCount()
+        loadWords()
     }
     
     func submitted() {
@@ -38,26 +44,25 @@ class EditViewModel: ObservableObject {
         if aword.text == "" {
             aword = Aword()
         } else {
-            pieces.append(aword)
+            withAnimation {
+                wordsPool.append(aword)
+            }
             savePieces()
             aword = Aword()
         }
         
     }
     
-    
-    func timeCount() {
-        Timer
-            .publish(every: 1, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                self.aword.secondSpent += 1
-            }
-            .store(in: &cancellables)
+    func words2piece(word: Aword) {
+        
+        if let piece = piecesPool[word.text] {
+            print(piece.description)
+        } else {
+            print(piecesPool.description)
+        }
     }
     
-    func getData() {
+    func loadWords() {
         do {
             let url4pieces = try LocalFileManager.fileURL(fileName: fileName4pieces)
             let url4pops = try LocalFileManager.fileURL(fileName: fileName4wordsPop)
@@ -68,7 +73,7 @@ class EditViewModel: ObservableObject {
                 .decode(type: [Aword].self, decoder: JSONDecoder())
                 .replaceError(with: [])
                 .sink(receiveValue: { [weak self] returnedPieces in
-                    self?.pieces = returnedPieces
+                    self?.wordsPool = returnedPieces
                 })
                 .store(in: &cancellables)
             
@@ -85,16 +90,15 @@ class EditViewModel: ObservableObject {
         } catch {
             print("try LocalFileManager.fileURL()")
         }
+    }
+    
+    func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
         
-        func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
-            
-            return output.data
-        }
-        
+        return output.data
     }
     
     func savePieces() {
-        LocalFileManager.save(pieces: pieces, fileName: fileName4pieces)
+        LocalFileManager.save(pieces: wordsPool, fileName: fileName4pieces)
         print("save savePieces( ) data")
     }
     
@@ -108,61 +112,43 @@ class EditViewModel: ObservableObject {
 
 struct EditView: View {
     
-    @StateObject var viewModel = EditViewModel()
+    @StateObject private var viewModel = EditViewModel()
     
-    @Environment(\.scenePhase) private var scenePhase
-    
-    @State private var pinched:Bool = false
+    @State private var picking:Int = 0
     
     @FocusState private var focuing: Bool
     
+    let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
+    
     var body: some View {
         
-        NavigationView {
+        
+        VStack(spacing: 0) {
+            // 双击退回编辑 (没有保存动作)
+            // 长按进入pop (pop保存)
+            LazyGridView(items: $viewModel.wordsPool, currentWord: $viewModel.aword, popeditems: $viewModel.wordsPop, Tapaction: {focuing.toggle()}, action: viewModel.savePops)
+                .opacity(focuing ? 0.35 : 1)
+                .blur(radius: focuing ? 1.6 : 0)
+                .disabled(focuing)
             
-            ZStack {
-                // 双击退回编辑 (没有保存动作)
-                // 长按进入pop (pop保存)
-                LazyGridView(items: $viewModel.pieces, currentWord: $viewModel.aword, popeditems: $viewModel.wordsPop, action: viewModel.savePops)
-                
-                TypeIn(textInField: $viewModel.aword.text)
-                    .focused($focuing)
-                    .onSubmit {
-                        viewModel.submitted()
-                        focuing = true
-                    }
-                    .onTapGesture {
-                        focuing.toggle()
-                    }
-                
-                NavigationLink("", isActive: $pinched) {
-                    StealWallView()
+            
+            Spacer()
+            
+            
+            TypeIn(textInField: $viewModel.aword.text)
+                .focused($focuing)
+                .onReceive(timer) { _ in
+                    viewModel.aword.secondSpent += 1
                 }
-                
-            }
-            .onReceive(viewModel.$wordsPop) { _ in
-            }
-            .onChange(of: scenePhase) { phase in
-                if phase == .active {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                        self.focuing = true
-                    }
+                .onSubmit {
+                    viewModel.words2piece(word: viewModel.aword )
+                    viewModel.submitted()
+                    focuing = true
                 }
-            }
-            .gesture(
-                MagnificationGesture()
-                    .onChanged{ CGval in
-                        print(CGval.description)
-                        if CGval < 1 {
-                            self.pinched.toggle()
-                            print(CGval.description)
-                        }
-                    }
-            )
             
-            
-            
-            
+        }
+        .onTapGesture {
+            focuing.toggle()
         }
     }
     

@@ -14,38 +14,80 @@ struct ButtonView: View {
     
     @State private var pressedBtn: Bool = false
     
-    @State private var data:Set<String> = Set(["1","2","3"])
+    @State private var dataSet:Set<String> = Set(["1","2","3"])
+    @State private var dataArray: [String] = Array(repeating: "cherryMelon歌德", count: 3)
     
-    @Environment(\.scenePhase) private var scenePhase
+    @State private var pickerIndex: Int = 0
     
     var body: some View {
         
         VStack{
-            Button {
-                pressedBtn.toggle()
-                data.removeFirst()
-            } label: {
-                Text(Array(data)[0])
-                    .padding(20)
-                    .background(.orange)
+            
+            ScrollView {
+                LazyVStack {
+                    ForEach(0..<dataArray.count, id: \.self) { i in
+                        Text(dataArray[i])
+                    }
+                }
             }
+            .frame(height: sizeManager.UIsize.height / 2)
             
-            pressedBtn ? Text("\(data.description)") : nil
             
-            Wave()
-//                .stroke()
-                .frame(width: 200, height: 200)
+            Spacer()
+            
+            HStack {
+                Picker("", selection: $pickerIndex) {
+                    ForEach(0..<dataArray.count, id: \.self) { i in
+                        Text(dataArray[i])
+                            .minimumScaleFactor(0.1)
+                            .onTapGesture {
+                                
+                                dataArray.remove(at: pickerIndex)
+                            }
+                    }
+                }
+                .pickerStyle(.inline)
                 
+                Spacer()
+                
+                VStack {
+                    
+                    Button {
+                        pressedBtn.toggle()
+                        dataSet.removeFirst()
+                    } label: {
+                        Text(Array(dataSet)[0])
+                            .padding(2)
+                            .background(.orange)
+                    }
+                    
+                    Button {
+                        pressedBtn.toggle()
+                        dataSet.removeFirst()
+                    } label: {
+                        Text(Array(dataSet)[0])
+                            .padding(2)
+                            .background(.orange)
+                    }
+ 
+                }
+                .frame(width: 100, height: 200)
+                
+                
+            }
+            .padding()
+            
             
             
         }
-
-//        .sheet(isPresented: $pressedBtn,
-//               onDismiss: nil) {
-//            Text("helo")
-//                .frame(width: 50, height: 50)
-//        }
-               
+        .ignoresSafeArea()
+        
+        //        .sheet(isPresented: $pressedBtn,
+        //               onDismiss: nil) {
+        //            Text("helo")
+        //                .frame(width: 50, height: 50)
+        //        }
+        
     }
 }
 

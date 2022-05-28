@@ -14,10 +14,13 @@
 		811421422834F6DF004CBEBD /* TypeIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811421412834F6DF004CBEBD /* TypeIn.swift */; };
 		811C2024282CE27C000B35CF /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C2023282CE27C000B35CF /* Wall.swift */; };
 		811C2026282CFB5C000B35CF /* StealWallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C2025282CFB5C000B35CF /* StealWallView.swift */; };
+		8152D630283B8DBA00AA8A5C /* AwordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152D62F283B8DBA00AA8A5C /* AwordView.swift */; };
+		8152D632283CB51E00AA8A5C /* PickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152D631283CB51E00AA8A5C /* PickView.swift */; };
+		8156CE172840644900FB1479 /* GlobalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8156CE162840644900FB1479 /* GlobalExtension.swift */; };
+		8156CE192840681100FB1479 /* PieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8156CE182840681100FB1479 /* PieceView.swift */; };
 		816A072D2829023D00A6A947 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A072C2829023D00A6A947 /* Data.swift */; };
 		816A072F2829045F00A6A947 /* Drag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816A072E2829045F00A6A947 /* Drag.swift */; };
 		8176A848282C967D00EFDE40 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8176A847282C967D00EFDE40 /* Window.swift */; };
-		8176A84C282CCB6100EFDE40 /* HomeVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8176A84B282CCB6100EFDE40 /* HomeVIew.swift */; };
 		818A410C2835FEF600902D1C /* LazyGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818A410B2835FEF600902D1C /* LazyGridView.swift */; };
 		8196978928391F0600CD46D4 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8196978828391F0600CD46D4 /* LocalFileManager.swift */; };
 		81BCF3FD2828CDA500D9A377 /* RainBow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCF3FC2828CDA500D9A377 /* RainBow.swift */; };
@@ -28,6 +31,7 @@
 		81C09EFF282659880084C859 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EFE282659880084C859 /* Persistence.swift */; };
 		81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C09F00282659880084C859 /* Boya.xcdatamodeld */; };
 		81C962962838C9190078F977 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C962952838C9190078F977 /* HapticManager.swift */; };
+		81DAA603283F728D00EC6F2E /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DAA602283F728D00EC6F2E /* TextFieldView.swift */; };
 		81EF6598283351B500853AB7 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EF6597283351B500853AB7 /* EditView.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,10 +43,13 @@
 		811421412834F6DF004CBEBD /* TypeIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeIn.swift; sourceTree = "<group>"; };
 		811C2023282CE27C000B35CF /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
 		811C2025282CFB5C000B35CF /* StealWallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StealWallView.swift; sourceTree = "<group>"; };
+		8152D62F283B8DBA00AA8A5C /* AwordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwordView.swift; sourceTree = "<group>"; };
+		8152D631283CB51E00AA8A5C /* PickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickView.swift; sourceTree = "<group>"; };
+		8156CE162840644900FB1479 /* GlobalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalExtension.swift; sourceTree = "<group>"; };
+		8156CE182840681100FB1479 /* PieceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceView.swift; sourceTree = "<group>"; };
 		816A072C2829023D00A6A947 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		816A072E2829045F00A6A947 /* Drag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drag.swift; sourceTree = "<group>"; };
 		8176A847282C967D00EFDE40 /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
-		8176A84B282CCB6100EFDE40 /* HomeVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVIew.swift; sourceTree = "<group>"; };
 		818A410B2835FEF600902D1C /* LazyGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyGridView.swift; sourceTree = "<group>"; tabWidth = 4; };
 		8196978828391F0600CD46D4 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		81BCF3FC2828CDA500D9A377 /* RainBow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainBow.swift; sourceTree = "<group>"; };
@@ -54,6 +61,7 @@
 		81C09EFE282659880084C859 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		81C09F01282659880084C859 /* Boya.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Boya.xcdatamodel; sourceTree = "<group>"; };
 		81C962952838C9190078F977 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		81DAA602283F728D00EC6F2E /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
 		81EF6597283351B500853AB7 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +105,7 @@
 		81053656282E541C00621E6F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				8156CE162840644900FB1479 /* GlobalExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -116,6 +125,7 @@
 				8176A847282C967D00EFDE40 /* Window.swift */,
 				811C2025282CFB5C000B35CF /* StealWallView.swift */,
 				810ABE07282BA84300F50A8B /* ButtonView.swift */,
+				81DAA602283F728D00EC6F2E /* TextFieldView.swift */,
 				816A072C2829023D00A6A947 /* Data.swift */,
 				81BCF3FC2828CDA500D9A377 /* RainBow.swift */,
 				816A072E2829045F00A6A947 /* Drag.swift */,
@@ -149,7 +159,6 @@
 				81C09EFE282659880084C859 /* Persistence.swift */,
 				81C09F00282659880084C859 /* Boya.xcdatamodeld */,
 				81C09EFB282659880084C859 /* Preview Content */,
-				8176A84B282CCB6100EFDE40 /* HomeVIew.swift */,
 			);
 			path = Boya;
 			sourceTree = "<group>";
@@ -167,6 +176,9 @@
 			children = (
 				81EF6597283351B500853AB7 /* EditView.swift */,
 				811421412834F6DF004CBEBD /* TypeIn.swift */,
+				8152D62F283B8DBA00AA8A5C /* AwordView.swift */,
+				8152D631283CB51E00AA8A5C /* PickView.swift */,
+				8156CE182840681100FB1479 /* PieceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -255,24 +267,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8156CE192840681100FB1479 /* PieceView.swift in Sources */,
 				811421422834F6DF004CBEBD /* TypeIn.swift in Sources */,
 				81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */,
 				818A410C2835FEF600902D1C /* LazyGridView.swift in Sources */,
 				81053655282E428700621E6F /* SizeManager.swift in Sources */,
 				810ABE08282BA84400F50A8B /* ButtonView.swift in Sources */,
 				81053652282E41E900621E6F /* YinYang.swift in Sources */,
+				8156CE172840644900FB1479 /* GlobalExtension.swift in Sources */,
 				81C962962838C9190078F977 /* HapticManager.swift in Sources */,
 				81C09EFF282659880084C859 /* Persistence.swift in Sources */,
 				81C09EF8282659860084C859 /* ContentView.swift in Sources */,
 				81C09EF6282659860084C859 /* BoyaApp.swift in Sources */,
+				81DAA603283F728D00EC6F2E /* TextFieldView.swift in Sources */,
 				816A072D2829023D00A6A947 /* Data.swift in Sources */,
+				8152D630283B8DBA00AA8A5C /* AwordView.swift in Sources */,
 				81BCF3FD2828CDA500D9A377 /* RainBow.swift in Sources */,
-				8176A84C282CCB6100EFDE40 /* HomeVIew.swift in Sources */,
 				816A072F2829045F00A6A947 /* Drag.swift in Sources */,
 				8105364F282E21AA00621E6F /* WindowDetail.swift in Sources */,
 				8196978928391F0600CD46D4 /* LocalFileManager.swift in Sources */,
 				81EF6598283351B500853AB7 /* EditView.swift in Sources */,
 				8176A848282C967D00EFDE40 /* Window.swift in Sources */,
+				8152D632283CB51E00AA8A5C /* PickView.swift in Sources */,
 				811C2026282CFB5C000B35CF /* StealWallView.swift in Sources */,
 				811C2024282CE27C000B35CF /* Wall.swift in Sources */,
 			);

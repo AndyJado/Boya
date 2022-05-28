@@ -15,10 +15,9 @@ struct BoyaApp: App {
         WindowGroup {
 //            ContentView()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-//            RainBow()
-//            Window()
-//            HomeVIew()
+
             EditView()
+//            PickView()
         }
     }
 }

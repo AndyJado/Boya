@@ -12,9 +12,8 @@ struct TypeIn: View {
     @Binding var textInField: String
     
     var body: some View {
-        VStack {
-            Spacer()
             
+        
             TextField("",text: $textInField)
                 .disableAutocorrection(true)
                 .foregroundColor(.primary)
@@ -23,12 +22,12 @@ struct TypeIn: View {
                 .background(.gray)
                 .cornerRadius(5)
                 .brightness(0.3)
-                .padding(5)
-                .padding(.horizontal,10)
-                .background(.gray)
-                .frame(maxWidth: .infinity)
+                .padding(10)
+                .padding(.horizontal,20)
+                .shadow(color: .primary, radius: 2)
+//                .background(.gray)
+//                .frame(maxWidth: .infinity)
                 .submitLabel(.next)
-        }
     }
 }
 
