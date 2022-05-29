@@ -21,18 +21,61 @@ class EditViewModel: ObservableObject {
     //TODO: pieces for words actually
     private let fileName4pieces = "pieces"
     private let fileName4wordsPop = "popWords"
+    private let fileName4threads = "threads"
     
-    
+    //commit & push words
     @Published var aword = Aword()
+    @Published var popword: Aword? = nil
+    
+    // layer 1
     @Published var wordsPop:[Aword] = []
     @Published var wordsPool:[Aword] = []
+    
+    // layer 2.
     @Published var threads: [String : [Aword]] = [:]
-    @Published var clues: [String] = ["Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","...","Pop","..."]
+    // keys vector for threads
+    @Published var clues: [String] = ["Pop","..."]
     
     var cancellables = Set<AnyCancellable>()
     
     init() {
+        getData()
+    }
+    
+    func getData() {
         loadWords()
+        loadThreads()
+    }
+    
+    
+    // pull layer 2
+    func chosenthread(pickerAt index:Int) -> [Aword] {
+        return threads[clues[index]] ?? wordsPop
+    }
+    
+    // Push layer 1
+    func Pressed(pickerAt index:Int) {
+        // guard pop happened!
+        guard let pop = popword else {return}
+        // the clue
+        let text = pop.text
+        // dynamic array
+        let endIndex = clues.count - 1
+        
+        switch index {
+            case endIndex:
+                clues.insert(text, at: 1)
+                threads[text] = [pop]
+                saveThreads()
+            case 0:
+                wordsPop.append(pop)
+                savePops()
+            default:
+                threads[clues[index]]?.append(pop)
+                saveThreads()
+        }
+        popword = nil
+        savePieces()
     }
     
     func submitted() {
@@ -49,13 +92,41 @@ class EditViewModel: ObservableObject {
         
     }
     
-    func words2piece(word: Aword) {
+    func word2clue(word: Aword) {
         
         if let piece = threads[word.text] {
             print(piece.description)
         } else {
             print(threads.description)
         }
+    }
+    
+    
+    func loadThreads() {
+        
+        do {
+            let url4threads = try LocalFileManager.fileURL(fileName: fileName4threads)
+            
+            URLSession.shared.dataTaskPublisher(for: url4threads)
+                .receive(on: DispatchQueue.main)
+                .tryMap(handleOutput)
+                .decode(type: [[String : [Aword]]].self, decoder: JSONDecoder())
+                .replaceError(with: [])
+                .sink(receiveValue: { [weak self] returned in
+                    guard let self = self else {return}
+                    if !returned.isEmpty {
+                        self.threads = returned[0]
+                        let keys = self.threads.keys
+                        self.clues.insert(contentsOf: keys , at: 1)
+                    }
+                })
+                .store(in: &cancellables)
+            
+        } catch {
+            print("try LocalFileManager.fileURL()")
+        }
+        
+        
     }
     
     func loadWords() {
@@ -88,63 +159,93 @@ class EditViewModel: ObservableObject {
         }
     }
     
+    func savePieces() {
+        
+        LocalFileManager.save(aCodable: wordsPool, fileName: fileName4pieces)
+        print("save savePieces( ) data")
+    }
+    
+    func savePops() {
+        LocalFileManager.save(aCodable: wordsPop, fileName: fileName4wordsPop)
+        print("save  savePops()  data")
+    }
+    
+    func saveThreads() {
+        LocalFileManager.save(aCodable: [threads], fileName: fileName4threads)
+        print("saveThreads()")
+    }
+    
     func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
         
         return output.data
     }
     
-    func savePieces() {
-        LocalFileManager.save(pieces: wordsPool, fileName: fileName4pieces)
-        print("save savePieces( ) data")
-    }
-    
-    func savePops() {
-        LocalFileManager.save(pieces: wordsPop, fileName: fileName4wordsPop)
-        print("save  savePops()  data")
-    }
-    
-    
 }
 
 struct EditView: View {
     
-    @StateObject private var viewModel = EditViewModel()
+    @Environment(\.scenePhase) private var scenePhase
+    
+    @StateObject var viewModel:EditViewModel = EditViewModel()
     
     @State private var picking:Int = 0
-    @State private var dragged:Bool = false
+    
+    @State private var pickerOn:Bool = false
+    @State private var threadOn:Bool = false
+    
+    
     @FocusState private var focuing: Bool
     
     
     var body: some View {
         
-        
-        VStack(spacing: 0) {
-            // 双击退回编辑 (没有保存动作)
-            // 长按进入pop (pop保存)
-            LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, popeditems: $viewModel.wordsPop, tap2Action: {focuing.toggle()}, pressAction: viewModel.savePops)
-                .opacity(focuing ? 0.35 : 1)
-                .blur(radius: focuing ? 1.6 : 0)
-                .disabled(focuing)
-            
-            
-            Spacer()
-            
-            TypeIn(theWord: $viewModel.aword, draggedUp: $dragged)
-                .focused($focuing)
-                .onSubmit {
-                    viewModel.words2piece(word: viewModel.aword)
-                    viewModel.submitted()
-                    focuing = true
+        let contentFocus:Bool = focuing || pickerOn
+        NavigationView {
+            ZStack {
+                VStack(spacing: 0) {
+                    // 双击退回编辑 (没有保存动作)
+                    // 长按进入pop (pop保存)
+                    LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: {focuing.toggle()}, pressAction: {viewModel.Pressed(pickerAt: picking)})
+                        .opacity(contentFocus ? 0.35 : 1)
+                        .blur(radius: contentFocus ? 1.6 : 0)
+                        .disabled(contentFocus)
+                    
+                    Spacer()
+                    
+                    TypeIn(theWord: $viewModel.aword, dragged2: $threadOn, dragged1: $pickerOn, focuing: $focuing.wrappedValue)
+                        .focused($focuing)
+                        .onSubmit {
+                            viewModel.submitted()
+                            focuing = true
+                        }
+                        .onChange(of: scenePhase) { phase in
+                            if phase == .active {
+                                withAnimation {
+                                    focuing = true
+                                }
+                            }
+                        }
+                    
+                    if pickerOn {
+                        PickView(clues: $viewModel.clues, picking: $picking)
+                            .disabled(focuing)
+                    } else {
+                        EmptyView()
+                    }
+                    
                 }
-            
-            if dragged {
-                PickView(clues: $viewModel.clues, picking: $picking)
+                .onTapGesture {
+                    withAnimation {
+                        focuing.toggle()
+                    }
+                }
+                
+                NavigationLink("", isActive: $threadOn) {
+                    PieceView(picking: picking)
+                }
             }
-            
         }
-        .onTapGesture {
-            focuing.toggle()
-        }
+        .environmentObject(viewModel)
     }
     
 }

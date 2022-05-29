@@ -18,10 +18,10 @@ class LocalFileManager {
             .appendingPathComponent(fileName)
     }
     
-    static func save<T:Codable>(pieces: [T], fileName:String) {
+    static func save<T:Codable>(aCodable: [T], fileName:String) {
         DispatchQueue.global(qos: .background).async {
             do {
-                let data = try JSONEncoder().encode(pieces)
+                let data = try JSONEncoder().encode(aCodable)
                 let outfile = try fileURL(fileName: fileName)
                 try data.write(to: outfile)
             } catch {

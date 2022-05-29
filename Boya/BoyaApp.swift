@@ -17,7 +17,6 @@ struct BoyaApp: App {
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
 
             EditView()
-//            PickView()
         }
     }
 }

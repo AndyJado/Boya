@@ -31,7 +31,7 @@ struct LazyGridView: View {
     
     @Binding var items: [Aword]
     @Binding var currentItem: Aword
-    @Binding var popeditems: [Aword]
+    @Binding var currentPop: Aword?
     
     // external action
     var tap2Action: (() -> Void) = {}
@@ -51,6 +51,7 @@ struct LazyGridView: View {
     var body: some View {
         
         let count = items.count
+        let wordFly = Animation.easeInOut.speed(0.2)
         
         
         
@@ -69,15 +70,13 @@ struct LazyGridView: View {
                                 
                                 let tap1 = TapGesture()
                                     .onEnded { _ in
-                                        withAnimation {
-                                            tapped.toggle()
-                                            UIPasteboard.general.setValue(items[i].text, forPasteboardType: "public.plain-text")
-                                        }
+                                        tapped.toggle()
+                                        UIPasteboard.general.setValue(items[i].text, forPasteboardType: "public.plain-text")
                                     }
                                 
                                 let tap2 = TapGesture(count: 2)
                                     .onEnded { _ in
-                                        withAnimation(Animation.easeOut) {
+                                        withAnimation(wordFly) {
                                             tapp2ed.toggle()
                                             currentItem = items[i]
                                             currentItem.edition += 1
@@ -88,11 +87,17 @@ struct LazyGridView: View {
                                 
                                 let longPress = LongPressGesture()
                                     .onEnded { _ in
-                                        withAnimation(Animation.easeOut) {
+//                                        withAnimation(wordFly) {
+//                                            pressed.toggle()
+//                                            popsCatcher.append(items[i])
+//                                            pressAction()
+//                                            items.remove(at: i)
+//                                        }
+                                        withAnimation(wordFly) {
                                             pressed.toggle()
-                                            popeditems.append(items[i])
+                                            // pop at index i!
+                                            currentPop = items.popAt(at: i)
                                             pressAction()
-                                            items.remove(at: i)
                                         }
                                     }
                                 
@@ -123,7 +128,7 @@ struct LazyGridView_Previews: PreviewProvider {
     
     
     static var previews: some View {
-        LazyGridView(items: .constant([Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa")]), currentItem: .constant(Aword()), popeditems: .constant([Aword(),]), tap2Action: {}, pressAction: {})
+        LazyGridView(items: .constant([Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa")]), currentItem: .constant(Aword()), currentPop: .constant(nil), tap2Action: {}, pressAction: {})
     }
 }
 

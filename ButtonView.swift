@@ -53,17 +53,10 @@ struct ButtonView: View {
                 VStack {
                     
                     Button {
+                        var a: String
                         pressedBtn.toggle()
-                        dataSet.removeFirst()
-                    } label: {
-                        Text(Array(dataSet)[0])
-                            .padding(2)
-                            .background(.orange)
-                    }
-                    
-                    Button {
-                        pressedBtn.toggle()
-                        dataSet.removeFirst()
+                        a = dataArray.popAt(at: 0)
+                        print(a)
                     } label: {
                         Text(Array(dataSet)[0])
                             .padding(2)
