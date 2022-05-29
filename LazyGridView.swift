@@ -55,11 +55,10 @@ struct LazyGridView: View {
         
         
         
-        ScrollView(
-            [.vertical,.horizontal],
-            showsIndicators: false) {
-                
-                ScrollViewReader { scroll in
+        VStack {
+            ScrollView(
+                [.horizontal],
+                showsIndicators: false) {
                     LazyHGrid(
                         rows: gridItems,
                         alignment: .firstTextBaseline, spacing: spacingBetweenRows,
@@ -87,12 +86,12 @@ struct LazyGridView: View {
                                 
                                 let longPress = LongPressGesture()
                                     .onEnded { _ in
-//                                        withAnimation(wordFly) {
-//                                            pressed.toggle()
-//                                            popsCatcher.append(items[i])
-//                                            pressAction()
-//                                            items.remove(at: i)
-//                                        }
+                                        //                                        withAnimation(wordFly) {
+                                        //                                            pressed.toggle()
+                                        //                                            popsCatcher.append(items[i])
+                                        //                                            pressAction()
+                                        //                                            items.remove(at: i)
+                                        //                                        }
                                         withAnimation(wordFly) {
                                             pressed.toggle()
                                             // pop at index i!
@@ -114,8 +113,9 @@ struct LazyGridView: View {
                                     .gesture(longPress)
                             }
                         }
-                }
             }
+        }
+        .frame(height: 550)
     }
     
     func playSelectionHaptic() {
