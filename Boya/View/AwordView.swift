@@ -25,8 +25,8 @@ struct StopWatch {
     func time2Color() -> Color {
         
         let dayProportion = Double(hours) / 24.0
-        let minProportion = Double(minutes) / 60.0
-        let secProportion = Double(seconds) / 60.0
+        let minProportion = Double(minutes) / 60.0 * 10
+        let secProportion = Double(seconds) / 60.0 * 10
         
         if self.hours != 0 {
             return Color("hrs").opacity(dayProportion)
@@ -69,19 +69,19 @@ extension AwordView {
 struct AwordView: View {
     
     let aword: Aword
-    //    let colors: [Color] = [Color("sec"),Color("min"),Color("hrs").opacity(0.2)].map {$0.opacity(1)}
-    @State private var slider:Double = 0.1
     
     var body: some View {
         
         let totalTime2Color = StopWatch(totalSeconds: aword.secondSpent).time2Color()
         
-        let warnEdition = aword.edition == 0 ? 1 : aword.edition
+        let warnEdition = (aword.edition) == 0 ? 1 : aword.edition
         
         let aveTime2Color = StopWatch(totalSeconds: aword.secondSpent / warnEdition ).time2Color()
-
-                let colors = [aveTime2Color, totalTime2Color]
         
+        let colors = [aveTime2Color, totalTime2Color]
+        
+        ZStack {
+            
             RoundedRectangle(cornerRadius: 5, style: .continuous)
                 .fill(
                     LinearGradient(gradient: Gradient(colors: colors),
@@ -89,15 +89,19 @@ struct AwordView: View {
                                    endPoint: .bottomTrailing)
                     
                 )
-                .background(.ultraThinMaterial)
+            .background(.ultraThinMaterial)
+            
+            Text(aword.secondSpent.description)
+            
         }
-        
     }
+    
+}
 
 
 struct AwordView_Previews: PreviewProvider {
     static var previews: some View {
-        AwordView(aword: Aword(text: "如青烟一般,这一口气直接给我干的没脾气了", secondSpent: 20, edition: 5))
-//        AwordView(aword: Aword())
+                AwordView(aword: Aword(text: "“sas”", secondSpent: 130, edition: 4))
+            .frame(width: 200, height: 50)
     }
 }

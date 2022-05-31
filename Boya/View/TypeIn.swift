@@ -22,11 +22,16 @@ struct TypeIn: View {
     @Environment(\.scenePhase) private var scenePhase
     //    let typerTitle:String = draggedUp ? "↑ ↓ ← → " : "↑"
     
-    let timer = Timer
-        .publish(every: 1, on: .current, in: .common)
-        .autoconnect()
+
     
     var body: some View {
+        
+        let timer = Timer
+            .publish(every: 1, on: .current, in: .common)
+            .autoconnect()
+            .drop { _ in
+                !focuing
+            }
         
         let drag = DragGesture()
             .onChanged { val in
@@ -62,7 +67,6 @@ struct TypeIn: View {
             
             TextField(typerTitle,text: $theWord.text)
             // PPT
-                .textInputAutocapitalization(.never)
                 .foregroundColor(.primary)
                 .padding(5)
                 .font(.headline)

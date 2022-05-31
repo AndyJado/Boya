@@ -10,7 +10,7 @@ import Combine
 
 struct Aword:Hashable, Codable {
     
-    var text: String = ""
+    var text: String = " "
     var secondSpent: Int = 0
     var edition: Int = 1
     
@@ -59,7 +59,7 @@ class EditViewModel: ObservableObject {
         guard let pop = popword else {return}
         // the clue
         let text = pop.text
-        // dynamic array
+        // dynamic array index
         let endIndex = clues.count - 1
         
         switch index {
@@ -80,7 +80,9 @@ class EditViewModel: ObservableObject {
     
     func submitted() {
         
-        if aword.text == "" {
+        let is0word = aword.text == " " || aword.text == ""
+        
+        if is0word {
             aword = Aword()
         } else {
             withAnimation {
@@ -201,9 +203,16 @@ struct EditView: View {
         
         let contentFocus:Bool = focuing || pickerOn
         
+        let tap2Action = {focuing.toggle()}
+        
         let pressAction = {
-            viewModel.Pressed(pickerAt: picking)
-            if picking >= 1 { picking -= 1 }
+            
+            if picking == viewModel.clues.endIndex - 1 {
+                viewModel.Pressed(pickerAt: picking)
+                picking = 1
+            } else {
+                viewModel.Pressed(pickerAt: picking)
+            }
             
         }
         
@@ -211,7 +220,7 @@ struct EditView: View {
             ZStack {
                 // 双击退回编辑 (没有保存动作)
                 // 长按进入pop (pop保存)
-                LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: {focuing.toggle()}, pressAction: pressAction)
+                LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: tap2Action , pressAction: pressAction)
                     .opacity(contentFocus ? 0.35 : 1)
                     .blur(radius: contentFocus ? 1.6 : 0)
                     .disabled(contentFocus)
@@ -238,7 +247,6 @@ struct EditView: View {
                         EmptyView()
                     }
                 }
-                .animation(Animation.easeInOut, value: pickerOn)
                 
                 NavigationLink("", isActive: $threadOn) {
                     PieceView(picking: picking)
