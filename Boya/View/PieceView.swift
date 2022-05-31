@@ -12,23 +12,40 @@ struct PieceView: View {
     var picking:Int
     
     @EnvironmentObject var viewModel: EditViewModel
-//    @State private var words: [Aword] = [Aword(text: "sasaa", secondSpent: 2, edition: 1),Aword(text: "sasa", secondSpent: 9, edition: 2)]
-    @State private var textEdit: String = "吾与徐公孰美?"
+    //    @State private var words: [Aword] = [Aword(text: "sasaa", secondSpent: 2, edition: 1),Aword(text: "sasa", secondSpent: 9, edition: 2)]
     
     var body: some View {
         let words = viewModel.chosenthread(pickerAt: picking)
-            List {
-                ForEach(0..<words.count, id: \.self) { i in
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(words[i].text)
-                            .underline()
-                        TextEditor(text: $textEdit)
-                            .background(.ultraThinMaterial,in: RoundedRectangle(cornerRadius: 5))
+        List {
+            ForEach(0..<words.count, id: \.self) { i in
+                VStack(alignment: .leading, spacing: 0) {
+                    let word = words[i]
+                    ZStack {
+                        AwordView(aword: word)
+                        HStack(alignment: .top) {
+                            Text(word.text)
+                            Spacer()
+                            VStack {
+                                Spacer()
+                                Text("total sec:" + word.secondSpent.description)
+                                    .underline()
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.1)
+                                Text("edition:" + word.edition.description)
+                                    .underline()
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.1)
+                            }
+                            .opacity(0.4)
+                            .frame(width: 30, height: 20, alignment: .trailing)
+                            
+                        }
+                        .padding()
                     }
-                    .padding()
                 }
             }
-            .listStyle(.plain)
+        }
+        .listStyle(.plain)
     }
 }
 

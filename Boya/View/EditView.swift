@@ -200,51 +200,57 @@ struct EditView: View {
     var body: some View {
         
         let contentFocus:Bool = focuing || pickerOn
+        
+        let pressAction = {
+            viewModel.Pressed(pickerAt: picking)
+            if picking >= 1 { picking -= 1 }
+            
+        }
+        
         NavigationView {
             ZStack {
-                VStack(spacing: 0) {
-                    // 双击退回编辑 (没有保存动作)
-                    // 长按进入pop (pop保存)
-                    LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: {focuing.toggle()}, pressAction: {viewModel.Pressed(pickerAt: picking)})
-                        .opacity(contentFocus ? 0.35 : 1)
-                        .blur(radius: contentFocus ? 1.6 : 0)
-                        .disabled(contentFocus)
-                    
-                    Spacer()
-                    
+                // 双击退回编辑 (没有保存动作)
+                // 长按进入pop (pop保存)
+                LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: {focuing.toggle()}, pressAction: pressAction)
+                    .opacity(contentFocus ? 0.35 : 1)
+                    .blur(radius: contentFocus ? 1.6 : 0)
+                    .disabled(contentFocus)
+                
+                VStack(alignment: .center, spacing: 0) {
                     TypeIn(theWord: $viewModel.aword, dragged2: $threadOn, dragged1: $pickerOn, focuing: $focuing.wrappedValue)
                         .focused($focuing)
                         .onSubmit {
                             viewModel.submitted()
                             focuing = true
                         }
-                        .onChange(of: scenePhase) { phase in
-                            if phase == .active {
-                                withAnimation {
-                                    focuing = true
-                                }
-                            }
-                        }
                     
                     if pickerOn {
                         PickView(clues: $viewModel.clues, picking: $picking)
                             .disabled(focuing)
+                    } else if !focuing {
+                        Text(viewModel.clues[picking])
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.1)
+                            .padding(.horizontal, 40)
+                            .frame( height: 20, alignment: .center)
                     } else {
                         EmptyView()
                     }
-                    
                 }
-                .onTapGesture {
-                    withAnimation {
-                        focuing.toggle()
-                    }
-                }
+                .animation(Animation.easeInOut, value: pickerOn)
                 
                 NavigationLink("", isActive: $threadOn) {
                     PieceView(picking: picking)
                 }
             }
+            .onTapGesture {
+                withAnimation {
+                    focuing.toggle()
+                }
+            }
         }
+        .navigationBarHidden(true)
         .environmentObject(viewModel)
     }
     

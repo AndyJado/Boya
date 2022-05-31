@@ -10,19 +10,6 @@ import SwiftUI
 struct StopWatch {
     
     var totalSeconds: Int
-    
-//    var months: Int {
-//        return totalSeconds / 2592000
-//    }
-//
-//    var days: Int {
-//        return (totalSeconds % 2592000) / 86400
-//    }
-//
-//    var hours: Int {
-//        return (totalSeconds % 86400) / 3600
-//    }
-    
     var hours: Int {
         return totalSeconds / 3600
     }
@@ -88,14 +75,13 @@ struct AwordView: View {
     var body: some View {
         
         let totalTime2Color = StopWatch(totalSeconds: aword.secondSpent).time2Color()
-        let aveTime2Color = StopWatch(totalSeconds: aword.secondSpent / aword.edition).time2Color()
-        let colors = [aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color,aveTime2Color, totalTime2Color]
-        //        let colors = StopWatch(totalSeconds: Int(slider * 100)).time2Color()
         
-        VStack(alignment: .leading, spacing: 0) {
-            Text(aword.text)
-            //                .lineLimit(1)
-                .minimumScaleFactor(0.1)
+        let warnEdition = aword.edition == 0 ? 1 : aword.edition
+        
+        let aveTime2Color = StopWatch(totalSeconds: aword.secondSpent / warnEdition ).time2Color()
+
+                let colors = [aveTime2Color, totalTime2Color]
+        
             RoundedRectangle(cornerRadius: 5, style: .continuous)
                 .fill(
                     LinearGradient(gradient: Gradient(colors: colors),
@@ -104,13 +90,10 @@ struct AwordView: View {
                     
                 )
                 .background(.ultraThinMaterial)
-//                .frame(width: 100, height: 40)
-                .frame(width: 300, height: 400)
-            Slider(value: $slider)
         }
         
     }
-}
+
 
 struct AwordView_Previews: PreviewProvider {
     static var previews: some View {
