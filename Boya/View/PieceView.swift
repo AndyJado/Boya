@@ -9,19 +9,24 @@ import SwiftUI
 
 struct PieceView: View {
     
-    var picking:Int
-    
     @EnvironmentObject var viewModel: EditViewModel
-    //    @State private var words: [Aword] = [Aword(text: "sasaa", secondSpent: 2, edition: 1),Aword(text: "sasa", secondSpent: 9, edition: 2)]
+    
+    @Binding var picking:Int
+    
     
     var body: some View {
-        let words = viewModel.chosenthread(pickerAt: picking)
+        
+        var words = viewModel.chosenthread(pickerAt: picking)
+        
         List {
             ForEach(0..<words.count, id: \.self) { i in
+                
+                let word = words[i]
                 VStack(alignment: .leading, spacing: 0) {
-                    let word = words[i]
                     ZStack {
+                        
                         AwordView(aword: word)
+                        
                         HStack(alignment: .top) {
                             Text(word.text)
                             Spacer()
@@ -43,15 +48,21 @@ struct PieceView: View {
                         .padding()
                     }
                 }
+                .listRowSeparator(.hidden)
+
+            }
+            .onDelete { indexSet in
+                words.remove(atOffsets: indexSet)
             }
         }
         .listStyle(.plain)
+
     }
 }
 
 struct PieceView_Previews: PreviewProvider {
     static var previews: some View {
-        PieceView(picking: 0)
+        PieceView(picking: .constant(0))
             .environmentObject(EditViewModel())
     }
 }

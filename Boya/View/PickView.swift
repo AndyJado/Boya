@@ -21,7 +21,7 @@ struct PickView: View {
                 }
             }
             .pickerStyle(.inline)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 40, style: .continuous))
+            .background(.ultraThinMaterial)
             .frame(height: 200)
             .clipped()
     }

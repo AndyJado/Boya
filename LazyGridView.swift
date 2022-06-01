@@ -32,7 +32,7 @@ struct LazyGridView: View {
     var body: some View {
         
         let count = items.count
-        let wordFly = Animation.easeOut
+        let wordFly = Animation.spring()
         
             ScrollView(
                 [.vertical,.horizontal],
@@ -64,12 +64,10 @@ struct LazyGridView: View {
                                 
                                 let longPress = LongPressGesture()
                                     .onEnded { _ in
-                                        withAnimation(wordFly) {
                                             pressed.toggle()
                                             // pop at index i!
                                             currentPop = items.popAt(at: i)
                                             pressAction()
-                                        }
                                     }
                                 
                                 Text(items[i].text)

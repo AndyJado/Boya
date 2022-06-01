@@ -80,8 +80,6 @@ struct AwordView: View {
         
         let colors = [aveTime2Color, totalTime2Color]
         
-        ZStack {
-            
             RoundedRectangle(cornerRadius: 5, style: .continuous)
                 .fill(
                     LinearGradient(gradient: Gradient(colors: colors),
@@ -90,10 +88,6 @@ struct AwordView: View {
                     
                 )
             .background(.ultraThinMaterial)
-            
-            Text(aword.secondSpent.description)
-            
-        }
     }
     
 }

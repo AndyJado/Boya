@@ -16,8 +16,17 @@ struct ButtonView: View {
     
     @State private var dataSet:Set<String> = Set(["1","2","3"])
     @State private var dataArray: [String] = Array(repeating: "cherryMelon歌德", count: 3)
+    @State private var optDataArray: [String]?
     
     @State private var pickerIndex: Int = 0
+    
+    func selecetedArray() -> [String] {
+        if let array = optDataArray {
+            return array
+        } else {
+            return dataArray
+        }
+    }
     
     var body: some View {
         
@@ -25,12 +34,19 @@ struct ButtonView: View {
             
             ScrollView {
                 LazyVStack {
-                    ForEach(0..<dataArray.count, id: \.self) { i in
-                        Text(dataArray[i])
+                    ForEach(0..<selecetedArray().count, id: \.self) { i in
+                        Text(selecetedArray()[i])
                     }
                 }
             }
             .frame(height: sizeManager.UIsize.height / 2)
+            
+            Button {
+//                selecetedArray().remove(at: 0)
+            } label: {
+                Text("remove at 0")
+            }
+
             
             
             Spacer()
@@ -73,13 +89,6 @@ struct ButtonView: View {
             
             
         }
-        .ignoresSafeArea()
-        
-        //        .sheet(isPresented: $pressedBtn,
-        //               onDismiss: nil) {
-        //            Text("helo")
-        //                .frame(width: 50, height: 50)
-        //        }
         
     }
 }
