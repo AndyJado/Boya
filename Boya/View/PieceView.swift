@@ -16,7 +16,7 @@ struct PieceView: View {
     
     var body: some View {
         
-        var words = viewModel.chosenthread(pickerAt: picking)
+        let words = viewModel.threads[viewModel.clues[picking]]!
         
         List {
             ForEach(0..<words.count, id: \.self) { i in
@@ -50,9 +50,6 @@ struct PieceView: View {
                 }
                 .listRowSeparator(.hidden)
 
-            }
-            .onDelete { indexSet in
-                words.remove(atOffsets: indexSet)
             }
         }
         .listStyle(.plain)

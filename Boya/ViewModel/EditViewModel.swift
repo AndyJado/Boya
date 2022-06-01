@@ -36,13 +36,30 @@ class EditViewModel: ObservableObject {
     
     func getData() {
         loadWords()
+        loadPops()
+        
         loadThreads()
+        
+//#warning("one last time get pops")
+//        pops2thread()
     }
     
+    #warning("one-time func, hotpatch fix")
+    // merge wordspop into one of the threads!
+    func pops2thread() {
+        print(threads.description)
+        threads[clues[0]] = wordsPop
+        print(threads.description)
+        saveThreads()
+    }
+    
+    func deleteWordsPop() {
+        LocalFileManager.deleteFile(fileName: fileName4wordsPop)
+    }
     
 //     pull layer 2
     
-    // whate returned is immuted
+    // whate returned is immutable
     func chosenthread(pickerAt index:Int) -> [Aword] {
         return self.threads[clues[index]] ?? self.wordsPop
     }
@@ -56,14 +73,12 @@ class EditViewModel: ObservableObject {
         // dynamic array index
         let endIndex = clues.count - 1
         
+        // ... for a new thread, 0 for pop
         switch index {
             case endIndex:
                 clues.insert(text, at: 1)
                 threads[text] = [pop]
                 saveThreads()
-            case 0:
-                wordsPop.append(pop)
-                savePops()
             default:
                 threads[clues[index]]?.append(pop)
                 saveThreads()
@@ -87,16 +102,6 @@ class EditViewModel: ObservableObject {
         }
         
     }
-    
-    func word2clue(word: Aword) {
-        
-        if let piece = threads[word.text] {
-            print(piece.description)
-        } else {
-            print(threads.description)
-        }
-    }
-    
     
     func loadThreads() {
         
@@ -125,20 +130,10 @@ class EditViewModel: ObservableObject {
         
     }
     
-    func loadWords() {
+    func loadPops() {
+       
         do {
-            let url4pieces = try LocalFileManager.fileURL(fileName: fileName4pieces)
             let url4pops = try LocalFileManager.fileURL(fileName: fileName4wordsPop)
-            
-            URLSession.shared.dataTaskPublisher(for: url4pieces)
-                .receive(on: DispatchQueue.main)
-                .tryMap(handleOutput)
-                .decode(type: [Aword].self, decoder: JSONDecoder())
-                .replaceError(with: [])
-                .sink(receiveValue: { [weak self] returnedPieces in
-                    self?.wordsPool = returnedPieces
-                })
-                .store(in: &cancellables)
             
             URLSession.shared.dataTaskPublisher(for: url4pops)
                 .receive(on: DispatchQueue.main)
@@ -149,6 +144,26 @@ class EditViewModel: ObservableObject {
                     self?.wordsPop = returnedpops
                 })
                 .store(in: &cancellables)
+        } catch {
+            print("loadPops() ")
+        }
+        
+    }
+    
+    func loadWords() {
+        do {
+            let url4pieces = try LocalFileManager.fileURL(fileName: fileName4pieces)
+            
+            URLSession.shared.dataTaskPublisher(for: url4pieces)
+                .receive(on: DispatchQueue.main)
+                .tryMap(handleOutput)
+                .decode(type: [Aword].self, decoder: JSONDecoder())
+                .replaceError(with: [])
+                .sink(receiveValue: { [weak self] returnedPieces in
+                    self?.wordsPool = returnedPieces
+                })
+                .store(in: &cancellables)
+
             
         } catch {
             print("try LocalFileManager.fileURL()")
@@ -159,11 +174,6 @@ class EditViewModel: ObservableObject {
         
         LocalFileManager.save(aCodable: wordsPool, fileName: fileName4pieces)
         print("save savePieces( ) data")
-    }
-    
-    func savePops() {
-        LocalFileManager.save(aCodable: wordsPop, fileName: fileName4wordsPop)
-        print("save  savePops()  data")
     }
     
     func saveThreads() {

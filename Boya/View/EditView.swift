@@ -82,6 +82,14 @@ struct EditView: View {
                     }
                 }
                 
+                Button {
+//                    viewModel.pops2thread()
+                    viewModel.deleteWordsPop()
+                } label: {
+                    Text("  viewModel.pops2thread()")
+                }
+
+                
                 NavigationLink("", isActive: $threadOn) {
                     PieceView(picking: $picking)
                 }

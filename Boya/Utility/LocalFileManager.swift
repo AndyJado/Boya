@@ -31,4 +31,16 @@ class LocalFileManager {
             }
         }
     }
+    
+    static func deleteFile(fileName:String) {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                let fileURL = try fileURL(fileName: fileName)
+               try FileManager.default.removeItem(at: fileURL)
+            } catch {
+                print("deleteFIle local manager")
+            }
+        }
+    }
+    
 }
