@@ -77,6 +77,7 @@ struct LazyGridView: View {
                                     .id(i)
                                     .Yoffset(at: i, in: count)
                                     .frame(height: 20)
+                                    .frame(maxWidth: sizeManager.UIsize.width)
                                 // gestures
                                     .highPriorityGesture(ExclusiveGesture(tap2, tap1))
                                     .gesture(longPress)
@@ -85,11 +86,6 @@ struct LazyGridView: View {
                         .padding(.horizontal,90)
                         .padding(.bottom,100)
         }
-    }
-    
-    func playSelectionHaptic() {
-        let generator = UISelectionFeedbackGenerator()
-        generator.selectionChanged()
     }
     
 }

@@ -42,28 +42,17 @@ struct StopWatch {
     
 }
 
-
-// sec2date
-extension AwordView {
-    
-    func sec2date() -> String {
+extension Aword {
+    func Aword2Color() -> [Color] {
+        let totalTime2Color = StopWatch(totalSeconds: self.secondSpent).time2Color()
         
-        let sec = self.aword.secondSpent
+        let warnEdition = (self.edition == 0) ? 1 : self.edition
         
-        return StopWatch(totalSeconds: sec).seconds.description
-    }
-    
-    
-    func convertSecondsToHrMinuteSec(seconds:Int) -> String{
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute, .second]
-        formatter.unitsStyle = .full
+        let aveTime2Color = StopWatch(totalSeconds: self.secondSpent / warnEdition ).time2Color()
         
-        let formattedString = formatter.string(from:TimeInterval(seconds))!
-        return formattedString
+        return [aveTime2Color, totalTime2Color]
         
     }
-    
 }
 
 struct AwordView: View {
@@ -72,13 +61,14 @@ struct AwordView: View {
     
     var body: some View {
         
-        let totalTime2Color = StopWatch(totalSeconds: aword.secondSpent).time2Color()
-        
-        let warnEdition = (aword.edition) == 0 ? 1 : aword.edition
-        
-        let aveTime2Color = StopWatch(totalSeconds: aword.secondSpent / warnEdition ).time2Color()
-        
-        let colors = [aveTime2Color, totalTime2Color]
+//        let totalTime2Color = StopWatch(totalSeconds: aword.secondSpent).time2Color()
+//
+//        let warnEdition = (aword.edition == 0) ? 1 : aword.edition
+//
+//        let aveTime2Color = StopWatch(totalSeconds: aword.secondSpent / warnEdition ).time2Color()
+//
+//        let colors = [aveTime2Color, totalTime2Color]
+        let colors = aword.Aword2Color()
         
             RoundedRectangle(cornerRadius: 5, style: .continuous)
                 .fill(

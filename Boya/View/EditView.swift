@@ -32,10 +32,10 @@ struct EditView: View {
         let pressAction = {
             
             if picking == viewModel.clues.endIndex - 1 {
-                viewModel.Pressed(pickerAt: picking)
+                viewModel.pressedAct(pickerAt: picking)
                 picking = 1
             } else {
-                viewModel.Pressed(pickerAt: picking)
+                viewModel.pressedAct(pickerAt: picking)
             }
             
         }
@@ -74,11 +74,20 @@ struct EditView: View {
                 
                 NavigationLink("", isActive: $threadOn) {
                     PieceView(picking: $picking)
+                        .toolbar {
+                            EditButton()
+                        }
                 }
             }
             .onTapGesture {
                 withAnimation {
-                    focuing.toggle()
+//                    focuing.toggle()
+                    if contentFocus {
+                        focuing = false
+                        pickerOn = false
+                    } else {
+                        focuing.toggle()
+                    }
                 }
             }
         }

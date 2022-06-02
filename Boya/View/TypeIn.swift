@@ -54,7 +54,9 @@ struct TypeIn: View {
                             }
                             //0次拉起
                         case false:
-                            if h < -150 {
+                            if h < -350 {
+                                dragged2 = true
+                            } else if h < -150 {
                                 dragged1 = true
                             }
                     }

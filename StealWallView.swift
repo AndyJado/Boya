@@ -50,7 +50,7 @@ struct StealWallView: View {
                                     
                                     let scale = scale(currentPoint: currentPoint, center: center)
  
-                                    YinYang()
+                                    ThreadVIew()
                                         .scaleEffect(
                                             scale
                                         )

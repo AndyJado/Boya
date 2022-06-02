@@ -53,10 +53,10 @@ struct PieceView: View {
                 }
                 .listRowSeparator(.hidden)
             }
-            .onDelete { indexSet in
-                viewModel.threads[viewModel.clues[picking]]?.remove(atOffsets: indexSet)
-            }
+            .onMove(perform: move)
+            .onDelete(perform: delete)
         }
+        
         .onChange(of: viewModel.threads[viewModel.clues[picking]], perform: { newThread in
             if let thread = viewModel.threads[viewModel.clues[picking]] {
                 if thread.isEmpty {
@@ -68,9 +68,19 @@ struct PieceView: View {
             } else {
                 print(viewModel.threads.keys.description)
             }
+            
+            viewModel.saveThreads()
+            
         })
         .listStyle(.plain)
 
+    }
+    
+    func delete(indexSet: IndexSet) {
+        viewModel.threads[viewModel.clues[picking]]?.remove(atOffsets: indexSet)
+    }
+    func move(indices: IndexSet, newOffset: Int) {
+        viewModel.threads[viewModel.clues[picking]]?.move(fromOffsets: indices, toOffset: newOffset)
     }
 }
 

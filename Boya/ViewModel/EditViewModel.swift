@@ -38,18 +38,8 @@ class EditViewModel: ObservableObject {
     }
     
     
-    func bindPop2Threads() {
-        
-        if threads.keys.contains(clues[0]) {
-            return
-        } else {
-            threads[clues[0]] = []
-        }
-        
-    }
-    
     // Push layer 1
-    func Pressed(pickerAt index:Int) {
+    func pressedAct(pickerAt index:Int) {
         // guard pop happened!
         guard let pop = popword else {return}
         // the clue
@@ -64,8 +54,10 @@ class EditViewModel: ObservableObject {
                 threads[text] = [pop]
                 saveThreads()
             
+            case 0:
+                break
+                
             default:
-                bindPop2Threads()
                 threads[clues[index]]?.append(pop)
                 saveThreads()
         }

@@ -22,6 +22,7 @@
 		8176A848282C967D00EFDE40 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8176A847282C967D00EFDE40 /* Window.swift */; };
 		818A410C2835FEF600902D1C /* LazyGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818A410B2835FEF600902D1C /* LazyGridView.swift */; };
 		8196978928391F0600CD46D4 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8196978828391F0600CD46D4 /* LocalFileManager.swift */; };
+		819ACEE62848AA6300E82423 /* ThreadVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819ACEE52848AA6300E82423 /* ThreadVIew.swift */; };
 		81A80D9028472996004820FA /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A80D8F28472996004820FA /* EditViewModel.swift */; };
 		81BCF3FD2828CDA500D9A377 /* RainBow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCF3FC2828CDA500D9A377 /* RainBow.swift */; };
 		81C09EF6282659860084C859 /* BoyaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EF5282659860084C859 /* BoyaApp.swift */; };
@@ -52,6 +53,7 @@
 		8176A847282C967D00EFDE40 /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		818A410B2835FEF600902D1C /* LazyGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyGridView.swift; sourceTree = "<group>"; tabWidth = 4; };
 		8196978828391F0600CD46D4 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
+		819ACEE52848AA6300E82423 /* ThreadVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadVIew.swift; sourceTree = "<group>"; };
 		81A80D8F28472996004820FA /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		81BCF3FC2828CDA500D9A377 /* RainBow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainBow.swift; sourceTree = "<group>"; };
 		81C09EF2282659860084C859 /* Boya.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boya.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +182,7 @@
 				8152D62F283B8DBA00AA8A5C /* AwordView.swift */,
 				8152D631283CB51E00AA8A5C /* PickView.swift */,
 				8156CE182840681100FB1479 /* PieceView.swift */,
+				819ACEE52848AA6300E82423 /* ThreadVIew.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				811421422834F6DF004CBEBD /* TypeIn.swift in Sources */,
 				81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */,
 				818A410C2835FEF600902D1C /* LazyGridView.swift in Sources */,
+				819ACEE62848AA6300E82423 /* ThreadVIew.swift in Sources */,
 				81053655282E428700621E6F /* SizeManager.swift in Sources */,
 				810ABE08282BA84400F50A8B /* ButtonView.swift in Sources */,
 				81EE0FFA284752310040ACF7 /* Data.swift in Sources */,
