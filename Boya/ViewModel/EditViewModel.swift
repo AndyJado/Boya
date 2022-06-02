@@ -140,6 +140,11 @@ class EditViewModel: ObservableObject {
         print("saveThreads()")
     }
     
+    func saveAll() {
+        saveThreads()
+        savePieces()
+    }
+    
     func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
         
         return output.data

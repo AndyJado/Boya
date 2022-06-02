@@ -9,29 +9,48 @@ import SwiftUI
 
 struct ThreadVIew: View {
     
-    @State private var thread:[Aword] = Array(repeating: Aword(text: "不是我干的", secondSpent: 10, edition: 2), count: 100)
+    var thread:[Aword]
     
     func thread2Colors() -> [Color] {
         
-        var colors:[Color] = []
+
+        // ave aword time, total thread time
+        var sumWord = Aword()
         
+        for i in thread {
+            sumWord.secondSpent += i.secondSpent
+            sumWord.edition += max(1, i.edition)
+        }
+//        sumWord.edition = thread.count
+
+        return sumWord.Aword2Color()
+        
+    }
+    
+    func threadColors() -> [Color] {
+        
+        var colors:[Color] = []
         for i in thread {
             colors.append(contentsOf: i.Aword2Color())
         }
-        
         return colors
-        
     }
     
     var body: some View {
         
-        Circle()
-            .fill(
-                RadialGradient(gradient: Gradient(colors: thread2Colors()), center: .center, startRadius: 0, endRadius: 40)
-                
-            )
-        .frame(width: 40, height: 40)
-        .clipShape(Circle())
+            Circle()
+                .fill(
+                    LinearGradient(gradient: Gradient(colors: thread2Colors()), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    
+                )
+//                .overlay {
+//                    Text(thread[0].text)
+//                        .minimumScaleFactor(0.01)
+//                }
+            .frame(width: 40, height: 40)
+            .clipShape(Circle())
+            
+            
         
         
         
@@ -40,6 +59,6 @@ struct ThreadVIew: View {
 
 struct ThreadVIew_Previews: PreviewProvider {
     static var previews: some View {
-        ThreadVIew()
+        ThreadVIew(thread: TestThread)
     }
 }

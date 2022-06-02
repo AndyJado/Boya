@@ -20,6 +20,7 @@ struct ButtonView: View {
     @State private var optDataArray: [String]?
     
     @State private var pickerIndex: Int = 0
+    @State private var sliding: Double = 0
     
     func selecetedArray() -> [String] {
         if let array = optDataArray {
@@ -46,15 +47,11 @@ struct ButtonView: View {
             }
             .frame(height: sizeManager.UIsize.height / 2)
             
-            Button {
-//                selecetedArray().remove(at: 0)
-            } label: {
-                Text("remove at 0")
-            }
-
+            AwordView(aword: Aword(text: "a", secondSpent: Int(100*sliding), edition: 2))
+                .frame(width: 200, height: 100)
             
+            Slider(value: $sliding)
             
-            Spacer()
             
             HStack {
                 Picker("", selection: $pickerIndex) {

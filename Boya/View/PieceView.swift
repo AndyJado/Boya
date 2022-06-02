@@ -52,6 +52,14 @@ struct PieceView: View {
 //                    }
                 }
                 .listRowSeparator(.hidden)
+                .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                    Button("Pull") {
+                        viewModel.wordsPool.append(word)
+                        viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
+                        viewModel.saveAll()
+                    }
+                    .tint(.yellow)
+                }
             }
             .onMove(perform: move)
             .onDelete(perform: delete)

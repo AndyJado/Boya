@@ -10,13 +10,17 @@ import SwiftUI
 struct TypeIn: View {
     
     @Binding var theWord: Aword
-    @Binding var dragged2:Bool
-    @Binding var dragged1: Bool
+    @Binding var ydragged2: Bool
+    @Binding var ydragged1: Bool
+    @Binding var xdragged: Bool
     
     var focuing: Bool
     
+//    @State var xdragged:Bool = false
+    
     @State private var typerTitle: String = "↑ ↓ ← →"
     @State private var onDragging: Bool  = false
+    
     @State private var offSize: CGSize = CGSize(width: 0, height: 0)
     
     @Environment(\.scenePhase) private var scenePhase
@@ -38,60 +42,71 @@ struct TypeIn: View {
                 withAnimation {
                     onDragging = true
                     offSize.height = val.translation.height
+                    offSize.width = val.translation.width / 1.2
                 }
             }
             .onEnded { val in
                 let h = val.translation.height
+                let w = val.translation.width
                 withAnimation {
                     onDragging = false
-                    switch dragged1 {
+                    
+                    switch xdragged {
+                        case true:
+                            break
+                        case false:
+                            if w < -200 {
+                                xdragged = true
+                            }
+                    }
+                    
+                    switch ydragged1 {
                             //1次拉起
                         case true:
                             if h > 80 {
-                                dragged1 = false
+                                ydragged1 = false
                             } else if h < -100 {
-                                dragged2 = true
+                                ydragged2 = true
                             }
                             //0次拉起
                         case false:
-                            if h < -350 {
-                                dragged2 = true
+                            if h < -550 {
+                                ydragged2 = true
                             } else if h < -150 {
-                                dragged1 = true
+                                ydragged1 = true
                             }
                     }
-                    offSize.height = 0
+                    offSize = .zero
                 }
             }
         VStack(alignment: .center, spacing: 0) {
             
             Spacer()
-            
             TextField(typerTitle,text: $theWord.text)
             // PPT
                 .foregroundColor(.primary)
                 .padding(5)
                 .font(.headline)
-                .background(.gray)
+                .background( .gray)
                 .cornerRadius(5)
                 .brightness(0.3)
                 .padding(10)
                 .padding(.horizontal,20)
-                .shadow(color: .primary, radius: 2)
+                .shadow(color:onDragging ? .orange : .primary, radius: 3)
                 .frame(height: 50)
                 .clipped()
                 .submitLabel(.next)
             // BeHavior
                 .onReceive(timer, perform: { _ in
-                    if !dragged1 {
+                    if !ydragged1 {
                         theWord.secondSpent += 1
                     }
                 })
             // Gestures and all
-                .scaleEffect( onDragging ? 1.16 : 1)
-                .disabled(dragged1)
+                .disabled(ydragged1)
                 .offset(offSize)
                 .gesture(drag, including: focuing ? GestureMask.none : GestureMask.all)
+            
                 .onChange(of: scenePhase) { phase in
                     if phase == .active {
                         withAnimation {
@@ -105,6 +120,6 @@ struct TypeIn: View {
 
 struct TypeIn_Previews: PreviewProvider {
     static var previews: some View {
-        TypeIn(theWord: .constant(Aword(text: "", secondSpent: 1, edition: 1)), dragged2: .constant(true), dragged1: .constant(true), focuing: false)
+        TypeIn(theWord: .constant(Aword(text: "", secondSpent: 1, edition: 1)), ydragged2: .constant(true), ydragged1: .constant(true), xdragged: .constant(false), focuing: false)
     }
 }

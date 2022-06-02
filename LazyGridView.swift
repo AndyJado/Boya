@@ -83,8 +83,8 @@ struct LazyGridView: View {
                                     .gesture(longPress)
                             }
                         }
-                        .padding(.horizontal,90)
-                        .padding(.bottom,100)
+//                        .padding(.horizontal,90)
+                        .padding(.bottom,130)
         }
     }
     

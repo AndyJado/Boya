@@ -24,18 +24,18 @@ struct StopWatch {
     
     func time2Color() -> Color {
         
-        let dayProportion = Double(hours) / 24.0
-        let minProportion = Double(minutes) / 60.0 * 10
-        let secProportion = Double(seconds) / 60.0 * 10
+        let secProportion = Double(totalSeconds) / 60.0 * 0.2
+        let minProportion = Double(totalSeconds) / 3600.0
+        let hrsProportion = Double(totalSeconds) / 43200.0
         
         if self.hours != 0 {
-            return Color("hrs").opacity(dayProportion)
+            return Color("hrs").opacity(hrsProportion)
         } else if self.minutes != 0 {
             return Color("min").opacity(minProportion)
         } else if self.seconds != 0 {
             return Color("sec").opacity(secProportion)
         } else {
-            return       Color("mon")
+            return       Color("mon").opacity(0.1)
         }
         
     }
@@ -48,7 +48,7 @@ extension Aword {
         
         let warnEdition = (self.edition == 0) ? 1 : self.edition
         
-        let aveTime2Color = StopWatch(totalSeconds: self.secondSpent / warnEdition ).time2Color()
+        let aveTime2Color = totalTime2Color.opacity( 1.0 / Double(warnEdition))
         
         return [aveTime2Color, totalTime2Color]
         

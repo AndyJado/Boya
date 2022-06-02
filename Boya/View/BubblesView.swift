@@ -1,14 +1,18 @@
 //
-//  StealWallView.swift
+//  BubblesView.swift
 //  Boya
 //
-//  Created by Andy Jado on 2022/5/12.
+//  Created by Andy Jado on 2022/6/2.
 //
 
 import SwiftUI
 
-struct StealWallView: View {
+import SwiftUI
+
+struct BubblesView: View {
     
+    var threads: [String : [Aword]]
+    @State private var threadsVec:[[Aword]] = []
     
     @State private var slider:Double = 0.4
     
@@ -43,14 +47,14 @@ struct StealWallView: View {
                             alignment: .center,
                             spacing: Self.spacingBetweenRows
                         ) {
-                            ForEach(0..<Int(150 * slider),id: \.self) { value in
+                            ForEach(0..<threadsVec.count,id: \.self) { value in
                                 GeometryReader { proxy in
                                     
                                     let currentPoint = getCurrentPoint(proxy: proxy, value: value)
                                     
                                     let scale = scale(currentPoint: currentPoint, center: center)
  
-                                    ThreadVIew(thread: TestThread)
+                                    ThreadVIew(thread: threadsVec[value])
                                         .scaleEffect(
                                             scale
                                         )
@@ -71,11 +75,15 @@ struct StealWallView: View {
                     }
                 }
             }
-            Slider(value: $slider)
-                .animation(Animation.easeInOut, value: slider)
+        }
+        .task {
+            for (_ , athread) in threads {
+                self.threadsVec.append(athread)
+            }
         }
         
     }
+    
     
     func offsetX(_ value: Int) -> CGFloat {
         let rowNumber = value / gridItems.count
@@ -246,27 +254,9 @@ struct StealWallView: View {
     }
 }
 
-struct Axes: View {
-    var body: some View {
-        
-        GeometryReader { geometry in
-            Path { path in
-                path.move(to: CGPoint(x: geometry.frame(in: .global).maxX, y: geometry.frame(in: .global).midY))
-                path.addLine(to: CGPoint(x: 0, y: geometry.frame(in: .global).midY))
-                path.move(to: CGPoint(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).midY))
-                path.addLine(to: CGPoint(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).maxY))
-                
-                path.addLine(to: CGPoint(x: geometry.frame(in: .global).midX, y: geometry.frame(in: .global).minY - 60))
-            }
-            .stroke(Color.blue, lineWidth: 3)
-        }
-    }
-}
 
-
-
-struct StealWallView_Previews: PreviewProvider {
+struct BubblesView_Previews: PreviewProvider {
     static var previews: some View {
-        StealWallView()
+        BubblesView(threads: [:])
     }
 }

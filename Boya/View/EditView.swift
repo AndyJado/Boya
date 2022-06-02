@@ -19,6 +19,7 @@ struct EditView: View {
     @State private var pickerOn:Bool = false
     @State private var threadOn:Bool = false
     
+    @State private var bubblesOn:Bool = false
     
     @FocusState private var focuing: Bool
     
@@ -50,7 +51,7 @@ struct EditView: View {
                     .disabled(contentFocus)
                 
                 VStack(alignment: .center, spacing: 0) {
-                    TypeIn(theWord: $viewModel.aword, dragged2: $threadOn, dragged1: $pickerOn, focuing: $focuing.wrappedValue)
+                    TypeIn(theWord: $viewModel.aword, ydragged2: $threadOn, ydragged1: $pickerOn, xdragged: $bubblesOn, focuing: $focuing.wrappedValue)
                         .focused($focuing)
                         .onSubmit {
                             viewModel.submitted()
@@ -78,6 +79,11 @@ struct EditView: View {
                             EditButton()
                         }
                 }
+                
+                NavigationLink("", isActive: $bubblesOn) {
+                    BubblesView(threads: viewModel.threads)
+                }
+                
             }
             .onTapGesture {
                 withAnimation {
