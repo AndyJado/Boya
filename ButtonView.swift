@@ -16,6 +16,7 @@ struct ButtonView: View {
     
     @State private var dataSet:Set<String> = Set(["1","2","3"])
     @State private var dataArray: [String] = Array(repeating: "cherryMelon歌德", count: 3)
+    @State private var dataDict: [String:Int] = ["a":2 , "b":3]
     @State private var optDataArray: [String]?
     
     @State private var pickerIndex: Int = 0
@@ -26,6 +27,10 @@ struct ButtonView: View {
         } else {
             return dataArray
         }
+    }
+    
+    func dictPlay() {
+        
     }
     
     var body: some View {

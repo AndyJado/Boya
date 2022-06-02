@@ -14,10 +14,10 @@ struct PieceView: View {
     @Binding var picking:Int
     
     
+    
     var body: some View {
         
-        let words = viewModel.threads[viewModel.clues[picking]]!
-        
+        let words = viewModel.threads[viewModel.clues[picking]] ?? [Aword(text: "nothing in this thread", secondSpent: 0, edition: 0)]
         List {
             ForEach(0..<words.count, id: \.self) { i in
                 
@@ -45,13 +45,30 @@ struct PieceView: View {
                             .frame(width: 30, height: 20, alignment: .trailing)
                             
                         }
-                        .padding()
+                        .padding(5)
                     }
+//                    .onLongPressGesture {
+//                        viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
+//                    }
                 }
                 .listRowSeparator(.hidden)
-
+            }
+            .onDelete { indexSet in
+                viewModel.threads[viewModel.clues[picking]]?.remove(atOffsets: indexSet)
             }
         }
+        .onChange(of: viewModel.threads[viewModel.clues[picking]], perform: { newThread in
+            if let thread = viewModel.threads[viewModel.clues[picking]] {
+                if thread.isEmpty {
+                    viewModel.threads.removeValue(forKey: viewModel.clues[picking])
+                    viewModel.clues.remove(at: picking)
+                } else {
+                    print("thread.isnotEmpty")
+                }
+            } else {
+                print(viewModel.threads.keys.description)
+            }
+        })
         .listStyle(.plain)
 
     }

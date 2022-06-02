@@ -12,7 +12,6 @@ class EditViewModel: ObservableObject {
     
     //TODO: pieces for words actually
     private let fileName4pieces = "pieces"
-    private let fileName4wordsPop = "popWords"
     private let fileName4threads = "threads"
     
     //commit & push words
@@ -20,7 +19,6 @@ class EditViewModel: ObservableObject {
     @Published var popword: Aword? = nil
     
     // layer 1
-    @Published var wordsPop:[Aword] = []
     @Published var wordsPool:[Aword] = []
     
     // layer 2.
@@ -36,32 +34,18 @@ class EditViewModel: ObservableObject {
     
     func getData() {
         loadWords()
-        loadPops()
-        
         loadThreads()
+    }
+    
+    
+    func bindPop2Threads() {
         
-//#warning("one last time get pops")
-//        pops2thread()
-    }
-    
-    #warning("one-time func, hotpatch fix")
-    // merge wordspop into one of the threads!
-    func pops2thread() {
-        print(threads.description)
-        threads[clues[0]] = wordsPop
-        print(threads.description)
-        saveThreads()
-    }
-    
-    func deleteWordsPop() {
-        LocalFileManager.deleteFile(fileName: fileName4wordsPop)
-    }
-    
-//     pull layer 2
-    
-    // whate returned is immutable
-    func chosenthread(pickerAt index:Int) -> [Aword] {
-        return self.threads[clues[index]] ?? self.wordsPop
+        if threads.keys.contains(clues[0]) {
+            return
+        } else {
+            threads[clues[0]] = []
+        }
+        
     }
     
     // Push layer 1
@@ -79,7 +63,9 @@ class EditViewModel: ObservableObject {
                 clues.insert(text, at: 1)
                 threads[text] = [pop]
                 saveThreads()
+            
             default:
+                bindPop2Threads()
                 threads[clues[index]]?.append(pop)
                 saveThreads()
         }
@@ -130,25 +116,6 @@ class EditViewModel: ObservableObject {
         
     }
     
-    func loadPops() {
-       
-        do {
-            let url4pops = try LocalFileManager.fileURL(fileName: fileName4wordsPop)
-            
-            URLSession.shared.dataTaskPublisher(for: url4pops)
-                .receive(on: DispatchQueue.main)
-                .tryMap(handleOutput)
-                .decode(type: [Aword].self, decoder: JSONDecoder())
-                .replaceError(with: [])
-                .sink(receiveValue: { [weak self] returnedpops in
-                    self?.wordsPop = returnedpops
-                })
-                .store(in: &cancellables)
-        } catch {
-            print("loadPops() ")
-        }
-        
-    }
     
     func loadWords() {
         do {

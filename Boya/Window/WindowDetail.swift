@@ -62,8 +62,8 @@ extension WindowDetail {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
             .shadow(color: .gray, radius: 5)
             .overlay(content: {
-                Wave()
-                    .stroke(.green,lineWidth: 1)
+                Circle()
+                .stroke(.green,lineWidth: 1)
                     .foregroundColor(Color.white)
                     .clipped()
                 

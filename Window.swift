@@ -43,7 +43,7 @@ extension Window {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
             .shadow(color: .gray, radius: 5)
             .overlay(content: {
-                Wave()
+                Circle()
                     .stroke(.green,lineWidth: 1)
                     .foregroundColor(Color.white)
                     .clipped()

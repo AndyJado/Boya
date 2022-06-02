@@ -89,11 +89,6 @@ struct StealWallView: View {
     
     
     
-    
-    func appName(_ value: Int) -> String {
-        apps[value%apps.count]
-    }
-    
     func getCurrentPoint(proxy: GeometryProxy, value: Int) -> CGPoint {
         
         let rowNumber = value / gridItems.count

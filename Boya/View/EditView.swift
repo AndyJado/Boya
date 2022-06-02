@@ -8,16 +8,6 @@
 import SwiftUI
 import Combine
 
-struct Aword:Hashable, Codable {
-    
-    var text: String = ""
-    var secondSpent: Int = 0
-    var edition: Int = 1
-    
-}
-
-
-
 struct EditView: View {
     
     @Environment(\.scenePhase) private var scenePhase
@@ -81,14 +71,6 @@ struct EditView: View {
                         EmptyView()
                     }
                 }
-                
-                Button {
-//                    viewModel.pops2thread()
-                    viewModel.deleteWordsPop()
-                } label: {
-                    Text("  viewModel.pops2thread()")
-                }
-
                 
                 NavigationLink("", isActive: $threadOn) {
                     PieceView(picking: $picking)
