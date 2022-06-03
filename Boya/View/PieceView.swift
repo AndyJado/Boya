@@ -60,33 +60,20 @@ struct PieceView: View {
                     }
                     .tint(.yellow)
                 }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button("Pop") {
+                        viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
+                        viewModel.saveAll()
+                    }
+                    .tint(.red)
+                }
             }
             .onMove(perform: move)
-            .onDelete(perform: delete)
         }
-        
-        .onChange(of: viewModel.threads[viewModel.clues[picking]], perform: { newThread in
-            if let thread = viewModel.threads[viewModel.clues[picking]] {
-                if thread.isEmpty {
-                    viewModel.threads.removeValue(forKey: viewModel.clues[picking])
-                    viewModel.clues.remove(at: picking)
-                } else {
-                    print("thread.isnotEmpty")
-                }
-            } else {
-                print(viewModel.threads.keys.description)
-            }
-            
-            viewModel.saveThreads()
-            
-        })
         .listStyle(.plain)
 
     }
-    
-    func delete(indexSet: IndexSet) {
-        viewModel.threads[viewModel.clues[picking]]?.remove(atOffsets: indexSet)
-    }
+
     func move(indices: IndexSet, newOffset: Int) {
         viewModel.threads[viewModel.clues[picking]]?.move(fromOffsets: indices, toOffset: newOffset)
     }

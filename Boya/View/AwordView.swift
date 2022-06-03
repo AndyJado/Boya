@@ -24,9 +24,9 @@ struct StopWatch {
     
     func time2Color() -> Color {
         
-        let secProportion = Double(totalSeconds) / 60.0 * 0.2
-        let minProportion = Double(totalSeconds) / 3600.0
-        let hrsProportion = Double(totalSeconds) / 43200.0
+        let secProportion = Double(totalSeconds) / 60.0 * 0.3
+        let minProportion = Double(totalSeconds) / 3600.0 * 0.8 + 0.2
+        let hrsProportion = Double(totalSeconds) / 43200.0 * 0.5 + 0.5
         
         if self.hours != 0 {
             return Color("hrs").opacity(hrsProportion)

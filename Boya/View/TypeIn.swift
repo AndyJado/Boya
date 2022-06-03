@@ -16,12 +16,13 @@ struct TypeIn: View {
     
     var focuing: Bool
     
-//    @State var xdragged:Bool = false
-    
     @State private var typerTitle: String = "↑ ↓ ← →"
     @State private var onDragging: Bool  = false
     
     @State private var offSize: CGSize = CGSize(width: 0, height: 0)
+    
+//    #warning("TODO:")
+//    @GestureState private var offSize: CGSize = .zero
     
     @Environment(\.scenePhase) private var scenePhase
     //    let typerTitle:String = draggedUp ? "↑ ↓ ← → " : "↑"
@@ -70,7 +71,7 @@ struct TypeIn: View {
                             }
                             //0次拉起
                         case false:
-                            if h < -550 {
+                            if h < -400 {
                                 ydragged2 = true
                             } else if h < -150 {
                                 ydragged1 = true
