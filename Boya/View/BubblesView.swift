@@ -4,14 +4,48 @@
 //
 //  Created by Andy Jado on 2022/6/2.
 //
-
 import SwiftUI
+import Combine
 
-import SwiftUI
+class BubblesViewModel:ObservableObject {
+    
+    @Published var threadsCached: [String : [Aword]] = [:]
+    
+    
+    var cancellables = Set<AnyCancellable>()
+    
+    init() {
+        load()
+    }
+    
+    func load() {
+        do {
+            let url4threads = try LocalFileManager.fileURL(fileName: EditViewModel.CachedThreadsFile)
+
+            URLSession.shared.dataTaskPublisher(for: url4threads)
+                .receive(on: DispatchQueue.main)
+                .tryMap(handleOutput)
+                .decode(type: [[String : [Aword]]].self, decoder: JSONDecoder())
+                .replaceError(with: [])
+                .sink(receiveValue: { [weak self] returned in
+                    guard let self = self else {return}
+                    if !returned.isEmpty {
+                        self.threadsCached = returned[0]
+                    }
+                })
+                .store(in: &cancellables)
+
+        } catch {
+            print("BubbleViewModel !! load() !! try LocalFileManager.fileURL()")
+        }
+
+    }
+}
 
 struct BubblesView: View {
     
-    var threads: [String : [Aword]]
+    @StateObject private var viewModel = BubblesViewModel()
+    //    var threads: [String : [Aword]]
     @State private var threadsVec:[[Aword]] = []
     
     @State private var slider:Double = 0.4
@@ -77,7 +111,7 @@ struct BubblesView: View {
             }
         }
         .task {
-            for (_ , athread) in threads {
+            for (_ , athread) in viewModel.threadsCached {
                 self.threadsVec.append(athread)
             }
         }
@@ -257,6 +291,6 @@ struct BubblesView: View {
 
 struct BubblesView_Previews: PreviewProvider {
     static var previews: some View {
-        BubblesView(threads: [:])
+        BubblesView()
     }
 }

@@ -20,6 +20,10 @@ extension Array {
     }
 }
 
+func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
+    return output.data
+}
+
 
 struct StackItemModifier: ViewModifier {
     

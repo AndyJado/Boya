@@ -11,8 +11,10 @@ import Combine
 class EditViewModel: ObservableObject {
     
     //TODO: pieces for words actually
-    private let fileName4pieces = "pieces"
-    private let fileName4threads = "threads"
+    static let fileName4pieces = "pieces"
+    static let fileName4threads = "threads"
+    static let CachedThreadsFile = "threadsCached"
+    
     
     //commit & push words
     @Published var aword = Aword()
@@ -23,6 +25,7 @@ class EditViewModel: ObservableObject {
     
     // layer 2.
     @Published var threads: [String : [Aword]] = [:]
+    @Published var threadPop: [Aword]? = nil
     // keys vector for threads
     @Published var clues: [String] = ["Pop","..."]
     
@@ -84,7 +87,7 @@ class EditViewModel: ObservableObject {
     func loadThreads() {
         
         do {
-            let url4threads = try LocalFileManager.fileURL(fileName: fileName4threads)
+            let url4threads = try LocalFileManager.fileURL(fileName: EditViewModel.fileName4threads)
             
             URLSession.shared.dataTaskPublisher(for: url4threads)
                 .receive(on: DispatchQueue.main)
@@ -104,14 +107,12 @@ class EditViewModel: ObservableObject {
         } catch {
             print("try LocalFileManager.fileURL()")
         }
-        
-        
     }
     
     
     func loadWords() {
         do {
-            let url4pieces = try LocalFileManager.fileURL(fileName: fileName4pieces)
+            let url4pieces = try LocalFileManager.fileURL(fileName: EditViewModel.fileName4pieces)
             
             URLSession.shared.dataTaskPublisher(for: url4pieces)
                 .receive(on: DispatchQueue.main)
@@ -131,12 +132,13 @@ class EditViewModel: ObservableObject {
     
     func savePieces() {
         
-        LocalFileManager.save(aCodable: wordsPool, fileName: fileName4pieces)
+        LocalFileManager.save(aCodable: wordsPool, fileName: EditViewModel.fileName4pieces)
         print("save savePieces( ) data")
     }
     
+    //TODO: [threads] not threads! redadent move!
     func saveThreads() {
-        LocalFileManager.save(aCodable: [threads], fileName: fileName4threads)
+        LocalFileManager.save(aCodable: [threads], fileName: EditViewModel.fileName4threads)
         print("saveThreads()")
     }
     
@@ -145,9 +147,5 @@ class EditViewModel: ObservableObject {
         savePieces()
     }
     
-    func handleOutput(output: URLSession.DataTaskPublisher.Output) throws -> Data {
-        
-        return output.data
-    }
     
 }

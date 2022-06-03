@@ -51,7 +51,13 @@ struct EditView: View {
                     .disabled(contentFocus)
                 
                 VStack(alignment: .center, spacing: 0) {
-                    TypeIn(theWord: $viewModel.aword, ydragged2: $threadOn, ydragged1: $pickerOn, xdragged: $bubblesOn, focuing: $focuing.wrappedValue)
+                    TypeIn(theWord: $viewModel.aword, ydragged2: $threadOn, ydragged1: $pickerOn, xdragged: $bubblesOn, focuing: $focuing.wrappedValue) {
+                        
+                        if let thread = viewModel.threads[viewModel.clues[picking]] {
+                            viewModel.threadPop = thread
+                        }
+                        
+                    }
                         .focused($focuing)
                         .onSubmit {
                             viewModel.submitted()
@@ -81,7 +87,8 @@ struct EditView: View {
                 }
                 
                 NavigationLink("", isActive: $bubblesOn) {
-                    BubblesView(threads: viewModel.threads)
+//                    BubblesView(threads: viewModel.threads)
+                    BubblesView()
                 }
                 
             }

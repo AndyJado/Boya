@@ -16,6 +16,8 @@ struct TypeIn: View {
     
     var focuing: Bool
     
+    var yxAction: (() -> Void) = {}
+    
     @State private var typerTitle: String = "↑ ↓ ← →"
     @State private var onDragging: Bool  = false
     
@@ -64,9 +66,14 @@ struct TypeIn: View {
                     switch ydragged1 {
                             //1次拉起
                         case true:
+                            
+                            if w < -200 {
+                                yxAction()
+                            }
+                            
                             if h > 80 {
                                 ydragged1 = false
-                            } else if h < -100 {
+                            } else if h < -80 {
                                 ydragged2 = true
                             }
                             //0次拉起
