@@ -45,7 +45,10 @@ class BubblesViewModel:ObservableObject {
 struct BubblesView: View {
     
     @StateObject private var viewModel = BubblesViewModel()
-    //    var threads: [String : [Aword]]
+    
+    #warning("ThreadPop acts in pickView! Go there! this view just read!!")
+    @Binding var threadPair: (String , [Aword])?
+    
     @State private var threadsVec:[[Aword]] = []
     
     @State private var slider:Double = 0.4
@@ -291,6 +294,6 @@ struct BubblesView: View {
 
 struct BubblesView_Previews: PreviewProvider {
     static var previews: some View {
-        BubblesView()
+        BubblesView(threadPair: .constant(("sa",[Aword(),])))
     }
 }

@@ -12,7 +12,7 @@ struct EditView: View {
     
     @Environment(\.scenePhase) private var scenePhase
     
-    @StateObject var viewModel:EditViewModel = EditViewModel()
+    @StateObject private var viewModel:EditViewModel = EditViewModel()
     
     @State private var picking:Int = 0
     
@@ -41,6 +41,8 @@ struct EditView: View {
             
         }
         
+        let yxAction = { viewModel.popThread(at: picking)}
+        
         NavigationView {
             ZStack {
                 // 双击退回编辑 (没有保存动作)
@@ -51,13 +53,7 @@ struct EditView: View {
                     .disabled(contentFocus)
                 
                 VStack(alignment: .center, spacing: 0) {
-                    TypeIn(theWord: $viewModel.aword, ydragged2: $threadOn, ydragged1: $pickerOn, xdragged: $bubblesOn, focuing: $focuing.wrappedValue) {
-                        
-                        if let thread = viewModel.threads[viewModel.clues[picking]] {
-                            viewModel.threadPop = thread
-                        }
-                        
-                    }
+                    TypeIn(theWord: $viewModel.aword, ydragged2: $threadOn, ydragged1: $pickerOn, xdragged: $bubblesOn, focuing: $focuing.wrappedValue, yxAction: yxAction)
                         .focused($focuing)
                         .onSubmit {
                             viewModel.submitted()
@@ -88,7 +84,7 @@ struct EditView: View {
                 
                 NavigationLink("", isActive: $bubblesOn) {
 //                    BubblesView(threads: viewModel.threads)
-                    BubblesView()
+                    BubblesView(threads: $viewModel.threadPop)
                 }
                 
             }

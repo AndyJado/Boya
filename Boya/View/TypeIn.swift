@@ -16,7 +16,7 @@ struct TypeIn: View {
     
     var focuing: Bool
     
-    var yxAction: (() -> Void) = {}
+    var yxAction: (() -> Void)
     
     @State private var typerTitle: String = "↑ ↓ ← →"
     @State private var onDragging: Bool  = false
@@ -54,15 +54,6 @@ struct TypeIn: View {
                 withAnimation {
                     onDragging = false
                     
-                    switch xdragged {
-                        case true:
-                            break
-                        case false:
-                            if w < -200 {
-                                xdragged = true
-                            }
-                    }
-                    
                     switch ydragged1 {
                             //1次拉起
                         case true:
@@ -78,6 +69,11 @@ struct TypeIn: View {
                             }
                             //0次拉起
                         case false:
+                            
+                            if w < -200 {
+                                xdragged = true
+                            }
+
                             if h < -400 {
                                 ydragged2 = true
                             } else if h < -150 {
@@ -128,6 +124,6 @@ struct TypeIn: View {
 
 struct TypeIn_Previews: PreviewProvider {
     static var previews: some View {
-        TypeIn(theWord: .constant(Aword(text: "", secondSpent: 1, edition: 1)), ydragged2: .constant(true), ydragged1: .constant(true), xdragged: .constant(false), focuing: false)
+        TypeIn(theWord: .constant(Aword(text: "", secondSpent: 1, edition: 1)), ydragged2: .constant(true), ydragged1: .constant(true), xdragged: .constant(false), focuing: false, yxAction: {})
     }
 }

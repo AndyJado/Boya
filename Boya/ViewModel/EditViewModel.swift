@@ -25,7 +25,7 @@ class EditViewModel: ObservableObject {
     
     // layer 2.
     @Published var threads: [String : [Aword]] = [:]
-    @Published var threadPop: [Aword]? = nil
+    @Published var threadPop: (String, [Aword])? = nil
     // keys vector for threads
     @Published var clues: [String] = ["Pop","..."]
     
@@ -40,6 +40,19 @@ class EditViewModel: ObservableObject {
         loadThreads()
     }
     
+    func threadRemoval(at picking:Int) {
+        threads.removeValue(forKey: clues[picking])
+        clues.remove(at: picking)
+
+    }
+    
+    func popThread(at picking: Int) {
+        
+        if let thread = threads.removeValue(forKey: clues[picking]) {
+            let key  = clues.remove(at: picking)
+            threadPop = (key,thread)
+        }
+    }
     
     // Push layer 1
     func pressedAct(pickerAt index:Int) {

@@ -47,29 +47,36 @@ struct PieceView: View {
                         }
                         .padding(5)
                     }
-//                    .onLongPressGesture {
-//                        viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
-//                    }
                 }
                 .listRowSeparator(.hidden)
                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
                     Button("Pull") {
                         viewModel.wordsPool.append(word)
                         viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
-                        viewModel.saveAll()
                     }
                     .tint(.yellow)
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button("Pop") {
                         viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
-                        viewModel.saveAll()
                     }
                     .tint(.red)
                 }
             }
             .onMove(perform: move)
         }
+        .onChange(of: viewModel.threads[viewModel.clues[picking]], perform: { newThread in
+            if let thread = newThread {
+                if thread.isEmpty {
+                    viewModel.threadRemoval(at: picking)
+                } else {
+                    print("thread.isnotEmpty")
+                }
+            } else {
+                print(viewModel.threads.keys.description)
+            }
+            viewModel.saveAll()
+        })
         .listStyle(.plain)
 
     }
