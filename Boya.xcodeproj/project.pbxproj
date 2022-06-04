@@ -22,6 +22,7 @@
 		819ACEE62848AA6300E82423 /* ThreadVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819ACEE52848AA6300E82423 /* ThreadVIew.swift */; };
 		819ACEE82848CFAD00E82423 /* BubblesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819ACEE72848CFAD00E82423 /* BubblesView.swift */; };
 		81A80D9028472996004820FA /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A80D8F28472996004820FA /* EditViewModel.swift */; };
+		81B18B02284B52DE00E31AB2 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B18B01284B52DE00E31AB2 /* TestView.swift */; };
 		81BCF3FD2828CDA500D9A377 /* RainBow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCF3FC2828CDA500D9A377 /* RainBow.swift */; };
 		81C09EF6282659860084C859 /* BoyaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EF5282659860084C859 /* BoyaApp.swift */; };
 		81C09EF8282659860084C859 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EF7282659860084C859 /* ContentView.swift */; };
@@ -50,6 +51,7 @@
 		819ACEE52848AA6300E82423 /* ThreadVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadVIew.swift; sourceTree = "<group>"; };
 		819ACEE72848CFAD00E82423 /* BubblesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblesView.swift; sourceTree = "<group>"; };
 		81A80D8F28472996004820FA /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
+		81B18B01284B52DE00E31AB2 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		81BCF3FC2828CDA500D9A377 /* RainBow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainBow.swift; sourceTree = "<group>"; };
 		81C09EF2282659860084C859 /* Boya.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boya.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81C09EF5282659860084C859 /* BoyaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoyaApp.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 		81C09EE9282659860084C859 = {
 			isa = PBXGroup;
 			children = (
+				81B18B01284B52DE00E31AB2 /* TestView.swift */,
 				818A410B2835FEF600902D1C /* LazyGridView.swift */,
 				8176A847282C967D00EFDE40 /* Window.swift */,
 				811C2025282CFB5C000B35CF /* StealWallView.swift */,
@@ -252,6 +255,7 @@
 				8156CE172840644900FB1479 /* GlobalExtension.swift in Sources */,
 				81C962962838C9190078F977 /* HapticManager.swift in Sources */,
 				81C09EFF282659880084C859 /* Persistence.swift in Sources */,
+				81B18B02284B52DE00E31AB2 /* TestView.swift in Sources */,
 				81C09EF8282659860084C859 /* ContentView.swift in Sources */,
 				81C09EF6282659860084C859 /* BoyaApp.swift in Sources */,
 				8152D630283B8DBA00AA8A5C /* AwordView.swift in Sources */,

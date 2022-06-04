@@ -25,7 +25,7 @@ class EditViewModel: ObservableObject {
     
     // layer 2.
     @Published var threads: [String : [Aword]] = [:]
-    @Published var threadPop: (String, [Aword])? = nil
+    @Published var threadsCache:[String : [Aword]] = [:]
     // keys vector for threads
     @Published var clues: [String] = ["Pop","..."]
     
@@ -38,6 +38,11 @@ class EditViewModel: ObservableObject {
     func getData() {
         loadWords()
         loadThreads()
+        loadCacheThreads()
+        
+//        DispatchQueue.global(qos: .background).async {
+//            self.loadCacheThreads()
+//        }
     }
     
     func threadRemoval(at picking:Int) {
@@ -46,11 +51,13 @@ class EditViewModel: ObservableObject {
 
     }
     
-    func popThread(at picking: Int) {
+    func cacheThread(at picking: Int) {
         
         if let thread = threads.removeValue(forKey: clues[picking]) {
             let key  = clues.remove(at: picking)
-            threadPop = (key,thread)
+            threadsCache.updateValue(thread, forKey: key)
+            saveCacheThreads()
+            saveThreads()
         }
     }
     
@@ -143,11 +150,41 @@ class EditViewModel: ObservableObject {
         }
     }
     
+    func loadCacheThreads() {
+        do {
+            let url4threads = try LocalFileManager.fileURL(fileName: EditViewModel.CachedThreadsFile)
+
+            URLSession.shared.dataTaskPublisher(for: url4threads)
+                .receive(on: DispatchQueue.main)
+                .tryMap(handleOutput)
+                .decode(type: [[String : [Aword]]].self, decoder: JSONDecoder())
+                .replaceError(with: [])
+                .sink(receiveValue: { [weak self] returned in
+                    guard let self = self else {return}
+                    if !returned.isEmpty {
+                        self.threadsCache = returned[0]
+                    }
+                })
+                .store(in: &cancellables)
+
+        } catch {
+            print("loadCacheThreads() !!")
+        }
+
+    }
+    
     func savePieces() {
         
         LocalFileManager.save(aCodable: wordsPool, fileName: EditViewModel.fileName4pieces)
         print("save savePieces( ) data")
     }
+    
+    func saveCacheThreads() {
+        
+        LocalFileManager.save(aCodable: [threadsCache], fileName: EditViewModel.CachedThreadsFile)
+        print("save saveCacheThreads( ) data")
+    }
+
     
     //TODO: [threads] not threads! redadent move!
     func saveThreads() {
@@ -156,8 +193,11 @@ class EditViewModel: ObservableObject {
     }
     
     func saveAll() {
-        saveThreads()
+        
         savePieces()
+        
+        saveThreads()
+        
     }
     
     

@@ -7,49 +7,11 @@
 import SwiftUI
 import Combine
 
-class BubblesViewModel:ObservableObject {
-    
-    @Published var threadsCached: [String : [Aword]] = [:]
-    
-    
-    var cancellables = Set<AnyCancellable>()
-    
-    init() {
-        load()
-    }
-    
-    func load() {
-        do {
-            let url4threads = try LocalFileManager.fileURL(fileName: EditViewModel.CachedThreadsFile)
-
-            URLSession.shared.dataTaskPublisher(for: url4threads)
-                .receive(on: DispatchQueue.main)
-                .tryMap(handleOutput)
-                .decode(type: [[String : [Aword]]].self, decoder: JSONDecoder())
-                .replaceError(with: [])
-                .sink(receiveValue: { [weak self] returned in
-                    guard let self = self else {return}
-                    if !returned.isEmpty {
-                        self.threadsCached = returned[0]
-                    }
-                })
-                .store(in: &cancellables)
-
-        } catch {
-            print("BubbleViewModel !! load() !! try LocalFileManager.fileURL()")
-        }
-
-    }
-}
-
 struct BubblesView: View {
     
-    @StateObject private var viewModel = BubblesViewModel()
+    @EnvironmentObject var viewModel: EditViewModel
     
-    #warning("ThreadPop acts in pickView! Go there! this view just read!!")
-    @Binding var threadPair: (String , [Aword])?
-    
-    @State private var threadsVec:[[Aword]] = []
+    @State var threadsVec:[[Aword]] = []
     
     @State private var slider:Double = 0.4
     
@@ -66,6 +28,16 @@ struct BubblesView: View {
         ),
         count: totalColumns
     )
+    
+    func getThreads() {
+        
+        for (_ , thread) in viewModel.threadsCache {
+            
+            threadsVec.append(thread)
+            
+        }
+        
+    }
     
     var body: some View {
         
@@ -114,11 +86,8 @@ struct BubblesView: View {
             }
         }
         .task {
-            for (_ , athread) in viewModel.threadsCached {
-                self.threadsVec.append(athread)
-            }
+            getThreads()
         }
-        
     }
     
     
@@ -294,6 +263,6 @@ struct BubblesView: View {
 
 struct BubblesView_Previews: PreviewProvider {
     static var previews: some View {
-        BubblesView(threadPair: .constant(("sa",[Aword(),])))
+        BubblesView()
     }
 }

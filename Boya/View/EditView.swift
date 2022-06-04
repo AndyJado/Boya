@@ -41,7 +41,10 @@ struct EditView: View {
             
         }
         
-        let yxAction = { viewModel.popThread(at: picking)}
+        let yxAction = {
+            viewModel.cacheThread(at: picking)
+            picking = 0
+        }
         
         NavigationView {
             ZStack {
@@ -83,8 +86,7 @@ struct EditView: View {
                 }
                 
                 NavigationLink("", isActive: $bubblesOn) {
-//                    BubblesView(threads: viewModel.threads)
-                    BubblesView(threads: $viewModel.threadPop)
+                    BubblesView()
                 }
                 
             }
