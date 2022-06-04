@@ -11,7 +11,7 @@ struct BubblesView: View {
     
     @EnvironmentObject var viewModel: EditViewModel
     
-    @State var threadsVec:[[Aword]] = []
+    @State var threadsVec:[(String , [Aword])] = []
     
     @State private var slider:Double = 0.4
     
@@ -31,9 +31,9 @@ struct BubblesView: View {
     
     func getThreads() {
         
-        for (_ , thread) in viewModel.threadsCache {
+        for (k , thread) in viewModel.threadsCache {
             
-            threadsVec.append(thread)
+            threadsVec.append((k , thread))
             
         }
         
@@ -63,7 +63,7 @@ struct BubblesView: View {
                                     
                                     let scale = scale(currentPoint: currentPoint, center: center)
  
-                                    ThreadVIew(thread: threadsVec[value])
+                                    ThreadVIew(thread: threadsVec[value].1)
                                         .scaleEffect(
                                             scale
                                         )
@@ -71,6 +71,10 @@ struct BubblesView: View {
                                             x: offsetX(value),
                                             y: 40 * scale
                                         )
+                                        .onTapGesture {
+                                            viewModel.cacheBack(for: threadsVec[value].0)
+                                            threadsVec.remove(at: value)
+                                        }
                                 }
                                 .frame(
                                     height: Self.size

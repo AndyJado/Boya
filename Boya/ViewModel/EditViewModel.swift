@@ -51,6 +51,15 @@ class EditViewModel: ObservableObject {
 
     }
     
+    func cacheBack(for key: String) {
+        if let thread = threadsCache.removeValue(forKey: key) {
+            threads.updateValue(thread, forKey: key)
+            clues.insert(key, at: 1)
+            saveCacheThreads()
+            saveThreads()
+        }
+    }
+    
     func cacheThread(at picking: Int) {
         
         if let thread = threads.removeValue(forKey: clues[picking]) {

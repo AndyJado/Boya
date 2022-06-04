@@ -43,7 +43,7 @@ struct EditView: View {
         
         let yxAction = {
             viewModel.cacheThread(at: picking)
-            picking = 0
+            picking = 1
         }
         
         NavigationView {
