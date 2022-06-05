@@ -19,6 +19,8 @@ struct EditView: View {
     @State private var pickerOn:Bool = false
     @State private var threadOn:Bool = false
     
+    @State private var clueUpdate: Bool = false
+    
     @State private var bubblesOn:Bool = false
     
     @FocusState private var focuing: Bool
@@ -63,16 +65,28 @@ struct EditView: View {
                             focuing = true
                         }
                     
+//                    Text(viewModel.popword.debugDescription )
+                    
                     if pickerOn {
                         PickView(clues: $viewModel.clues, picking: $picking)
                             .disabled(focuing)
                     } else if !focuing {
+                        
+                        
                         Text(viewModel.clues[picking])
+                            .kerning(clueUpdate ? 15 : 0)
                             .foregroundColor(.secondary)
                             .lineLimit(1)
                             .minimumScaleFactor(0.1)
                             .padding(.horizontal, 40)
                             .frame( height: 20, alignment: .center)
+                            .animation(Animation.interactiveSpring(), value: clueUpdate)
+                            .onChange(of: viewModel.popword) { _ in
+                                clueUpdate.toggle()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    viewModel.popword = nil
+                                }
+                            }
                     } else {
                         EmptyView()
                     }
@@ -102,7 +116,6 @@ struct EditView: View {
                 }
             }
         }
-        .navigationBarHidden(true)
         .environmentObject(viewModel)
     }
     

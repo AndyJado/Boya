@@ -21,7 +21,7 @@ struct PieceView: View {
         List {
             ForEach(0..<words.count, id: \.self) { i in
                 
-                let word = words[i]
+                var word = words[i]
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack {
                         
@@ -51,6 +51,7 @@ struct PieceView: View {
                 .listRowSeparator(.hidden)
                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
                     Button("Pull") {
+                        word.edition += 1
                         viewModel.wordsPool.append(word)
                         viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
                     }

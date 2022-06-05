@@ -18,8 +18,9 @@ struct TypeIn: View {
     
     var yxAction: (() -> Void)
     
-    @State private var typerTitle: String = "↑ ↓ ← →"
-    @State private var onDragging: Bool  = false
+    @State private var typerTitle: String = "↑ ↑ ←"
+//    @State private var onDragging: Bool  = false
+    @GestureState private var onDragging: Bool = false
     
     @State private var offSize: CGSize = CGSize(width: 0, height: 0)
     
@@ -41,9 +42,12 @@ struct TypeIn: View {
             }
         
         let drag = DragGesture()
+            .updating($onDragging) { _, state, _ in
+                state.toggle()
+            }
             .onChanged { val in
                 withAnimation {
-                    onDragging = true
+//                    onDragging = true
                     offSize.height = val.translation.height
                     offSize.width = val.translation.width / 1.2
                 }
@@ -52,12 +56,11 @@ struct TypeIn: View {
                 let h = val.translation.height
                 let w = val.translation.width
                 withAnimation {
-                    onDragging = false
+//                    onDragging = false
                     
                     switch ydragged1 {
                             //1次拉起
                         case true:
-                            
                             if w < -200 {
                                 yxAction()
                             }
@@ -96,7 +99,7 @@ struct TypeIn: View {
                 .brightness(0.3)
                 .padding(10)
                 .padding(.horizontal,20)
-                .shadow(color:onDragging ? .orange : .primary, radius: 3)
+                .shadow(color: .primary, radius: 3)
                 .frame(height: 50)
                 .clipped()
                 .submitLabel(.next)

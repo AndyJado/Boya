@@ -38,11 +38,10 @@ class EditViewModel: ObservableObject {
     func getData() {
         loadWords()
         loadThreads()
-        loadCacheThreads()
-        
-//        DispatchQueue.global(qos: .background).async {
-//            self.loadCacheThreads()
-//        }
+//        loadCacheThreads()
+        DispatchQueue.global(qos: .background).async {
+            self.loadCacheThreads()
+        }
     }
     
     func threadRemoval(at picking:Int) {
@@ -93,7 +92,7 @@ class EditViewModel: ObservableObject {
                 threads[clues[index]]?.append(pop)
                 saveThreads()
         }
-        popword = nil
+//        popword = nil
         savePieces()
     }
     

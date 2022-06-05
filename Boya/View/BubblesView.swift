@@ -64,6 +64,14 @@ struct BubblesView: View {
                                     let scale = scale(currentPoint: currentPoint, center: center)
  
                                     ThreadVIew(thread: threadsVec[value].1)
+                                        .shadow(color: .primary, radius: 2, y: 1)
+                                        .overlay {
+                                            Text(threadsVec[value].0)
+                                                .foregroundColor(.secondary)
+                                                .lineLimit(1)
+                                                .minimumScaleFactor(0.4)
+                                                .frame(width: 30)
+                                        }
                                         .scaleEffect(
                                             scale
                                         )
@@ -71,7 +79,7 @@ struct BubblesView: View {
                                             x: offsetX(value),
                                             y: 40 * scale
                                         )
-                                        .onTapGesture {
+                                        .onTapGesture(count:2) {
                                             viewModel.cacheBack(for: threadsVec[value].0)
                                             threadsVec.remove(at: value)
                                         }
