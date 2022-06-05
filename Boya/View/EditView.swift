@@ -74,13 +74,13 @@ struct EditView: View {
                         
                         
                         Text(viewModel.clues[picking])
-                            .kerning(clueUpdate ? 15 : 0)
+                            .scaleEffect(clueUpdate ? 1.3 : 1)
                             .foregroundColor(.secondary)
                             .lineLimit(1)
                             .minimumScaleFactor(0.1)
                             .padding(.horizontal, 40)
                             .frame( height: 20, alignment: .center)
-                            .animation(Animation.interactiveSpring(), value: clueUpdate)
+                            .animation(Animation.interactiveSpring().speed(0.2), value: clueUpdate)
                             .onChange(of: viewModel.popword) { _ in
                                 clueUpdate.toggle()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
