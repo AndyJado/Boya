@@ -14,7 +14,7 @@ struct EditView: View {
     
     @StateObject private var viewModel:EditViewModel = EditViewModel()
     
-    @State private var picking:Int = 1
+    @State private var picking:Int = 0
     
     @State private var pickerOn:Bool = false
     @State private var threadOn:Bool = false
@@ -25,6 +25,8 @@ struct EditView: View {
     
     @FocusState private var focuing: Bool
     
+    @AppStorage("popSec") var popSec: Int = 0
+    @AppStorage("popEdition") var popEdition: Int = 0
     
     var body: some View {
         
@@ -48,11 +50,15 @@ struct EditView: View {
             picking = 1
         }
         
+        let pinchAction = {
+            print("pinched!")
+        }
+        
         NavigationView {
             ZStack {
                 // 双击退回编辑 (没有保存动作)
                 // 长按进入pop (pop保存)
-                LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: tap2Action , pressAction: pressAction)
+                LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: tap2Action , pressAction: pressAction, pinchAction: pinchAction)
                     .opacity(contentFocus ? 0.35 : 1)
                     .blur(radius: contentFocus ? 1.6 : 0)
                     .disabled(contentFocus)
@@ -68,6 +74,7 @@ struct EditView: View {
                     if pickerOn {
                         PickView(clues: $viewModel.clues, picking: $picking)
                             .disabled(focuing)
+                        
                     } else if !focuing {
                         
                         Text(viewModel.clues[picking])
@@ -78,11 +85,16 @@ struct EditView: View {
                             .padding(.horizontal, 40)
                             .frame( height: 20, alignment: .center)
                             .animation(Animation.interactiveSpring().speed(0.2), value: clueUpdate)
-                            .onChange(of: viewModel.popword) { _ in
+                            .onChange(of: viewModel.popword) { word in
+                                
                                 clueUpdate.toggle()
+                                popSec += word?.secondSpent ?? 0
+                                popEdition += word?.edition ?? 0
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     viewModel.popword = nil
                                 }
+                                
+                                
                             }
                     } else {
                         EmptyView()
@@ -90,14 +102,16 @@ struct EditView: View {
                 }
                 
                 NavigationLink("", isActive: $threadOn) {
-                    PieceView(picking: $picking)
-                        .toolbar {
-                            EditButton()
+                    if picking == viewModel.clues.endIndex - 1 {
+                        BubblesView() {
+                            picking += 1
                         }
-                }
-                
-                NavigationLink("", isActive: $bubblesOn) {
-                    BubblesView()
+                    } else {
+                        PieceView(picking: $picking,popSec: popSec,popEdition: popEdition)
+                            .toolbar {
+                                EditButton()
+                            }
+                    }
                 }
                 
             }
@@ -113,6 +127,12 @@ struct EditView: View {
             }
         }
         .environmentObject(viewModel)
+        .onChange(of: scenePhase) { phase in
+            if phase == .inactive {
+                viewModel.saveCacheThreads()
+                viewModel.saveThreads()
+            }
+        }
     }
     
 }

@@ -13,11 +13,13 @@ struct PieceView: View {
     
     @Binding var picking:Int
     
+    var popSec:Int
+    var popEdition:Int
     
     
     var body: some View {
         
-        let words = viewModel.threads[viewModel.clues[picking]] ?? [Aword(text: "nothing in this thread", secondSpent: 0, edition: 0)]
+        let words = viewModel.threads[viewModel.clues[picking]] ?? [Aword(text: "Total Pops", secondSpent: popSec, edition: popEdition)]
         List {
             ForEach(0..<words.count, id: \.self) { i in
                 
@@ -89,7 +91,7 @@ struct PieceView: View {
 
 struct PieceView_Previews: PreviewProvider {
     static var previews: some View {
-        PieceView(picking: .constant(0))
+        PieceView(picking: .constant(0),popSec: 10,popEdition: 2)
             .environmentObject(EditViewModel())
     }
 }

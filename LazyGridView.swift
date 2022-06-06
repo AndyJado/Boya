@@ -18,6 +18,7 @@ struct LazyGridView: View {
     // external action
     var tap2Action: (() -> Void) = {}
     var pressAction: (() -> Void) = {}
+    var pinchAction: (() -> Void) = {}
     
     // state flag
     @State private var tapped:Bool = false
@@ -62,13 +63,15 @@ struct LazyGridView: View {
                                     }
                                 }
                             
-                            let longPress = LongPressGesture()
+                            let longPress = LongPressGesture(minimumDuration: 0.1)
                                 .onEnded { _ in
                                     pressed.toggle()
                                     // pop at index i!
                                     currentPop = items.popAt(at: i)
                                     pressAction()
                                 }
+                            
+                            
                             
                             Text(items[i].text)
                                 .minimumScaleFactor(0.1)
@@ -83,10 +86,13 @@ struct LazyGridView: View {
                                 .gesture(longPress)
                             
                         }
+
                     }
                     .padding(.bottom,130)
+                    
             }
             .padding(.bottom, 50)
+            
     }
     
 }

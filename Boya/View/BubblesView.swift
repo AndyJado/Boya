@@ -9,6 +9,8 @@ import Combine
 
 struct BubblesView: View {
     
+    var tap2Action: () -> Void = {}
+    
     @EnvironmentObject var viewModel: EditViewModel
     
     @State var threadsVec:[(String , [Aword])] = []
@@ -18,7 +20,7 @@ struct BubblesView: View {
     private static let size: CGFloat = sizeManager.GuaRadius
     private static let spacingBetweenColumns: CGFloat = 8
     private static let spacingBetweenRows: CGFloat = 0
-    private static let totalColumns: Int = 10
+    private static let totalColumns: Int = 7
     
     let gridItems = Array(
         repeating: GridItem(
@@ -30,7 +32,6 @@ struct BubblesView: View {
     )
     
     func getThreads() {
-        
         for (k , thread) in viewModel.threadsCache {
             
             threadsVec.append((k , thread))
@@ -82,6 +83,7 @@ struct BubblesView: View {
                                         .onTapGesture(count:2) {
                                             viewModel.cacheBack(for: threadsVec[value].0)
                                             threadsVec.remove(at: value)
+                                            tap2Action()
                                         }
                                 }
                                 .frame(
@@ -276,5 +278,6 @@ struct BubblesView: View {
 struct BubblesView_Previews: PreviewProvider {
     static var previews: some View {
         BubblesView()
+            .environmentObject(EditViewModel())
     }
 }

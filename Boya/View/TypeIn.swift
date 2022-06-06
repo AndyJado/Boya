@@ -24,7 +24,7 @@ struct TypeIn: View {
     
     @GestureState private var onDragging: Bool = false
     
-    @State private var offSize: CGSize = CGSize(width: 0, height: 0)
+    @State private var offSize: CGSize = .zero
     
     //    #warning("TODO:")
     //    @GestureState private var offSize: CGSize = .zero
@@ -32,9 +32,20 @@ struct TypeIn: View {
     @Environment(\.scenePhase) private var scenePhase
     //    let typerTitle:String = draggedUp ? "↑ ↓ ← → " : "↑"
     
-    
+    func guideLine() -> String {
+        
+        switch ydragged1 {
+            case true:
+                return "↓ ↑ ←"
+            default:
+                return "↑"
+                
+        }
+        
+    }
     
     var body: some View {
+        
         
         let timer = Timer
             .publish(every: 1, on: .current, in: .common)
@@ -99,7 +110,7 @@ struct TypeIn: View {
         VStack(alignment: .center, spacing: 0) {
             
             Spacer()
-            TextField(typerTitle,text: $theWord.text)
+            TextField(guideLine(),text: $theWord.text)
             // PPT
                 .foregroundColor(.primary)
                 .padding(5)

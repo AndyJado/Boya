@@ -54,8 +54,6 @@ class EditViewModel: ObservableObject {
         if let thread = threadsCache.removeValue(forKey: key) {
             threads.updateValue(thread, forKey: key)
             clues.insert(key, at: 1)
-            saveCacheThreads()
-            saveThreads()
         }
     }
     
@@ -64,8 +62,6 @@ class EditViewModel: ObservableObject {
         if let thread = threads.removeValue(forKey: clues[picking]) {
             let key  = clues.remove(at: picking)
             threadsCache.updateValue(thread, forKey: key)
-            saveCacheThreads()
-            saveThreads()
         }
     }
     
