@@ -14,7 +14,7 @@ struct EditView: View {
     
     @StateObject private var viewModel:EditViewModel = EditViewModel()
     
-    @State private var picking:Int = 0
+    @State private var picking:Int = 1
     
     @State private var pickerOn:Bool = false
     @State private var threadOn:Bool = false
@@ -65,13 +65,10 @@ struct EditView: View {
                             focuing = true
                         }
                     
-//                    Text(viewModel.popword.debugDescription )
-                    
                     if pickerOn {
                         PickView(clues: $viewModel.clues, picking: $picking)
                             .disabled(focuing)
                     } else if !focuing {
-                        
                         
                         Text(viewModel.clues[picking])
                             .scaleEffect(clueUpdate ? 1.3 : 1)
@@ -106,7 +103,6 @@ struct EditView: View {
             }
             .onTapGesture {
                 withAnimation {
-//                    focuing.toggle()
                     if contentFocus {
                         focuing = false
                         pickerOn = false

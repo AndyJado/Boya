@@ -19,18 +19,20 @@ struct TypeIn: View {
     var yxAction: (() -> Void)
     
     @State private var typerTitle: String = "↑ ↑ ←"
-//    @State private var onDragging: Bool  = false
+    //    @State private var onDragging: Bool  = false
+    @State private var threadPoping: Bool = false
+    
     @GestureState private var onDragging: Bool = false
     
     @State private var offSize: CGSize = CGSize(width: 0, height: 0)
     
-//    #warning("TODO:")
-//    @GestureState private var offSize: CGSize = .zero
+    //    #warning("TODO:")
+    //    @GestureState private var offSize: CGSize = .zero
     
     @Environment(\.scenePhase) private var scenePhase
     //    let typerTitle:String = draggedUp ? "↑ ↓ ← → " : "↑"
     
-
+    
     
     var body: some View {
         
@@ -41,13 +43,20 @@ struct TypeIn: View {
                 !focuing
             }
         
+        let timerPopThread = Timer
+            .publish(every: 0.5, on: .current, in: .common)
+            .autoconnect()
+            .drop { _ in
+                !threadPoping
+            }
+        
         let drag = DragGesture()
             .updating($onDragging) { _, state, _ in
                 state.toggle()
             }
             .onChanged { val in
                 withAnimation {
-//                    onDragging = true
+                    //                    onDragging = true
                     offSize.height = val.translation.height
                     offSize.width = val.translation.width / 1.2
                 }
@@ -56,7 +65,7 @@ struct TypeIn: View {
                 let h = val.translation.height
                 let w = val.translation.width
                 withAnimation {
-//                    onDragging = false
+                    //                    onDragging = false
                     
                     switch ydragged1 {
                             //1次拉起
@@ -76,7 +85,7 @@ struct TypeIn: View {
                             if w < -200 {
                                 xdragged = true
                             }
-
+                            
                             if h < -400 {
                                 ydragged2 = true
                             } else if h < -150 {
@@ -86,6 +95,7 @@ struct TypeIn: View {
                     offSize = .zero
                 }
             }
+        
         VStack(alignment: .center, spacing: 0) {
             
             Spacer()
@@ -109,6 +119,11 @@ struct TypeIn: View {
                         theWord.secondSpent += 1
                     }
                 })
+                .onReceive(timerPopThread, perform: { _ in
+                    if offSize.width < -200 {
+                        yxAction()
+                    }
+                })
             // Gestures and all
                 .disabled(ydragged1)
                 .offset(offSize)
@@ -119,6 +134,11 @@ struct TypeIn: View {
                         withAnimation {
                             offSize = .zero
                         }
+                    }
+                }
+                .onChange(of: offSize.width) { w in
+                    if w < -200 && ydragged1 {
+                        threadPoping = true
                     }
                 }
         }
