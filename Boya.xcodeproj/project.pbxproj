@@ -26,7 +26,6 @@
 		81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C09F00282659880084C859 /* Boya.xcdatamodeld */; };
 		81EE0FFA284752310040ACF7 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EE0FF9284752310040ACF7 /* Data.swift */; };
 		81EF6598283351B500853AB7 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EF6597283351B500853AB7 /* EditView.swift */; };
-		81F0DE6D284F6F660070D803 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F0DE6C284F6F660070D803 /* Icon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,7 +49,6 @@
 		81C09F01282659880084C859 /* Boya.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Boya.xcdatamodel; sourceTree = "<group>"; };
 		81EE0FF9284752310040ACF7 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		81EF6597283351B500853AB7 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
-		81F0DE6C284F6F660070D803 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +82,6 @@
 		81C09EE9282659860084C859 = {
 			isa = PBXGroup;
 			children = (
-				81F0DE6C284F6F660070D803 /* Icon.swift */,
 				81C09EF4282659860084C859 /* Boya */,
 				81C09EF3282659860084C859 /* Products */,
 			);
@@ -237,7 +234,6 @@
 				81C09EFF282659880084C859 /* Persistence.swift in Sources */,
 				81C09EF8282659860084C859 /* ContentView.swift in Sources */,
 				81C09EF6282659860084C859 /* BoyaApp.swift in Sources */,
-				81F0DE6D284F6F660070D803 /* Icon.swift in Sources */,
 				8152D630283B8DBA00AA8A5C /* AwordView.swift in Sources */,
 				8196978928391F0600CD46D4 /* LocalFileManager.swift in Sources */,
 				81EF6598283351B500853AB7 /* EditView.swift in Sources */,
