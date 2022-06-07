@@ -50,6 +50,10 @@ struct EditView: View {
             picking = 1
         }
         
+        let y0Action = {
+            viewModel.Pool2Thread()
+        }
+        
         let pinchAction = {
             print("pinched!")
         }
@@ -58,18 +62,19 @@ struct EditView: View {
             ZStack {
                 // 双击退回编辑 (没有保存动作)
                 // 长按进入pop (pop保存)
-                LazyGridView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: tap2Action , pressAction: pressAction, pinchAction: pinchAction)
+                WordPoolView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: tap2Action , pressAction: pressAction, pinchAction: pinchAction)
                     .opacity(contentFocus ? 0.35 : 1)
                     .blur(radius: contentFocus ? 1.6 : 0)
                     .disabled(contentFocus)
                 
                 VStack(alignment: .center, spacing: 0) {
-                    TypeIn(theWord: $viewModel.aword, ydragged2: $threadOn, ydragged1: $pickerOn, xdragged: $bubblesOn, focuing: $focuing.wrappedValue, yxAction: yxAction)
+                    TypeIn(theWord: $viewModel.aword, ydragged2: $threadOn, ydragged1: $pickerOn, xdragged: $bubblesOn, focuing: $focuing.wrappedValue, yxAction: yxAction, y0Action: y0Action)
                         .focused($focuing)
                         .onSubmit {
                             viewModel.submitted()
                             focuing = true
                         }
+                        .zIndex(1)
                     
                     if pickerOn {
                         PickView(clues: $viewModel.clues, picking: $picking)

@@ -50,6 +50,19 @@ class EditViewModel: ObservableObject {
 
     }
     
+    func Pool2Thread() {
+        if !wordsPool.isEmpty {
+            let key = wordsPool[0].text
+            threads.updateValue(wordsPool, forKey: key)
+            clues.insert(key, at: 1)
+            wordsPool.removeAll()
+            saveThreads()
+            savePieces()
+        } else {
+            return
+        }
+    }
+    
     func cacheBack(for key: String) {
         if let thread = threadsCache.removeValue(forKey: key) {
             threads.updateValue(thread, forKey: key)

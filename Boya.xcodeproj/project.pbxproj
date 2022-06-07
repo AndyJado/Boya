@@ -8,45 +8,39 @@
 
 /* Begin PBXBuildFile section */
 		81053655282E428700621E6F /* SizeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81053654282E428700621E6F /* SizeManager.swift */; };
-		810ABE08282BA84400F50A8B /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810ABE07282BA84300F50A8B /* ButtonView.swift */; };
 		811421422834F6DF004CBEBD /* TypeIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811421412834F6DF004CBEBD /* TypeIn.swift */; };
-		811C2026282CFB5C000B35CF /* StealWallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C2025282CFB5C000B35CF /* StealWallView.swift */; };
 		8152D630283B8DBA00AA8A5C /* AwordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152D62F283B8DBA00AA8A5C /* AwordView.swift */; };
 		8152D632283CB51E00AA8A5C /* PickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8152D631283CB51E00AA8A5C /* PickView.swift */; };
 		8156CE172840644900FB1479 /* GlobalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8156CE162840644900FB1479 /* GlobalExtension.swift */; };
 		8156CE192840681100FB1479 /* PieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8156CE182840681100FB1479 /* PieceView.swift */; };
-		818A410C2835FEF600902D1C /* LazyGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818A410B2835FEF600902D1C /* LazyGridView.swift */; };
+		818A410C2835FEF600902D1C /* WordPoolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818A410B2835FEF600902D1C /* WordPoolView.swift */; };
 		8196978928391F0600CD46D4 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8196978828391F0600CD46D4 /* LocalFileManager.swift */; };
 		819ACEE62848AA6300E82423 /* ThreadVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819ACEE52848AA6300E82423 /* ThreadVIew.swift */; };
 		819ACEE82848CFAD00E82423 /* BubblesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819ACEE72848CFAD00E82423 /* BubblesView.swift */; };
 		81A80D9028472996004820FA /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A80D8F28472996004820FA /* EditViewModel.swift */; };
-		81B18B02284B52DE00E31AB2 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B18B01284B52DE00E31AB2 /* TestView.swift */; };
 		81C09EF6282659860084C859 /* BoyaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EF5282659860084C859 /* BoyaApp.swift */; };
 		81C09EF8282659860084C859 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EF7282659860084C859 /* ContentView.swift */; };
 		81C09EFA282659880084C859 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81C09EF9282659880084C859 /* Assets.xcassets */; };
 		81C09EFD282659880084C859 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81C09EFC282659880084C859 /* Preview Assets.xcassets */; };
 		81C09EFF282659880084C859 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C09EFE282659880084C859 /* Persistence.swift */; };
 		81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C09F00282659880084C859 /* Boya.xcdatamodeld */; };
-		81C962962838C9190078F977 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C962952838C9190078F977 /* HapticManager.swift */; };
 		81EE0FFA284752310040ACF7 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EE0FF9284752310040ACF7 /* Data.swift */; };
 		81EF6598283351B500853AB7 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EF6597283351B500853AB7 /* EditView.swift */; };
+		81F0DE6D284F6F660070D803 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F0DE6C284F6F660070D803 /* Icon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		81053654282E428700621E6F /* SizeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeManager.swift; sourceTree = "<group>"; };
-		810ABE07282BA84300F50A8B /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		811421412834F6DF004CBEBD /* TypeIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeIn.swift; sourceTree = "<group>"; };
-		811C2025282CFB5C000B35CF /* StealWallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StealWallView.swift; sourceTree = "<group>"; };
 		8152D62F283B8DBA00AA8A5C /* AwordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwordView.swift; sourceTree = "<group>"; };
 		8152D631283CB51E00AA8A5C /* PickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickView.swift; sourceTree = "<group>"; };
 		8156CE162840644900FB1479 /* GlobalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalExtension.swift; sourceTree = "<group>"; };
 		8156CE182840681100FB1479 /* PieceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceView.swift; sourceTree = "<group>"; };
-		818A410B2835FEF600902D1C /* LazyGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyGridView.swift; sourceTree = "<group>"; tabWidth = 4; };
+		818A410B2835FEF600902D1C /* WordPoolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPoolView.swift; sourceTree = "<group>"; tabWidth = 4; };
 		8196978828391F0600CD46D4 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
 		819ACEE52848AA6300E82423 /* ThreadVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadVIew.swift; sourceTree = "<group>"; };
 		819ACEE72848CFAD00E82423 /* BubblesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblesView.swift; sourceTree = "<group>"; };
 		81A80D8F28472996004820FA /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
-		81B18B01284B52DE00E31AB2 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		81C09EF2282659860084C859 /* Boya.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boya.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81C09EF5282659860084C859 /* BoyaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoyaApp.swift; sourceTree = "<group>"; };
 		81C09EF7282659860084C859 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,9 +48,9 @@
 		81C09EFC282659880084C859 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		81C09EFE282659880084C859 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		81C09F01282659880084C859 /* Boya.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Boya.xcdatamodel; sourceTree = "<group>"; };
-		81C962952838C9190078F977 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		81EE0FF9284752310040ACF7 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		81EF6597283351B500853AB7 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		81F0DE6C284F6F660070D803 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +68,6 @@
 			isa = PBXGroup;
 			children = (
 				81053654282E428700621E6F /* SizeManager.swift */,
-				81C962952838C9190078F977 /* HapticManager.swift */,
 				8196978828391F0600CD46D4 /* LocalFileManager.swift */,
 			);
 			path = Utility;
@@ -91,10 +84,7 @@
 		81C09EE9282659860084C859 = {
 			isa = PBXGroup;
 			children = (
-				81B18B01284B52DE00E31AB2 /* TestView.swift */,
-				818A410B2835FEF600902D1C /* LazyGridView.swift */,
-				811C2025282CFB5C000B35CF /* StealWallView.swift */,
-				810ABE07282BA84300F50A8B /* ButtonView.swift */,
+				81F0DE6C284F6F660070D803 /* Icon.swift */,
 				81C09EF4282659860084C859 /* Boya */,
 				81C09EF3282659860084C859 /* Products */,
 			);
@@ -137,6 +127,7 @@
 		81EF6594283350BE00853AB7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				818A410B2835FEF600902D1C /* WordPoolView.swift */,
 				81EF6597283351B500853AB7 /* EditView.swift */,
 				811421412834F6DF004CBEBD /* TypeIn.swift */,
 				8152D62F283B8DBA00AA8A5C /* AwordView.swift */,
@@ -238,23 +229,20 @@
 				811421422834F6DF004CBEBD /* TypeIn.swift in Sources */,
 				81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */,
 				819ACEE82848CFAD00E82423 /* BubblesView.swift in Sources */,
-				818A410C2835FEF600902D1C /* LazyGridView.swift in Sources */,
+				818A410C2835FEF600902D1C /* WordPoolView.swift in Sources */,
 				819ACEE62848AA6300E82423 /* ThreadVIew.swift in Sources */,
 				81053655282E428700621E6F /* SizeManager.swift in Sources */,
-				810ABE08282BA84400F50A8B /* ButtonView.swift in Sources */,
 				81EE0FFA284752310040ACF7 /* Data.swift in Sources */,
 				8156CE172840644900FB1479 /* GlobalExtension.swift in Sources */,
-				81C962962838C9190078F977 /* HapticManager.swift in Sources */,
 				81C09EFF282659880084C859 /* Persistence.swift in Sources */,
-				81B18B02284B52DE00E31AB2 /* TestView.swift in Sources */,
 				81C09EF8282659860084C859 /* ContentView.swift in Sources */,
 				81C09EF6282659860084C859 /* BoyaApp.swift in Sources */,
+				81F0DE6D284F6F660070D803 /* Icon.swift in Sources */,
 				8152D630283B8DBA00AA8A5C /* AwordView.swift in Sources */,
 				8196978928391F0600CD46D4 /* LocalFileManager.swift in Sources */,
 				81EF6598283351B500853AB7 /* EditView.swift in Sources */,
 				81A80D9028472996004820FA /* EditViewModel.swift in Sources */,
 				8152D632283CB51E00AA8A5C /* PickView.swift in Sources */,
-				811C2026282CFB5C000B35CF /* StealWallView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
