@@ -13,13 +13,18 @@ struct PieceView: View {
     
     @Binding var picking:Int
     
-    var popSec:Int
-    var popEdition:Int
+//    var popSec:Int
+//    var popEdition:Int
+    
+    @AppStorage("popSec") var popSec:Int = 0
+    @AppStorage("popEdition") var popEdition:Int = 0
     
     
     var body: some View {
         
-        let words = viewModel.threads[viewModel.clues[picking]] ?? [Aword(text: "Total Pops", secondSpent: popSec, edition: popEdition)]
+        let totalpop = [Aword(text: "Total Pops", secondSpent: popSec, edition: popEdition)]
+        
+        let words = viewModel.threads[viewModel.clues[picking]] ?? totalpop
         List {
             ForEach(0..<words.count, id: \.self) { i in
                 
@@ -53,6 +58,7 @@ struct PieceView: View {
                 .listRowSeparator(.hidden)
                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
                     Button("Pull") {
+                        guard let _ = viewModel.threads[viewModel.clues[picking]] else {return}
                         word.edition += 1
                         viewModel.wordsPool.append(word)
                         viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
