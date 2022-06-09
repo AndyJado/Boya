@@ -38,10 +38,7 @@ class EditViewModel: ObservableObject {
     func getData() {
         loadWords()
         loadThreads()
-//        loadCacheThreads()
-        DispatchQueue.global(qos: .background).async {
-            self.loadCacheThreads()
-        }
+        loadCacheThreads()
     }
     
     func threadRemoval(at picking:Int) {

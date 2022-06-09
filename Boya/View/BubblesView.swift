@@ -15,7 +15,7 @@ struct BubblesView: View {
     
     @State var threadsVec:[(String , [Aword])] = []
     
-    @State private var slider:Double = 0.4
+    @State private var noScroll:Bool = false
     
     private static let size: CGFloat = sizeManager.GuaRadius
     private static let spacingBetweenColumns: CGFloat = 8
@@ -64,7 +64,7 @@ struct BubblesView: View {
                                     
                                     let scale = scale(currentPoint: currentPoint, center: center)
  
-                                    ThreadVIew(thread: threadsVec[value].1)
+                                    BubbleView(thread: threadsVec[value].1)
                                         .shadow(color: .primary, radius: 2, y: 1)
                                         .overlay {
                                             Text(threadsVec[value].0)
@@ -96,6 +96,11 @@ struct BubblesView: View {
                         .padding(.vertical,300)
                         
                     }
+                }
+                .background(Color(noScroll ? .black : .clear))
+                .disabled(noScroll)
+                .onTapGesture {
+                    noScroll.toggle()
                 }
             }
         }

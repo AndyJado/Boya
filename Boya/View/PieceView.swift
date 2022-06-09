@@ -10,11 +10,9 @@ import SwiftUI
 struct PieceView: View {
     
     @EnvironmentObject var viewModel: EditViewModel
+    @Binding var onsheet:Bool
     
-    @Binding var picking:Int
-    
-//    var popSec:Int
-//    var popEdition:Int
+    var picking:Int
     
     @AppStorage("popSec") var popSec:Int = 0
     @AppStorage("popEdition") var popEdition:Int = 0
@@ -22,13 +20,13 @@ struct PieceView: View {
     
     var body: some View {
         
-        let totalpop = [Aword(text: "Total Pops", secondSpent: popSec, edition: popEdition)]
+//        let totalpop = [Aword(text: "Total Pops", secondSpent: popSec, edition: popEdition)]
         
-        let words = viewModel.threads[viewModel.clues[picking]] ?? totalpop
+//        let words = viewModel.threads[viewModel.clues[picking]] ?? totalpop
         List {
-            ForEach(0..<words.count, id: \.self) { i in
+            ForEach(0..<viewModel.threads[viewModel.clues[picking]]!.count, id: \.self) { i in
                 
-                var word = words[i]
+                var word = viewModel.threads[viewModel.clues[picking]]![i]
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack {
                         
@@ -59,37 +57,46 @@ struct PieceView: View {
                 .swipeActions(edge: .leading, allowsFullSwipe: true) {
                     Button("Pull") {
                         guard let _ = viewModel.threads[viewModel.clues[picking]] else {return}
-                        word.edition += 1
-                        viewModel.wordsPool.append(word)
-                        viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
+                        if viewModel.threads[viewModel.clues[picking]]!.count == 1 {
+                            onsheet.toggle()
+                        } else {
+                            word.edition += 1
+                            viewModel.wordsPool.append(word)
+                            viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
+                        }
                     }
                     .tint(.yellow)
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button("Pop") {
-                        viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
+                        if viewModel.threads[viewModel.clues[picking]]!.count == 1 {
+                            onsheet.toggle()
+                        } else {
+                            viewModel.threads[viewModel.clues[picking]]?.remove(at: i)
+                        }
                     }
                     .tint(.red)
                 }
             }
             .onMove(perform: move)
         }
-        .onChange(of: viewModel.threads[viewModel.clues[picking]], perform: { newThread in
-            if let thread = newThread {
-                if thread.isEmpty {
-                    viewModel.threadRemoval(at: picking)
-                } else {
-                    print("thread.isnotEmpty")
-                }
-            } else {
-                print(viewModel.threads.keys.description)
-            }
-            viewModel.saveAll()
-        })
+        .padding(.top,50)
+        //        .onChange(of: viewModel.threads[viewModel.clues[picking]], perform: { newThread in
+        //            if let thread = newThread {
+        //                if thread.isEmpty {
+        //                    viewModel.threadRemoval(at: picking)
+        //                } else {
+        //                    print("thread.isnotEmpty")
+        //                }
+        //            } else {
+        //                print(viewModel.threads.keys.description)
+        //            }
+        //            viewModel.saveAll()
+        //        })
         .listStyle(.plain)
-
+        
     }
-
+    
     func move(indices: IndexSet, newOffset: Int) {
         viewModel.threads[viewModel.clues[picking]]?.move(fromOffsets: indices, toOffset: newOffset)
     }
@@ -97,7 +104,7 @@ struct PieceView: View {
 
 struct PieceView_Previews: PreviewProvider {
     static var previews: some View {
-        PieceView(picking: .constant(0),popSec: 10,popEdition: 2)
+        PieceView(onsheet: .constant(true), picking: 0,popSec: 10,popEdition: 2)
             .environmentObject(EditViewModel())
     }
 }

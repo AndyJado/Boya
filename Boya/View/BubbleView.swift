@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ThreadVIew: View {
+struct BubbleView: View {
     
     var thread:[Aword]
     
@@ -59,6 +59,6 @@ struct ThreadVIew: View {
 
 struct ThreadVIew_Previews: PreviewProvider {
     static var previews: some View {
-        ThreadVIew(thread: TestThread)
+        BubbleView(thread: TestThread)
     }
 }

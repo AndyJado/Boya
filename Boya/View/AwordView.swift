@@ -70,14 +70,39 @@ struct AwordView: View {
 //        let colors = [aveTime2Color, totalTime2Color]
         let colors = aword.Aword2Color()
         
-            RoundedRectangle(cornerRadius: 5, style: .continuous)
-                .fill(
-                    LinearGradient(gradient: Gradient(colors: colors),
-                                   startPoint: .topLeading,
-                                   endPoint: .bottomTrailing)
-                    
-                )
-            .background(.ultraThinMaterial)
+        ZStack{
+            
+            RoundedRectangle(cornerRadius: 0, style: .continuous)
+                    .fill(
+                        LinearGradient(gradient: Gradient(colors: colors),
+                                       startPoint: .topLeading,
+                                       endPoint: .bottomTrailing)
+                        
+                    )
+            
+            HStack(alignment: .top) {
+                Text(aword.text)
+                Spacer()
+                VStack {
+                    Spacer()
+                    Text("total sec:" + aword.secondSpent.description)
+                        .underline()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.1)
+                    Text("edition:" + aword.edition.description)
+                        .underline()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.1)
+                }
+                .opacity(0.4)
+                .frame(width: 30, height: 20, alignment: .trailing)
+                
+            }
+            .padding(5)
+            
+        }
+
+        
     }
     
 }
@@ -85,7 +110,7 @@ struct AwordView: View {
 
 struct AwordView_Previews: PreviewProvider {
     static var previews: some View {
-                AwordView(aword: Aword(text: "“sas”", secondSpent: 130, edition: 4))
+                AwordView(aword: Aword(text: "saakdhfakldhsakldhsalkdhsaldhkjahdsalkdhjahjdsadkhalksdhjjkjasjkasjkasjaksjasjkasjkajsdkjjkkjjjjj", secondSpent: 130, edition: 4))
             .frame(width: 200, height: 50)
     }
 }
