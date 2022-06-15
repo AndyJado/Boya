@@ -14,29 +14,36 @@ struct ThreadView: View {
     var removeClue: () -> Void
     var body: some View {
         if let thread = viewModel.threads[key] {
-            let count = thread.count
-            LazyVStack(alignment: .listRowSeparatorLeading, spacing: 5, pinnedViews: .sectionHeaders){
-                ForEach(0..<count,id:\.self) { i in
-                    AwordView(aword: thread[i])
-                        .frame(width: 350, height: 30, alignment: .topLeading)
-                        .onTapGesture(count: 2) {
-                            let pop: Aword = viewModel.threads[key]!.popAt(at: i)
-                            viewModel.wordsPool.append(pop)
-                            viewModel.savePieces()
-                        }
-                        .onLongPressGesture {
-                            viewModel.threads[key]!.remove(at: i)
-                        }
-                }
-            }
-            .onChange(of: count) { count in
-                if count == 0 {
+            if thread.isEmpty {
+                Button {
                     viewModel.threads.removeValue(forKey: key)
                     removeClue()
+                } label: {
+                    Text("Remove from threads")
+                }
+            } else {
+                let count = thread.count
+                LazyVStack(alignment: .listRowSeparatorLeading, spacing: 5, pinnedViews: .sectionHeaders){
+                    ForEach(0..<count,id:\.self) { i in
+                        AwordView(aword: thread[i])
+                            .frame(width: 350, height: 30, alignment: .topLeading)
+                            .onTapGesture(count: 2) {
+                                let pop: Aword = viewModel.threads[key]!.popAt(at: i)
+                                viewModel.wordsPool.append(pop)
+                            }
+                            .onLongPressGesture {
+    //                            viewModel.threads[key]!.remove(at: i)
+                            }
+                    }
+                }
+                .onChange(of: count) { count in
+                    if count == 0 {
+                        viewModel.threads.removeValue(forKey: key)
+                        removeClue()
+                    }
                 }
             }
-        } else {
-            EmptyView()
+            
         }
     }
 }

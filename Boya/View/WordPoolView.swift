@@ -16,9 +16,9 @@ struct WordPoolView: View {
     @Binding var currentPop: Aword?
     
     // external action
-    var tap2Action: (() -> Void) = {}
-    var pressAction: (() -> Void) = {}
-    var pinchAction: (() -> Void) = {}
+    let tap2Action: (() -> Void)
+    let pressAction: (() -> Void)
+    let pinchAction: (() -> Void)
     
     // state flag
     @State private var tapped:Bool = false
@@ -26,14 +26,14 @@ struct WordPoolView: View {
     @State private var pressed:Bool = false
     
     
-    private let itemSize = CGSize(width: sizeManager.UIsize.width, height: 20)
     private let spacingBetweenRows: CGFloat = 0
-    private let gridItems: [GridItem] = Array(repeating: GridItem(.flexible(minimum: 10, maximum: 1000), spacing: 25, alignment: .topLeading), count: 15)
+    private let gridItems: [GridItem] = Array(repeating: GridItem(.fixed(20), spacing: 25, alignment: .topLeading), count: 15)
     
     var body: some View {
         
         let count = items.count
         let wordFly = Animation.spring()
+        let UIsize:CGSize = UIScreen.main.bounds.size
         
         ScrollView(
             [.vertical,.horizontal],
@@ -72,15 +72,16 @@ struct WordPoolView: View {
                                 }
                             
                             
+                            let attributedString = try! AttributedString(markdown: items[i].text)
                             
-                            Text(items[i].text)
+                            Text(attributedString)
                                 .minimumScaleFactor(0.1)
                                 .lineLimit(1)
                                 .padding(.horizontal)
+                            // TODO: this id is from some kind of customizd view
                                 .id(i)
                                 .Yoffset(at: i, in: count)
-                                .frame(height: 20)
-                                .frame(maxWidth: sizeManager.UIsize.width)
+                                .frame(width:UIsize.width,height: 20,alignment: .topLeading)
                             // gestures
                                 .highPriorityGesture(ExclusiveGesture(tap2, tap1))
                                 .gesture(longPress)
@@ -88,10 +89,10 @@ struct WordPoolView: View {
                         }
 
                     }
-                    .padding(.bottom,130)
+//                    .padding(.bottom,100)
                     
             }
-            .padding(.bottom, 50)
+            .padding(.bottom, 20)
             
     }
     
@@ -100,7 +101,7 @@ struct LazyGridView_Previews: PreviewProvider {
     
     
     static var previews: some View {
-        WordPoolView(items: .constant([Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa")]), currentItem: .constant(Aword()), currentPop: .constant(nil), tap2Action: {}, pressAction: {})
+        WordPoolView(items: .constant([Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa"),Aword(text:"sasa"),Aword(text:"sssasa")]), currentItem: .constant(Aword()), currentPop: .constant(nil), tap2Action: {}, pressAction: {}, pinchAction: {})
     }
 }
 

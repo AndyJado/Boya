@@ -101,7 +101,8 @@ struct AwordView: View {
             .padding(5)
             
         }
-
+        .ignoresSafeArea()
+        
         
     }
     

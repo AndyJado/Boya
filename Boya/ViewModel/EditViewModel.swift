@@ -30,6 +30,8 @@ class EditViewModel: ObservableObject {
     @Published var clues: [String] = ["Pop","..."]
     
     var cancellables = Set<AnyCancellable>()
+    @AppStorage("popSec") var popSec: Int = 0
+    @AppStorage("popEdition") var popEdition: Int = 0
     
     init() {
         getData()
@@ -44,20 +46,40 @@ class EditViewModel: ObservableObject {
     func threadRemoval(at picking:Int) {
         threads.removeValue(forKey: clues[picking])
         clues.remove(at: picking)
-
+        
     }
     
-    func Pool2Thread() {
-        if !wordsPool.isEmpty {
-            let key = wordsPool[0].text
-            threads.updateValue(wordsPool, forKey: key)
-            clues.insert(key, at: 1)
-            wordsPool.removeAll()
-            saveThreads()
-            savePieces()
+    func thread2Pool(clue: String) {
+        // thread not empty
+        if let i = threads[clue]?.first {
+            wordsPool.insert(i, at: 0)
+            threads[clue]?.remove(at: 0)
         } else {
             return
         }
+    }
+    
+    func Pool2Thread(clue: String) {
+        // Pool not empty
+        guard let cover = wordsPool.last?.text else {return}
+        // current clue
+        switch clue {
+        // new clue
+        case "..." :
+            threads.updateValue(wordsPool, forKey: cover)
+            clues.insert(cover, at: 1)
+        // suck poping life
+        case "Pop" :
+            for word in wordsPool {
+                popSec += word.secondSpent
+                popEdition += word.edition
+            }
+        // append to exsisting clue
+        default:
+            threads[clue]?.append(contentsOf: wordsPool)
+        }
+        // Poolremove
+        wordsPool.removeAll()
     }
     
     func cacheBack(for key: String) {
@@ -86,19 +108,19 @@ class EditViewModel: ObservableObject {
         
         // ... for a new thread, 0 for pop
         switch index {
-            case endIndex:
-                clues.insert(text, at: 1)
-                threads[text] = [pop]
-                saveThreads()
+        case endIndex:
+            clues.insert(text, at: 1)
+            threads[text] = [pop]
+            saveThreads()
             
-            case 0:
-                break
-                
-            default:
-                threads[clues[index]]?.append(pop)
-                saveThreads()
+        case 0:
+            break
+            
+        default:
+            threads[clues[index]]?.append(pop)
+            saveThreads()
         }
-//        popword = nil
+        //        popword = nil
         savePieces()
     }
     
@@ -157,7 +179,7 @@ class EditViewModel: ObservableObject {
                     self?.wordsPool = returnedPieces
                 })
                 .store(in: &cancellables)
-
+            
             
         } catch {
             print("try LocalFileManager.fileURL()")
@@ -167,7 +189,7 @@ class EditViewModel: ObservableObject {
     func loadCacheThreads() {
         do {
             let url4threads = try LocalFileManager.fileURL(fileName: EditViewModel.CachedThreadsFile)
-
+            
             URLSession.shared.dataTaskPublisher(for: url4threads)
                 .receive(on: DispatchQueue.main)
                 .tryMap(handleOutput)
@@ -180,11 +202,11 @@ class EditViewModel: ObservableObject {
                     }
                 })
                 .store(in: &cancellables)
-
+            
         } catch {
             print("loadCacheThreads() !!")
         }
-
+        
     }
     
     func savePieces() {
@@ -198,7 +220,7 @@ class EditViewModel: ObservableObject {
         LocalFileManager.save(aCodable: [threadsCache], fileName: EditViewModel.CachedThreadsFile)
         print("save saveCacheThreads( ) data")
     }
-
+    
     
     //TODO: [threads] not threads! redadent move!
     func saveThreads() {
@@ -212,6 +234,7 @@ class EditViewModel: ObservableObject {
         
         saveThreads()
         
+        saveCacheThreads()
     }
     
     

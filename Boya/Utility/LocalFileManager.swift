@@ -32,6 +32,7 @@ class LocalFileManager {
         }
     }
     
+    
     static func deleteFile(fileName:String) {
         DispatchQueue.global(qos: .background).async {
             do {

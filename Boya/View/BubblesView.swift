@@ -17,7 +17,7 @@ struct BubblesView: View {
     
     @State private var noScroll:Bool = false
     
-    private static let size: CGFloat = sizeManager.GuaRadius
+    private static let size: CGFloat = 40
     private static let spacingBetweenColumns: CGFloat = 8
     private static let spacingBetweenRows: CGFloat = 0
     private static let totalColumns: Int = 7
