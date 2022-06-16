@@ -111,17 +111,14 @@ class EditViewModel: ObservableObject {
         case endIndex:
             clues.insert(text, at: 1)
             threads[text] = [pop]
-            saveThreads()
             
         case 0:
             break
             
         default:
             threads[clues[index]]?.append(pop)
-            saveThreads()
         }
         //        popword = nil
-        savePieces()
     }
     
     func submitted() {
@@ -134,7 +131,6 @@ class EditViewModel: ObservableObject {
             withAnimation {
                 wordsPool.append(aword)
             }
-            savePieces()
             aword = Aword()
         }
         

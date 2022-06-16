@@ -117,10 +117,14 @@ struct EditView: View {
             }
             .ignoresSafeArea()
         }
+        .onAppear {
+            picking = viewModel.clues.count - 1
+        }
         .sheet(isPresented: $threadOn, content: {
             switch clue {
             case "...":
                 BubblesView() {
+                    // when pull a bubble
                     picking += 1
                 }
                 .presentationDetents([.large])
@@ -136,6 +140,9 @@ struct EditView: View {
                     viewModel.clues.remove(at: picking)
                     threadOn = false
                 }
+                .presentationDetents([.height(200),.medium,.large])
+                .presentationDragIndicator(.visible)
+
             }
         })
         .environmentObject(viewModel)

@@ -11,7 +11,7 @@ struct ThreadView: View {
     @EnvironmentObject var viewModel: EditViewModel
     
     var key: String
-    var removeClue: () -> Void
+    let removeClue: () -> Void
     var body: some View {
         if let thread = viewModel.threads[key] {
             if thread.isEmpty {
@@ -34,12 +34,6 @@ struct ThreadView: View {
                             .onLongPressGesture {
     //                            viewModel.threads[key]!.remove(at: i)
                             }
-                    }
-                }
-                .onChange(of: count) { count in
-                    if count == 0 {
-                        viewModel.threads.removeValue(forKey: key)
-                        removeClue()
                     }
                 }
             }
