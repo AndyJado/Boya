@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import Combine
+import os.log
 
-class EditViewModel: ObservableObject {
+final class EditViewModel: ObservableObject {
     
     //TODO: pieces for words actually
     static let fileName4pieces = "pieces"
@@ -29,19 +29,32 @@ class EditViewModel: ObservableObject {
     // keys vector for threads
     @Published var clues: [String] = ["Pop","..."]
     
-    var cancellables = Set<AnyCancellable>()
     @AppStorage("popSec") var popSec: Int = 0
     @AppStorage("popEdition") var popEdition: Int = 0
     
     init() {
-        getData()
+        loadData()
     }
     
-    func getData() {
-        loadWords()
-        loadThreads()
-        loadCacheThreads()
+//    func getData() async {
+//        await loadWords()
+//        await asyncLoadThreads()
+//        await loadCacheThreads()
+//    }
+    
+    func loadData() {
+        
+        Task {
+            await loadWords()
+        }
+        Task {
+            await asyncLoadThreads()
+        }
+        Task {
+            await loadCacheThreads()
+        }
     }
+    
     
     func threadRemoval(at picking:Int) {
         threads.removeValue(forKey: clues[picking])
@@ -136,92 +149,88 @@ class EditViewModel: ObservableObject {
         
     }
     
-    func loadThreads() {
-        
+    func asyncLoadThreads() async {
         do {
             let url4threads = try LocalFileManager.fileURL(fileName: EditViewModel.fileName4threads)
+            let (data, _) = try await URLSession.shared.data(from: url4threads)
+            let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
             
-            URLSession.shared.dataTaskPublisher(for: url4threads)
-                .receive(on: DispatchQueue.main)
-                .tryMap(handleOutput)
-                .decode(type: [[String : [Aword]]].self, decoder: JSONDecoder())
-                .replaceError(with: [])
-                .sink(receiveValue: { [weak self] returned in
-                    guard let self = self else {return}
-                    if !returned.isEmpty {
-                        self.threads = returned[0]
-                        let keys = self.threads.keys
-                        self.clues.insert(contentsOf: keys , at: 1)
-                    }
-                })
-                .store(in: &cancellables)
-            
-        } catch {
-            print("try LocalFileManager.fileURL()")
+            Task { @MainActor [weak self] in
+                guard let self = self else {return}
+                if !returned.isEmpty {
+                    self.threads = returned[0]
+                    let keys = self.threads.keys
+                    self.clues.insert(contentsOf: keys , at: 1)
+                }
+            }
+                
+        }catch {
+            logger.error("asyncLoadThreads!")
         }
     }
     
-    
-    func loadWords() {
+    func loadWords() async {
         do {
             let url4pieces = try LocalFileManager.fileURL(fileName: EditViewModel.fileName4pieces)
+            let (data, _) = try await URLSession.shared.data(from: url4pieces)
+            let returned = try JSONDecoder().decode([Aword].self, from: data)
             
-            URLSession.shared.dataTaskPublisher(for: url4pieces)
-                .receive(on: DispatchQueue.main)
-                .tryMap(handleOutput)
-                .decode(type: [Aword].self, decoder: JSONDecoder())
-                .replaceError(with: [])
-                .sink(receiveValue: { [weak self] returnedPieces in
-                    self?.wordsPool = returnedPieces
-                })
-                .store(in: &cancellables)
-            
+            Task { @MainActor [weak self] in
+                guard let self = self else {return}
+                if !returned.isEmpty {
+                    self.wordsPool = returned
+                }
+            }
             
         } catch {
-            print("try LocalFileManager.fileURL()")
+            logger.error("try LocalFileManager.fileURL()")
         }
     }
     
-    func loadCacheThreads() {
+    func loadCacheThreads() async {
+        
         do {
-            let url4threads = try LocalFileManager.fileURL(fileName: EditViewModel.CachedThreadsFile)
+            let url4threads = try LocalFileManager.fileURL(fileName: WordsForm.cacheThreads.fileName())
+            let (data, _) = try await URLSession.shared.data(from: url4threads)
+            let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
             
-            URLSession.shared.dataTaskPublisher(for: url4threads)
-                .receive(on: DispatchQueue.main)
-                .tryMap(handleOutput)
-                .decode(type: [[String : [Aword]]].self, decoder: JSONDecoder())
-                .replaceError(with: [])
-                .sink(receiveValue: { [weak self] returned in
-                    guard let self = self else {return}
-                    if !returned.isEmpty {
-                        self.threadsCache = returned[0]
-                    }
-                })
-                .store(in: &cancellables)
+            Task { @MainActor [weak self] in
+                guard let self = self else {return}
+                if !returned.isEmpty {
+                    self.threadsCache = returned[0]
+                }
+            }
             
         } catch {
-            print("loadCacheThreads() !!")
+            logger.error("loadCacheThreads()")
         }
         
     }
     
     func savePieces() {
         
+//        guard !wordsPool.isEmpty else {return}
+        
         LocalFileManager.save(aCodable: wordsPool, fileName: EditViewModel.fileName4pieces)
-        print("save savePieces( ) data")
+        logger.debug("save savePieces( ) data")
     }
     
     func saveCacheThreads() {
         
+//        guard !threadsCache.isEmpty else {return}
+        
         LocalFileManager.save(aCodable: [threadsCache], fileName: EditViewModel.CachedThreadsFile)
-        print("save saveCacheThreads( ) data")
+        logger.debug("save saveCacheThreads( ) data")
     }
     
     
     //TODO: [threads] not threads! redadent move!
     func saveThreads() {
+        
+//        guard !threads.isEmpty else {return}
+        
         LocalFileManager.save(aCodable: [threads], fileName: EditViewModel.fileName4threads)
-        print("saveThreads()")
+        logger.debug("saveThreads()")
     }
     
     func saveAll() {
@@ -235,3 +244,5 @@ class EditViewModel: ObservableObject {
     
     
 }
+
+fileprivate let logger = Logger.init(subsystem: "com.andyjao.Boya", category: "Layer.WordPool")

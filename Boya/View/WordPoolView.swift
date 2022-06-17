@@ -16,9 +16,9 @@ struct WordPoolView: View {
     @Binding var currentPop: Aword?
     
     // external action
-    let tap2Action: (() -> Void)
-    let pressAction: (() -> Void)
-    let pinchAction: (() -> Void)
+    let tap2Action: () -> Void
+    let pressAction: () -> Void
+    let pinchAction: () -> Void
     
     // state flag
     @State private var tapped:Bool = false

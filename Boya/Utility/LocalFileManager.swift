@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class LocalFileManager {
+actor LocalFileManager {
     
     
     static func fileURL(fileName:String) throws -> URL {

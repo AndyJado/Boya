@@ -16,3 +16,23 @@ struct Aword:Hashable, Codable {
 }
 
 let TestThread:[Aword] = [Aword(text: "a", secondSpent: 90, edition: 4), Aword(text: "asasa", secondSpent: 30, edition: 2),Aword(text: "a", secondSpent: 90, edition: 4), Aword(text: "asasa", secondSpent: 30, edition: 2),Aword(text: "a", secondSpent: 90, edition: 4), Aword(text: "asasa", secondSpent: 30, edition: 2),Aword(text: "a", secondSpent: 90, edition: 4), Aword(text: "asasa", secondSpent: 30, edition: 2)]
+
+enum WordsForm {
+    
+    case words
+    case threads
+    case cacheThreads
+    
+    func fileName() -> String {
+        switch self {
+        case .words:
+            return "pieces"
+        case .threads:
+            return "threads"
+        case .cacheThreads:
+            return "threadsCached"
+        }
+    }
+    
+}
+

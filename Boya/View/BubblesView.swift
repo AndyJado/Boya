@@ -9,7 +9,7 @@ import Combine
 
 struct BubblesView: View {
     
-    var tap2Action: () -> Void = {}
+    let tap2Action: () -> Void
     
     @EnvironmentObject var viewModel: EditViewModel
     
@@ -86,9 +86,7 @@ struct BubblesView: View {
                                             tap2Action()
                                         }
                                 }
-                                .frame(
-                                    height: Self.size
-                                )
+                                .frame( height: Self.size )
                                 
                             }
                         }
@@ -97,9 +95,9 @@ struct BubblesView: View {
                         
                     }
                 }
-                .background(Color(noScroll ? .black : .clear))
+                .background(Color(noScroll ? .gray : .clear))
                 .disabled(noScroll)
-                .onTapGesture {
+                .onLongPressGesture {
                     noScroll.toggle()
                 }
             }
@@ -282,7 +280,7 @@ struct BubblesView: View {
 
 struct BubblesView_Previews: PreviewProvider {
     static var previews: some View {
-        BubblesView()
+        BubblesView(tap2Action: {})
             .environmentObject(EditViewModel())
     }
 }
