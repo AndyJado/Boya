@@ -17,3 +17,7 @@ struct Aword:Hashable, Codable {
 }
 ```
 And all functionality along is there to make the citizen well accommodated.
+
+#⬇️DOWNLOAD HERE⬇️这里下载#
+
+https://testflight.apple.com/join/HIa0BznA
