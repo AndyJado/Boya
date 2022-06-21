@@ -41,8 +41,8 @@ struct EditView: View {
         let contentFocus:Bool = focuing || pickerOn
         
         let tap2Action = {
-            Task { await viewModel.timingAcotr.onFocus() }
-                focuing = true
+            Task { await viewModel.timeAcotr.onFocus() }
+                focuing.toggle()
         }
         
         let pressAction = {
@@ -87,7 +87,7 @@ struct EditView: View {
                         viewModel.submitted()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                             Task {
-                                await viewModel.timingAcotr.onFocus()
+                                await viewModel.timeAcotr.onFocus()
                                 focuing = true
                             }
                             
@@ -175,11 +175,13 @@ struct EditView: View {
                 guard !pickerOn else {return pickerOn.toggle()}
                 switch focuing {
                 case false:
-                    Task{ await viewModel.timingAcotr.onFocus() }
-                    focuing.toggle()
+                    Task{ await viewModel.timeAcotr.onFocus()
+                        focuing.toggle()
+                    }
                 case true:
-                    Task { await viewModel.timingAcotr.endFocus() }
-                    focuing.toggle()
+                    Task { await viewModel.timeAcotr.endFocus()
+                        focuing.toggle()
+                    }
                 }
             }
         }

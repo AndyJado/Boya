@@ -10,12 +10,7 @@ import os.log
 
 final class EditViewModel: ObservableObject {
     
-    //TODO: pieces for words actually
-    static let fileName4pieces = "pieces"
-    static let fileName4threads = "threads"
-    static let CachedThreadsFile = "threadsCached"
-    
-    let timingAcotr = TimeStampAcotr()
+    let timeAcotr = TimingManager()
     
     //commit & push words
     @Published var aword = Aword()
@@ -40,10 +35,10 @@ final class EditViewModel: ObservableObject {
     }
     
     func loadData() {
-        Task { await loadWords() }
-        Task { await asyncLoadThreads() }
-        Task { await loadCacheThreads() }
-        isloaded = true
+            Task { await loadWords() }
+            Task { await asyncLoadThreads() }
+            Task { await loadCacheThreads() }
+            isloaded = true
         logger.debug("isloaded: \(self.isloaded)")
     }
 
@@ -136,15 +131,15 @@ final class EditViewModel: ObservableObject {
     func submitted() {
         
         Task {
-            await timingAcotr.endFocus()
+            await timeAcotr.endFocus()
             if aword.text == "" {
-                Task {await timingAcotr.clearStacks()}
+                Task {await timeAcotr.clearStacks()}
                 Task {@MainActor in
                     aword = Aword()
                 }
             } else {
                 Task {@MainActor in
-                    aword.secondSpent += await timingAcotr.timeReduce()
+                    aword.secondSpent += await timeAcotr.timeReduce()
                     withAnimation {
                         wordsPool.append(aword)
                     }
@@ -158,7 +153,7 @@ final class EditViewModel: ObservableObject {
     
     func asyncLoadThreads() async {
         do {
-            let url4threads = try LocalFileManager.fileURL(fileName: EditViewModel.fileName4threads)
+            let url4threads = try LocalFileManager.fileURL(fileName: WordsForm.threads.fileName)
             let (data, _) = try await URLSession.shared.data(from: url4threads)
             let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
             
@@ -177,7 +172,7 @@ final class EditViewModel: ObservableObject {
     
     func loadWords() async {
         do {
-            let url4pieces = try LocalFileManager.fileURL(fileName: EditViewModel.fileName4pieces)
+            let url4pieces = try LocalFileManager.fileURL(fileName: WordsForm.words.fileName)
             let (data, _) = try await URLSession.shared.data(from: url4pieces)
             let returned = try JSONDecoder().decode([Aword].self, from: data)
             
@@ -195,7 +190,7 @@ final class EditViewModel: ObservableObject {
     func loadCacheThreads() async {
         
         do {
-            let url4threads = try LocalFileManager.fileURL(fileName: WordsForm.cacheThreads.fileName())
+            let url4threads = try LocalFileManager.fileURL(fileName: WordsForm.cacheThreads.fileName)
             let (data, _) = try await URLSession.shared.data(from: url4threads)
             let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
             
@@ -215,15 +210,15 @@ final class EditViewModel: ObservableObject {
         
         //        guard !wordsPool.isEmpty else {return}
         
-        LocalFileManager.save(aCodable: wordsPool, fileName: EditViewModel.fileName4pieces)
-        logger.debug("save savePieces( ) data")
+        LocalFileManager.save(aCodable: wordsPool, fileName: WordsForm.words.fileName)
+        logger.debug("save saveWords( ) data")
     }
     
     func saveCacheThreads() async{
         
         //        guard !threadsCache.isEmpty else {return}
         
-        LocalFileManager.save(aCodable: [threadsCache], fileName: EditViewModel.CachedThreadsFile)
+        LocalFileManager.save(aCodable: [threadsCache], fileName: WordsForm.cacheThreads.fileName)
         logger.debug("save saveCacheThreads( ) data")
     }
     
@@ -233,7 +228,7 @@ final class EditViewModel: ObservableObject {
         
         //        guard !threads.isEmpty else {return}
         
-        LocalFileManager.save(aCodable: [threads], fileName: EditViewModel.fileName4threads)
+        LocalFileManager.save(aCodable: [threads], fileName: WordsForm.threads.fileName)
         logger.debug("saveThreads()")
     }
     

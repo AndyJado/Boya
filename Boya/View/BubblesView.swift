@@ -91,7 +91,7 @@ struct BubblesView: View {
                             }
                         }
                         .padding(.horizontal,80)
-                        .padding(.vertical,300)
+                        .padding(.vertical,400)
                         
                     }
                 }

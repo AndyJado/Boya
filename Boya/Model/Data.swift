@@ -21,10 +21,11 @@ enum WordsForm {
     case threads
     case cacheThreads
     
-    func fileName() -> String {
+    
+    var fileName: String {
         switch self {
         case .words:
-            return "pieces"
+            return "words"
         case .threads:
             return "threads"
         case .cacheThreads:
@@ -34,7 +35,7 @@ enum WordsForm {
     
 }
 
-enum Clues {
+enum Clue {
     case ddDot
     case Pop
     case clue(i:Int)

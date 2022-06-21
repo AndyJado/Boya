@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-actor TimeStampAcotr {
+actor TimingManager {
     
     private var startStack = [Date]()
     private var endStack = [Date]()
