@@ -32,6 +32,8 @@ final class EditViewModel: ObservableObject {
     @AppStorage("popSec") var popSec: Int = 0
     @AppStorage("popEdition") var popEdition: Int = 0
     
+    private var isloaded = false
+    
     init() {
         loadData()
     }
@@ -40,6 +42,8 @@ final class EditViewModel: ObservableObject {
         Task { await loadWords() }
         Task { await asyncLoadThreads() }
         Task { await loadCacheThreads() }
+        isloaded = true
+        logger.debug("isloaded: \(self.isloaded)")
     }
     
     
@@ -220,15 +224,10 @@ final class EditViewModel: ObservableObject {
     }
     
     func saveAll() {
-        Task{
-            await savePieces()
-        }
-        Task{
-            await saveThreads()
-        }
-        Task{
-            await saveCacheThreads()
-        }
+        guard isloaded else {return}
+        Task{ await savePieces() }
+        Task{ await saveThreads() }
+        Task{ await saveCacheThreads() }
     }
     
 }
