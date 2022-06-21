@@ -15,6 +15,7 @@ final class EditViewModel: ObservableObject {
     static let fileName4threads = "threads"
     static let CachedThreadsFile = "threadsCached"
     
+    let timingAcotr = TimeStampAcotr()
     
     //commit & push words
     @Published var aword = Aword()
@@ -45,24 +46,27 @@ final class EditViewModel: ObservableObject {
         isloaded = true
         logger.debug("isloaded: \(self.isloaded)")
     }
+
     
-    
-    func threadRemoval(at picking:Int) {
-        threads.removeValue(forKey: clues[picking])
-        clues.remove(at: picking)
-        
-    }
-    
-    func thread2Pool(clue: String) {
-        // thread not empty
-        if let i = threads[clue]?.first {
-            wordsPool.insert(i, at: 0)
-            threads[clue]?.remove(at: 0)
-        } else if clue == "..." {
+    func thread2Pool(_ picking: inout Int) {
+        let clue = clues[picking]
+        switch clue {
+        case "Pop":
+            picking += 1
+        case "...":
             if let freshCahe = threadsCache.keys.first {
                 cacheBack(for: freshCahe )
             }
+        default:
+            if let word = threads[clue]?.first {
+                wordsPool.insert(word, at: 0)
+                threads[clue]?.remove(at: 0)
+            } else {
+                threads.removeValue(forKey: clue)
+                clues.remove(at: picking)
+            }
         }
+        
     }
     
     func Pool2Thread(clue: String) {
@@ -131,14 +135,24 @@ final class EditViewModel: ObservableObject {
     
     func submitted() {
         
-        if aword.text == "" {
-            aword = Aword()
-        } else {
-            withAnimation {
-                wordsPool.append(aword)
+        Task {
+            await timingAcotr.endFocus()
+            if aword.text == "" {
+                Task {await timingAcotr.clearStacks()}
+                Task {@MainActor in
+                    aword = Aword()
+                }
+            } else {
+                Task {@MainActor in
+                    aword.secondSpent += await timingAcotr.timeReduce()
+                    withAnimation {
+                        wordsPool.append(aword)
+                    }
+                    aword = Aword()
+                }
             }
-            aword = Aword()
         }
+        
         
     }
     

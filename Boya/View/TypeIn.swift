@@ -32,9 +32,6 @@ struct TypeIn: View {
     let pushPool: () -> Void
     let dropThread: () -> Void
     
-    let timer = Timer.publish(every: 1, tolerance: 1, on: .current, in: .common)
-        .autoconnect()
-    
     @State private var threadDroping: Bool = false
     @State private var poolPoping: Bool = false
     @State private var threadPoping: Bool = false
@@ -46,15 +43,7 @@ struct TypeIn: View {
     @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
-        
-        
-//        let timerWord = Timer
-//            .publish(every: 1, on: .current, in: .common)
-//            .autoconnect()
-//            .drop { _ in
-//                !focuing
-//            }
-        
+
         let timerPushThread = Timer
             .publish(every: 0.5, on: .current, in: .common)
             .autoconnect()
@@ -137,18 +126,12 @@ struct TypeIn: View {
                             }
                             
                         }
-                    }
-                }
-                
-                Task {
-                    withAnimation {
                         offSize = .zero
                     }
                 }
             }
         
         VStack(alignment: .center, spacing: 0) {
-            
             Spacer()
             TextField(typerTitle.rawValue,text: $theWord.text)
             // PPT
@@ -186,11 +169,6 @@ struct TypeIn: View {
                 .onChange(of: focuing) { bool in
                     typerTitle = bool ? .focusing : .x0y0
                 }
-        }
-        .onReceive(timer) { _ in
-            if focuing {
-                self.theWord.secondSpent += 1
-            }
         }
     }
 }

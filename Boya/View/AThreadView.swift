@@ -10,12 +10,16 @@ import SwiftUI
 struct ThreadView: View {
     @EnvironmentObject var viewModel: EditViewModel
     
+    @Binding var sheetOn:Bool
     var key: String
     let removeClue: () -> Void
     var body: some View {
         if let thread = viewModel.threads[key] {
             if thread.isEmpty {
                 Button {
+                    withAnimation {
+                        sheetOn.toggle()
+                    }
                     viewModel.threads.removeValue(forKey: key)
                     removeClue()
                 } label: {
@@ -44,7 +48,7 @@ struct ThreadView: View {
 
 struct ThreadView_Previews: PreviewProvider {
     static var previews: some View {
-        ThreadView(key: "sa", removeClue: {})
+        ThreadView(sheetOn: .constant(true), key: "sa", removeClue: {})
             .environmentObject(EditViewModel())
     }
 }

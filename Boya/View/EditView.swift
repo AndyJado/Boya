@@ -40,7 +40,10 @@ struct EditView: View {
         
         let contentFocus:Bool = focuing || pickerOn
         
-        let tap2Action = {focuing.toggle()}
+        let tap2Action = {
+            Task { await viewModel.timingAcotr.onFocus() }
+                focuing = true
+        }
         
         let pressAction = {
             viewModel.pressedAct(pickerAt: picking)
@@ -62,14 +65,14 @@ struct EditView: View {
             }
         }
         
-        let pinchAction = {
-            print("pinched!")
+        let dropPool = {
+            viewModel.thread2Pool(&picking)
         }
         
         ZStack {
             // 双击退回编辑 (没有保存动作)
             // 长按进入pop (pop保存)
-            WordPoolView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: tap2Action , pressAction: pressAction, pinchAction: pinchAction)
+            WordPoolView(items: $viewModel.wordsPool, currentItem: $viewModel.aword, currentPop: $viewModel.popword, tap2Action: tap2Action , pressAction: pressAction, pinchAction: {})
                 .opacity(contentFocus ? 0.35 : 1)
                 .blur(radius: contentFocus ? 1.6 : 0)
                 .disabled(contentFocus)
@@ -77,13 +80,17 @@ struct EditView: View {
             
             VStack(alignment: .center, spacing: 0) {
                 
-                TypeIn(theWord: $viewModel.aword, dragUp2: $threadOn, dragUp1: $pickerOn, dragLeft: $bubblesOn, focuing: $focuing.wrappedValue, pushThread: cacheThread, pushPool: pushPool, dropThread: {viewModel.thread2Pool(clue: clue)})
+                TypeIn(theWord: $viewModel.aword, dragUp2: $threadOn, dragUp1: $pickerOn, dragLeft: $bubblesOn, focuing: $focuing.wrappedValue, pushThread: cacheThread, pushPool: pushPool, dropThread: dropPool)
                     .offset(y: typerOffset)
                     .focused($focuing)
                     .onSubmit {
                         viewModel.submitted()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            focuing = true
+                            Task {
+                                await viewModel.timingAcotr.onFocus()
+                                focuing = true
+                            }
+                            
                         }
                     }
                     .zIndex(1)
@@ -135,7 +142,7 @@ struct EditView: View {
                 Button("bob") {
                     return
                 }
-
+                
             }
         }
         .sheet(isPresented: $threadOn, content: {
@@ -154,22 +161,24 @@ struct EditView: View {
                     .presentationDetents([.height(200)])
                     .presentationDragIndicator(.visible)
             default:
-                ThreadView(key: clue) {
+                ThreadView(sheetOn: $threadOn, key: clue) {
                     viewModel.clues.remove(at: picking)
-                    threadOn = false
                 }
-                .presentationDetents([.height(200),.medium,.large])
+                .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
-
+                
             }
         })
         .environmentObject(viewModel)
         .onTapGesture {
             withAnimation {
-                if contentFocus {
-                    focuing = false
-                    pickerOn = false
-                } else {
+                guard !pickerOn else {return pickerOn.toggle()}
+                switch focuing {
+                case false:
+                    Task{ await viewModel.timingAcotr.onFocus() }
+                    focuing.toggle()
+                case true:
+                    Task { await viewModel.timingAcotr.endFocus() }
                     focuing.toggle()
                 }
             }
@@ -179,13 +188,12 @@ struct EditView: View {
                 viewModel.saveAll()
             }
         }
-        .onChange(of: focuing) { _ in
+        .onChange(of: focuing) { focuing in
             if focuing {
                 typerOffset = -340
             } else {
                 typerOffset = 0
             }
-                
         }
     }
     
