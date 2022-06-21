@@ -25,6 +25,7 @@
 		81C09F02282659880084C859 /* Boya.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C09F00282659880084C859 /* Boya.xcdatamodeld */; };
 		81EE0FFA284752310040ACF7 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EE0FF9284752310040ACF7 /* Data.swift */; };
 		81EF6598283351B500853AB7 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EF6597283351B500853AB7 /* EditView.swift */; };
+		81F55C47286164ED00C6FC63 /* TimingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F55C46286164ED00C6FC63 /* TimingManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		81C09F01282659880084C859 /* Boya.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Boya.xcdatamodel; sourceTree = "<group>"; };
 		81EE0FF9284752310040ACF7 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		81EF6597283351B500853AB7 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		81F55C46286164ED00C6FC63 /* TimingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				8196978828391F0600CD46D4 /* LocalFileManager.swift */,
+				81F55C46286164ED00C6FC63 /* TimingManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				81EF6598283351B500853AB7 /* EditView.swift in Sources */,
 				81A80D9028472996004820FA /* EditViewModel.swift in Sources */,
 				8152D632283CB51E00AA8A5C /* PickView.swift in Sources */,
+				81F55C47286164ED00C6FC63 /* TimingManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,12 +367,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Boya/Preview Content\"";
 				DEVELOPMENT_TEAM = T2W53FPQ87;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Boya/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "推敲";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -398,12 +403,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Boya/Preview Content\"";
 				DEVELOPMENT_TEAM = T2W53FPQ87;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Boya/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "推敲";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

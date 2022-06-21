@@ -36,23 +36,10 @@ final class EditViewModel: ObservableObject {
         loadData()
     }
     
-//    func getData() async {
-//        await loadWords()
-//        await asyncLoadThreads()
-//        await loadCacheThreads()
-//    }
-    
     func loadData() {
-        
-        Task {
-            await loadWords()
-        }
-        Task {
-            await asyncLoadThreads()
-        }
-        Task {
-            await loadCacheThreads()
-        }
+        Task { await loadWords() }
+        Task { await asyncLoadThreads() }
+        Task { await loadCacheThreads() }
     }
     
     
@@ -67,8 +54,10 @@ final class EditViewModel: ObservableObject {
         if let i = threads[clue]?.first {
             wordsPool.insert(i, at: 0)
             threads[clue]?.remove(at: 0)
-        } else {
-            return
+        } else if clue == "..." {
+            if let freshCahe = threadsCache.keys.first {
+                cacheBack(for: freshCahe )
+            }
         }
     }
     
@@ -77,17 +66,17 @@ final class EditViewModel: ObservableObject {
         guard let cover = wordsPool.last?.text else {return}
         // current clue
         switch clue {
-        // new clue
+            // new clue
         case "..." :
             threads.updateValue(wordsPool, forKey: cover)
             clues.insert(cover, at: 1)
-        // suck poping life
+            // suck poping life
         case "Pop" :
             for word in wordsPool {
                 popSec += word.secondSpent
                 popEdition += word.edition
             }
-        // append to exsisting clue
+            // append to exsisting clue
         default:
             threads[clue]?.append(contentsOf: wordsPool)
         }
@@ -99,6 +88,8 @@ final class EditViewModel: ObservableObject {
         if let thread = threadsCache.removeValue(forKey: key) {
             threads.updateValue(thread, forKey: key)
             clues.insert(key, at: 1)
+        } else {
+            logger.error("cacheBack(for key: String)")
         }
     }
     
@@ -136,9 +127,7 @@ final class EditViewModel: ObservableObject {
     
     func submitted() {
         
-        let is0word = aword.text == ""
-        
-        if is0word {
+        if aword.text == "" {
             aword = Aword()
         } else {
             withAnimation {
@@ -155,15 +144,14 @@ final class EditViewModel: ObservableObject {
             let (data, _) = try await URLSession.shared.data(from: url4threads)
             let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
             
-            Task { @MainActor [weak self] in
-                guard let self = self else {return}
+            Task { @MainActor  in
                 if !returned.isEmpty {
                     self.threads = returned[0]
                     let keys = self.threads.keys
                     self.clues.insert(contentsOf: keys , at: 1)
                 }
             }
-                
+            
         }catch {
             logger.error("asyncLoadThreads!")
         }
@@ -175,8 +163,7 @@ final class EditViewModel: ObservableObject {
             let (data, _) = try await URLSession.shared.data(from: url4pieces)
             let returned = try JSONDecoder().decode([Aword].self, from: data)
             
-            Task { @MainActor [weak self] in
-                guard let self = self else {return}
+            Task { @MainActor  in
                 if !returned.isEmpty {
                     self.wordsPool = returned
                 }
@@ -194,8 +181,7 @@ final class EditViewModel: ObservableObject {
             let (data, _) = try await URLSession.shared.data(from: url4threads)
             let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
             
-            Task { @MainActor [weak self] in
-                guard let self = self else {return}
+            Task { @MainActor  in
                 if !returned.isEmpty {
                     self.threadsCache = returned[0]
                 }
@@ -207,17 +193,17 @@ final class EditViewModel: ObservableObject {
         
     }
     
-    func savePieces() {
+    func savePieces() async{
         
-//        guard !wordsPool.isEmpty else {return}
+        //        guard !wordsPool.isEmpty else {return}
         
         LocalFileManager.save(aCodable: wordsPool, fileName: EditViewModel.fileName4pieces)
         logger.debug("save savePieces( ) data")
     }
     
-    func saveCacheThreads() {
+    func saveCacheThreads() async{
         
-//        guard !threadsCache.isEmpty else {return}
+        //        guard !threadsCache.isEmpty else {return}
         
         LocalFileManager.save(aCodable: [threadsCache], fileName: EditViewModel.CachedThreadsFile)
         logger.debug("save saveCacheThreads( ) data")
@@ -225,23 +211,25 @@ final class EditViewModel: ObservableObject {
     
     
     //TODO: [threads] not threads! redadent move!
-    func saveThreads() {
+    func saveThreads() async{
         
-//        guard !threads.isEmpty else {return}
+        //        guard !threads.isEmpty else {return}
         
         LocalFileManager.save(aCodable: [threads], fileName: EditViewModel.fileName4threads)
         logger.debug("saveThreads()")
     }
     
     func saveAll() {
-        
-        savePieces()
-        
-        saveThreads()
-        
-        saveCacheThreads()
+        Task{
+            await savePieces()
+        }
+        Task{
+            await saveThreads()
+        }
+        Task{
+            await saveCacheThreads()
+        }
     }
-    
     
 }
 

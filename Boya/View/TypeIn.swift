@@ -10,7 +10,7 @@ import SwiftUI
 
 enum GuideLine:String {
     
-    case x0y0 = "•   ↑   ↑!   ↓..   ←   ←.."
+    case x0y0 = "•   ↑   ↑!   ↓   ←   ←.."
     
     case x0y1 = "•   ↑   ↓   ↓.."
     
@@ -21,7 +21,6 @@ enum GuideLine:String {
 struct TypeIn: View {
     
     @Binding var theWord: Aword
-    
     @Binding var dragUp2: Bool
     @Binding var dragUp1: Bool
     //TODO: currently unused
@@ -32,6 +31,9 @@ struct TypeIn: View {
     let pushThread: () -> Void
     let pushPool: () -> Void
     let dropThread: () -> Void
+    
+    let timer = Timer.publish(every: 1, tolerance: 1, on: .current, in: .common)
+        .autoconnect()
     
     @State private var threadDroping: Bool = false
     @State private var poolPoping: Bool = false
@@ -46,12 +48,12 @@ struct TypeIn: View {
     var body: some View {
         
         
-        let timerWord = Timer
-            .publish(every: 1, on: .current, in: .common)
-            .autoconnect()
-            .drop { _ in
-                !focuing
-            }
+//        let timerWord = Timer
+//            .publish(every: 1, on: .current, in: .common)
+//            .autoconnect()
+//            .drop { _ in
+//                !focuing
+//            }
         
         let timerPushThread = Timer
             .publish(every: 0.5, on: .current, in: .common)
@@ -65,13 +67,6 @@ struct TypeIn: View {
             .autoconnect()
             .drop { _ in
                 !threadDroping
-            }
-        
-        let timerPushPool = Timer
-            .publish(every: 1, on: .current, in: .common)
-            .autoconnect()
-            .drop { _ in
-                !poolPoping
             }
         
         let drag = DragGesture()
@@ -96,10 +91,7 @@ struct TypeIn: View {
                     }
                     //0次拉起
                 case false:
-                    if h > 50 {
-                        // downward holding
-                        poolPoping = true
-                    } else if w < -200 {
+                    if w < -200 {
                         threadDroping = true
                     }
                     
@@ -112,35 +104,46 @@ struct TypeIn: View {
                 
                 threadPoping = false
                 threadDroping = false
-                poolPoping = false
                 
-                withAnimation {
-                    switch dragUp1 {
-                        //1次拉起
-                    case true:
-                        // downward , push thread
-                        if h > 50 {
-                            pushThread()
+                Task {
+                    withAnimation {
+                        switch dragUp1 {
+                            //1次拉起
+                        case true:
+                            // downward , push thread
+                            if h > 50 {
+                                pushThread()
+                            }
+                            
+                            // upward 80, threadview
+                            if h < -50 {
+                                dragUp2 = true
+                            }
+                            //0次拉起
+                        case false:
+                            
+                            if h > 25 {
+                                pushPool()
+                            }
+                            
+                            // upward, threadView
+                            if h < -400 {
+                                dragUp2 = true
+                            } else if h < -50 {
+                                // upward
+                                dragUp1 = true
+                            } else if w < -200 {
+                                dropThread()
+                            }
+                            
                         }
-                        
-                        // upward 80, threadview
-                        if h < -50 {
-                            dragUp2 = true
-                        }
-                        //0次拉起
-                    case false:
-                        // upward, threadView
-                        if h < -400 {
-                            dragUp2 = true
-                        } else if h < -50 {
-                            // upward
-                            dragUp1 = true
-                        } else if w < -200 {
-                            dropThread()
-                        }
-                        
                     }
-                    offSize = .zero
+                }
+                
+                Task {
+                    withAnimation {
+                        offSize = .zero
+                    }
                 }
             }
         
@@ -161,16 +164,8 @@ struct TypeIn: View {
                 .frame(height: 50)
                 .clipped()
             // BeHavior
-                .onReceive(timerWord, perform: { _ in
-                    if !dragUp1 {
-                        theWord.secondSpent += 1
-                    }
-                })
                 .onReceive(timerPushThread) { _ in
                     pushThread()
-                }
-                .onReceive(timerPushPool) { _ in
-                    pushPool()
                 }
                 .onReceive(timerDropThread) { _ in
                     dropThread()
@@ -180,11 +175,9 @@ struct TypeIn: View {
                 .disabled(dragUp1)
                 .offset(offSize)
                 .gesture(drag, including: focuing ? GestureMask.none : GestureMask.all)
-                .onChange(of: scenePhase) { phase in
-                    if phase == .active {
-                        withAnimation {
-                            offSize = .zero
-                        }
+                .onChange(of: scenePhase) { _ in
+                    withAnimation {
+                        offSize = .zero
                     }
                 }
                 .onChange(of: dragUp1) { bool in
@@ -193,6 +186,11 @@ struct TypeIn: View {
                 .onChange(of: focuing) { bool in
                     typerTitle = bool ? .focusing : .x0y0
                 }
+        }
+        .onReceive(timer) { _ in
+            if focuing {
+                self.theWord.secondSpent += 1
+            }
         }
     }
 }

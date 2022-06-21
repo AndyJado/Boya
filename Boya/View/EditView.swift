@@ -16,6 +16,8 @@ struct EditView: View {
     
     @State private var picking:Int = 0
     
+    @State private var showAlert:Bool = false
+    
     @State private var pickerOn:Bool = false
     @State private var threadOn:Bool = false
     
@@ -41,14 +43,8 @@ struct EditView: View {
         let tap2Action = {focuing.toggle()}
         
         let pressAction = {
-            
-            if picking == lastPicking {
-                viewModel.pressedAct(pickerAt: picking)
-                picking = 1
-            } else {
-                viewModel.pressedAct(pickerAt: picking)
-            }
-            
+            viewModel.pressedAct(pickerAt: picking)
+            if picking == lastPicking { picking = 1 }
         }
         
         let cacheThread = {
@@ -57,7 +53,13 @@ struct EditView: View {
         }
         
         let pushPool = {
-            viewModel.Pool2Thread(clue: clue)
+            
+            if clue == "Pop" {
+                showAlert.toggle()
+            } else {
+                viewModel.Pool2Thread(clue: clue)
+                picking = 1
+            }
         }
         
         let pinchAction = {
@@ -119,6 +121,22 @@ struct EditView: View {
         }
         .onAppear {
             picking = viewModel.clues.count - 1
+        }
+        .alert("Pop", isPresented: $showAlert) {
+            HStack {
+                Button {
+                    withAnimation {
+                        viewModel.Pool2Thread(clue: clue)
+                    }
+                } label: {
+                    Text("pop")
+                        .foregroundColor(.red)
+                }
+                Button("bob") {
+                    return
+                }
+
+            }
         }
         .sheet(isPresented: $threadOn, content: {
             switch clue {
