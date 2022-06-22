@@ -35,41 +35,22 @@ struct TypeIn: View {
     @State private var threadDroping: Bool = false
     @State private var poolPoping: Bool = false
     @State private var threadPoping: Bool = false
-    @GestureState private var onDragging: Bool = false
     
-    @State private var offSize: CGSize = .zero
+    @GestureState private var offSize: CGSize = .zero
     @State private var typerTitle: GuideLine = .x0y0
     
     @Environment(\.scenePhase) private var scenePhase
     
-    var body: some View {
-
-        let timerPushThread = Timer
-            .publish(every: 0.5, on: .current, in: .common)
-            .autoconnect()
-            .drop { _ in
-                !threadPoping
-            }
+    var drag: some Gesture {
         
-        let timerDropThread = Timer
-            .publish(every: 0.5, on: .current, in: .common)
-            .autoconnect()
-            .drop { _ in
-                !threadDroping
-            }
-        
-        let drag = DragGesture()
-            .updating($onDragging) { _, state, _ in
-                state.toggle()
+        DragGesture()
+            .updating($offSize) { current, offSize, _ in
+                    offSize = current.translation
             }
             .onChanged { val in
                 let h = val.translation.height
                 let w = val.translation.width
                 
-                withAnimation {
-                    offSize.height = h
-                    offSize.width = w
-                }
                 // Dragging
                 switch dragUp1 {
                     //1次拉起
@@ -85,7 +66,6 @@ struct TypeIn: View {
                     }
                     
                 }
-                
             }
             .onEnded { val in
                 let h = val.translation.height
@@ -94,41 +74,56 @@ struct TypeIn: View {
                 threadPoping = false
                 threadDroping = false
                 
-                Task {
-                    withAnimation {
-                        switch dragUp1 {
-                            //1次拉起
-                        case true:
-                            // downward , push thread
-                            if h > 50 {
-                                pushThread()
-                            }
-                            
-                            // upward 80, threadview
-                            if h < -50 {
-                                dragUp2 = true
-                            }
-                            //0次拉起
-                        case false:
-                            
-                            if h > 25 {
-                                pushPool()
-                            }
-                            
-                            // upward, threadView
-                            if h < -400 {
-                                dragUp2 = true
-                            } else if h < -50 {
-                                // upward
-                                dragUp1 = true
-                            } else if w < -200 {
-                                dropThread()
-                            }
-                            
+                withAnimation {
+                    switch dragUp1 {
+                        //1次拉起
+                    case true:
+                        // downward , push thread
+                        if h > 50 {
+                            pushThread()
                         }
-                        offSize = .zero
+                        
+                        // upward 80, threadview
+                        if h < -50 {
+                            dragUp2 = true
+                        }
+                        //0次拉起
+                    case false:
+                        
+                        if h > 25 {
+                            pushPool()
+                        }
+                        
+                        // upward, threadView
+                        if h < -400 {
+                            dragUp2 = true
+                        } else if h < -50 {
+                            // upward
+                            dragUp1 = true
+                        } else if w < -150 {
+                            dropThread()
+                        }
+                        
                     }
                 }
+            }
+        
+    }
+    
+    var body: some View {
+        
+        let timerPushThread = Timer
+            .publish(every: 0.5, on: .current, in: .common)
+            .autoconnect()
+            .drop { _ in
+                !threadPoping
+            }
+        
+        let timerDropThread = Timer
+            .publish(every: 0.5, on: .current, in: .common)
+            .autoconnect()
+            .drop { _ in
+                !threadDroping
             }
         
         VStack(alignment: .center, spacing: 0) {
@@ -158,11 +153,6 @@ struct TypeIn: View {
                 .disabled(dragUp1)
                 .offset(offSize)
                 .gesture(drag, including: focuing ? GestureMask.none : GestureMask.all)
-                .onChange(of: scenePhase) { _ in
-                    withAnimation {
-                        offSize = .zero
-                    }
-                }
                 .onChange(of: dragUp1) { bool in
                     typerTitle = bool ? .x0y1 : .x0y0
                 }
@@ -170,6 +160,7 @@ struct TypeIn: View {
                     typerTitle = bool ? .focusing : .x0y0
                 }
         }
+        .animation(Animation.interpolatingSpring(stiffness: 50, damping: 9), value: offSize)
     }
 }
 
