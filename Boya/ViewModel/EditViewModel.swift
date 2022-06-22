@@ -35,6 +35,7 @@ final class EditViewModel: ObservableObject {
     }
     
     func loadData() {
+        
             Task { await loadWords() }
             Task { await asyncLoadThreads() }
             Task { await loadCacheThreads() }

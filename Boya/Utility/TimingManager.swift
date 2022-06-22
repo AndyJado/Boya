@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import os.log
 
 
 actor TimingManager {
@@ -19,6 +20,20 @@ actor TimingManager {
     
     func endFocus() {
         endStack.append(Date())
+    }
+    
+    func truncate() {
+        
+        let indexDiff = self.startStack.endIndex - self.endStack.endIndex
+            
+        guard indexDiff != 0 else {return}
+        if indexDiff > 0 {
+            startStack.removeLast(indexDiff)
+        } else {
+            logger.debug("endStack is higher!")
+            endStack.removeLast(-indexDiff)
+        }
+        
     }
     
     func timeReduce() -> Int {
@@ -38,3 +53,4 @@ actor TimingManager {
     
 }
 
+fileprivate let logger = Logger(subsystem: "com.andyjao.Boya", category: "TimingActor")

@@ -97,14 +97,21 @@ struct EditView: View {
             VStack(alignment: .center, spacing: 0) {
                 
                 TypeIn(theWord: $viewModel.aword, dragUp2: $threadOn, dragUp1: $pickerOn, dragLeft: $bubblesOn, focuing: $focuing.wrappedValue, pushThread: cacheThread, pushPool: pushPool, dropThread: dropPool)
-                    .offset(y: typerOffset)
                     .focused($focuing)
+                    .offset(y: typerOffset)
+                    .onChange(of: focuing) { focuing in
+                        if focuing {
+                            typerOffset = -340
+                        } else {
+                            typerOffset = 0
+                        }
+                    }
                     .onSubmit {
                         viewModel.submitted()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                             Task {
                                 await viewModel.timeAcotr.onFocus()
-                                focuing = true
+                                focuing.toggle()
                             }
                             
                         }
@@ -127,7 +134,6 @@ struct EditView: View {
                         .frame( height: 20, alignment: .center)
                         .animation(Animation.interactiveSpring().speed(0.3), value: clueUpdate)
                         .onChange(of: viewModel.popword) { word in
-                            
                             clueUpdate.toggle()
                             popSec += word?.secondSpent ?? 0
                             popEdition += word?.edition ?? 0
@@ -141,9 +147,12 @@ struct EditView: View {
                 }
             }
             .ignoresSafeArea()
-        }
+        }//Zstack
         .onAppear {
             picking = viewModel.clues.count - 1
+        }
+        .onDisappear {
+            Task {await viewModel.timeAcotr.truncate()}
         }
         .alert("Pop", isPresented: $showAlert) {
             HStack {
@@ -161,7 +170,7 @@ struct EditView: View {
                 
             }
         }
-        .sheet(isPresented: $threadOn, content: {
+        .sheet(isPresented: $threadOn) {
             switch clue {
             case "...":
                 BubblesView() {
@@ -184,20 +193,14 @@ struct EditView: View {
                 .presentationDragIndicator(.visible)
                 
             }
-        })
+        }
         .environmentObject(viewModel)
         .onChange(of: scenePhase) { phase in
             if phase == .background {
                 viewModel.saveAll()
             }
         }
-        .onChange(of: focuing) { focuing in
-            if focuing {
-                typerOffset = -340
-            } else {
-                typerOffset = 0
-            }
-        }
+        
     }
     
 }
