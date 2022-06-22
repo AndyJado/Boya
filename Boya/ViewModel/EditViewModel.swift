@@ -31,18 +31,34 @@ final class EditViewModel: ObservableObject {
     private var isloaded = false
     
     init() {
-        loadData()
+//        loadAll()
+        Task{ try await asyncLoadAll()}
     }
     
-    func loadData() {
+    func loadAll() {
         
-            Task { await loadWords() }
-            Task { await asyncLoadThreads() }
-            Task { await loadCacheThreads() }
-            isloaded = true
-        logger.debug("isloaded: \(self.isloaded)")
+        guard !isloaded else {return}
+        
+        Task { try await self.loadWords()}
+        Task { try await self.asyncLoadThreads()}
+        Task { try await self.loadCacheThreads()}
+        
+        isloaded = true
     }
-
+    
+    func asyncLoadAll() async throws {
+        
+        guard !isloaded else {return}
+        
+        await withThrowingTaskGroup(of: Void.self) { taskGroup in
+            taskGroup.addTask { try await self.loadWords() }
+            taskGroup.addTask { try await self.asyncLoadThreads() }
+            taskGroup.addTask { try await self.loadCacheThreads() }
+        }
+        self.isloaded.toggle()
+        
+    }
+    
     
     func thread2Pool(_ picking: inout Int) {
         let clue = clues[picking]
@@ -152,59 +168,44 @@ final class EditViewModel: ObservableObject {
         
     }
     
-    func asyncLoadThreads() async {
-        do {
-            let url4threads = try LocalFileManager.fileURL(fileName: WordsForm.threads.fileName)
-            let (data, _) = try await URLSession.shared.data(from: url4threads)
-            let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
-            
-            Task { @MainActor  in
-                if !returned.isEmpty {
-                    self.threads = returned[0]
-                    let keys = self.threads.keys
-                    self.clues.insert(contentsOf: keys , at: 1)
-                }
-            }
-            
-        }catch {
-            logger.error("asyncLoadThreads!")
-        }
-    }
-    
-    func loadWords() async {
-        do {
-            let url4pieces = try LocalFileManager.fileURL(fileName: WordsForm.words.fileName)
-            let (data, _) = try await URLSession.shared.data(from: url4pieces)
-            let returned = try JSONDecoder().decode([Aword].self, from: data)
-            
-            Task { @MainActor  in
-                if !returned.isEmpty {
-                    self.wordsPool = returned
-                }
-            }
-            
-        } catch {
-            logger.error("try LocalFileManager.fileURL()")
-        }
-    }
-    
-    func loadCacheThreads() async {
+    func asyncLoadThreads() async throws {
+        let url4threads = try LocalFileManager.fileURL(fileName: WordsForm.threads.fileName)
+        let (data, _) = try await URLSession.shared.data(from: url4threads)
+        let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
         
-        do {
-            let url4threads = try LocalFileManager.fileURL(fileName: WordsForm.cacheThreads.fileName)
-            let (data, _) = try await URLSession.shared.data(from: url4threads)
-            let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
-            
-            Task { @MainActor  in
-                if !returned.isEmpty {
-                    self.threadsCache = returned[0]
-                }
-            }
-            
-        } catch {
-            logger.error("loadCacheThreads()")
+        Task { @MainActor  in
+            self.threads = returned[0]
+            let keys = self.threads.keys
+            self.clues.insert(contentsOf: keys , at: 1)
         }
         
+        logger.debug("loadThreads")
+    }
+    
+    func loadWords() async throws {
+        
+        
+        let url4pieces = try LocalFileManager.fileURL(fileName: WordsForm.words.fileName)
+        let (data, _) = try await URLSession.shared.data(from: url4pieces)
+        let returned = try JSONDecoder().decode([Aword].self, from: data)
+        
+        Task { @MainActor  in
+            self.wordsPool = returned
+        }
+        logger.debug("loadWords")
+    }
+    
+    func loadCacheThreads() async throws {
+        
+        
+        let url4threads = try LocalFileManager.fileURL(fileName: WordsForm.cacheThreads.fileName)
+        let (data, _) = try await URLSession.shared.data(from: url4threads)
+        let returned = try JSONDecoder().decode([[String : [Aword]]].self, from: data)
+        
+        Task { @MainActor  in
+            self.threadsCache = returned[0]
+        }
+        logger.debug("loadCacheTrheads")
     }
     
     func savePieces() async{
