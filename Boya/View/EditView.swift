@@ -77,6 +77,22 @@ struct EditView: View {
                 .blur(radius: contentFocus ? 1.6 : 0)
                 .disabled(contentFocus)
                 .ignoresSafeArea()
+                .onTapGesture {
+                    withAnimation {
+                        guard !pickerOn else {return pickerOn.toggle()}
+                        switch focuing {
+                        case false:
+                            Task{ await viewModel.timeAcotr.onFocus()
+                                focuing.toggle()
+                            }
+                        case true:
+                            Task { await viewModel.timeAcotr.endFocus()
+                                focuing.toggle()
+                            }
+                        }
+                    }
+                }
+
             
             VStack(alignment: .center, spacing: 0) {
                 
@@ -170,21 +186,6 @@ struct EditView: View {
             }
         })
         .environmentObject(viewModel)
-        .onTapGesture {
-            withAnimation {
-                guard !pickerOn else {return pickerOn.toggle()}
-                switch focuing {
-                case false:
-                    Task{ await viewModel.timeAcotr.onFocus()
-                        focuing.toggle()
-                    }
-                case true:
-                    Task { await viewModel.timeAcotr.endFocus()
-                        focuing.toggle()
-                    }
-                }
-            }
-        }
         .onChange(of: scenePhase) { phase in
             if phase == .background {
                 viewModel.saveAll()
