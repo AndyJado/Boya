@@ -41,8 +41,13 @@ struct EditView: View {
         let contentFocus:Bool = focuing || pickerOn
         
         let tap2Action = {
-            Task { await viewModel.timeAcotr.onFocus() }
-                focuing.toggle()
+            // Focus: IF remove do block, <Void,Never>.
+            do {
+                Task {
+                    await viewModel.timeAcotr.onFocus()
+                    focuing.toggle()
+                }
+            }
         }
         
         let pressAction = {
@@ -92,7 +97,7 @@ struct EditView: View {
                         }
                     }
                 }
-
+            
             
             VStack(alignment: .center, spacing: 0) {
                 
