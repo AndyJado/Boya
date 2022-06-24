@@ -63,10 +63,14 @@ struct EditView: View {
         let pushPool = {
             
             if clue == "Pop" {
-                showAlert.toggle()
+                
+                if viewModel.wordsPool.isEmpty {
+                    picking = lastPicking
+                } else {
+                    showAlert.toggle()
+                }
             } else {
                 viewModel.Pool2Thread(clue: clue)
-                picking = 1
             }
         }
         
@@ -153,9 +157,6 @@ struct EditView: View {
             }
             .ignoresSafeArea()
         }//Zstack
-        .onAppear {
-            picking = viewModel.clues.count - 1
-        }
         .onDisappear {
             Task {await viewModel.timeAcotr.truncate()}
         }
