@@ -43,6 +43,7 @@ struct EditView: View {
             // Focus: IF remove do block, <Void,Never>.
             do {
                 Task {
+                    await viewModel.timeAcotr.clearHand()
                     await viewModel.timeAcotr.onFocus()
                     focuing.toggle()
                 }
@@ -69,7 +70,9 @@ struct EditView: View {
                 }
             case "...":
                 viewModel.Pool2Thread(clue: clue)
-                picking = 1
+                withAnimation {
+                    picking = 1
+                }
                 
             default:
                 viewModel.Pool2Thread(clue: clue)
@@ -198,7 +201,6 @@ struct EditView: View {
                 viewModel.saveAll()
             }
         }
-        
     }
     
 }

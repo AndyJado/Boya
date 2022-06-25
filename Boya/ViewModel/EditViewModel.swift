@@ -149,9 +149,12 @@ final class EditViewModel: ObservableObject {
         
         Task {
             await timeAcotr.endFocus()
+            
             if aword.text == "" {
-                Task {
-                    await timeAcotr.clearHand()
+                
+                await timeAcotr.clearHand()
+                
+                Task {@MainActor in
                     aword = Aword()
                 }
             } else {

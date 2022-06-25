@@ -56,9 +56,8 @@ struct WordPoolView: View {
                                 .onEnded { _ in
                                     withAnimation(wordFly) {
                                         tapp2ed.toggle()
-                                        currentItem = items[i]
+                                        currentItem = items.remove(at: i)
                                         currentItem.edition += 1
-                                        items.remove(at: i)
                                         tap2Action()
                                     }
                                 }

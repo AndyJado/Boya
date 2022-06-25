@@ -35,6 +35,8 @@ actor TimingManager {
         
         guard !timeStack.isEmpty else {return 0}
         
+        logger.debug("\(self.timeStack.debugDescription)")
+        
         var sec: Double = 0
         for hand in timeStack {
             sec += hand.1.timeIntervalSince(hand.0)
