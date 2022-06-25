@@ -5,7 +5,6 @@
 //  Created by Andy Jado on 2022/6/2.
 //
 import SwiftUI
-import Combine
 
 struct BubblesView: View {
     
