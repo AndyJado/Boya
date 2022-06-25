@@ -150,13 +150,13 @@ final class EditViewModel: ObservableObject {
         Task {
             await timeAcotr.endFocus()
             if aword.text == "" {
-                Task {await timeAcotr.clearStacks()}
-                Task {@MainActor in
+                Task {
+                    await timeAcotr.clearHand()
                     aword = Aword()
                 }
             } else {
                 Task {@MainActor in
-                    aword.secondSpent += await timeAcotr.timeReduce()
+                    aword.secondSpent += await timeAcotr.handClose()
                     withAnimation {
                         wordsPool.append(aword)
                     }

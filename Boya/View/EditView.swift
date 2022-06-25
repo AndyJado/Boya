@@ -60,15 +60,18 @@ struct EditView: View {
         }
         
         let pushPool = {
-            
-            if clue == "Pop" {
-                
+            switch clue {
+            case "Pop":
                 if viewModel.wordsPool.isEmpty {
                     picking = lastPicking
                 } else {
                     showAlert.toggle()
                 }
-            } else {
+            case "...":
+                viewModel.Pool2Thread(clue: clue)
+                picking = 1
+                
+            default:
                 viewModel.Pool2Thread(clue: clue)
             }
         }
@@ -116,13 +119,6 @@ struct EditView: View {
                     }
                     .onSubmit {
                         viewModel.submitted()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            Task {
-                                await viewModel.timeAcotr.onFocus()
-                                focuing.toggle()
-                            }
-                            
-                        }
                     }
                     .zIndex(1)
                     .animation(Animation.interpolatingSpring(stiffness: 100, damping: 15), value: typerOffset)
@@ -156,9 +152,6 @@ struct EditView: View {
             }
             .ignoresSafeArea()
         }//Zstack
-        .onDisappear {
-            Task {await viewModel.timeAcotr.truncate()}
-        }
         .alert("Pop", isPresented: $showAlert) {
             HStack {
                 Button {
@@ -170,7 +163,7 @@ struct EditView: View {
                         .foregroundColor(.red)
                 }
                 Button("bob") {
-                    return
+                    picking = viewModel.clues.count - 1
                 }
                 
             }

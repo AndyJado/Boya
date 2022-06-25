@@ -11,44 +11,41 @@ import os.log
 
 actor TimingManager {
     
-    private var startStack = [Date]()
-    private var endStack = [Date]()
+    private var timeStack:[(Date,Date)] = []
+    private var handOfTime: (left : Date?,right : Date?)
+    
     
     func onFocus() {
-        startStack.append(Date())
+        handOfTime.left = Date()
     }
     
     func endFocus() {
-        endStack.append(Date())
-    }
-    
-    func truncate() {
         
-        let indexDiff = self.startStack.endIndex - self.endStack.endIndex
-            
-        guard indexDiff != 0 else {return}
-        if indexDiff > 0 {
-            startStack.removeLast(indexDiff)
-        } else {
-            logger.debug("endStack is higher!")
-            endStack.removeLast(-indexDiff)
+        handOfTime.right = Date()
+        
+        if let left = handOfTime.left,
+           let right = handOfTime.right {
+            timeStack.append((left,right))
         }
         
+        handOfTime = (nil,nil)
     }
     
-    func timeReduce() -> Int {
-        guard !startStack.isEmpty && !endStack.isEmpty else {return 0}
-        var sec:Double = 0
-        for (i,j) in zip(startStack, endStack) {
-            sec += j.timeIntervalSince(i)
+    func handClose() -> Int {
+        
+        guard !timeStack.isEmpty else {return 0}
+        
+        var sec: Double = 0
+        for hand in timeStack {
+            sec += hand.1.timeIntervalSince(hand.0)
         }
-        clearStacks()
+        clearHand()
         return Int(sec)
+        
     }
     
-    func clearStacks() {
-        startStack.removeAll()
-        endStack.removeAll()
+    func clearHand() {
+        timeStack.removeAll()
     }
     
 }

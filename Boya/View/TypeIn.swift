@@ -130,6 +130,7 @@ struct TypeIn: View {
             Spacer()
             TextField(typerTitle.rawValue,text: $theWord.text)
             // PPT
+                .autocorrectionDisabled(true)
                 .foregroundColor(.primary)
                 .padding(5)
                 .font(.headline)
