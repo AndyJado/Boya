@@ -5,6 +5,10 @@
 https://user-images.githubusercontent.com/101876416/174529586-0176b3d0-a99e-46c2-8ac7-1e0831682859.mov
 
 
+
+https://user-images.githubusercontent.com/101876416/175808976-cd1a4760-609a-497c-afa9-c12c14b1a1f1.mov
+
+
 Citizen for the app is, the record of the minimal life span one can proceed, which in my proposal, is made of 1 String and 2 Int:
 the word you say, life you spend, and time you repeat.
 
